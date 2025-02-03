@@ -1,9 +1,12 @@
 import IUserAccountModel from "../../../shared/services/database/user/Account/type";
 import EncryptionInterface from "../../../shared/services/encryption/type";
+import BlockchainAccount from "../../../shared/services/blockchain/account";
 
 class AuthService {
     private _userModel: IUserAccountModel
     private _encryptionRepo: EncryptionInterface
+
+    private blockchain = new BlockchainAccount()
 
     constructor({userModel, encryptionRepo}: {
         userModel: IUserAccountModel;
@@ -38,8 +41,12 @@ class AuthService {
     public createAccount = async (phoneNumber: string) => {
         const checkUser = await this._userModel.checkIfExist({phoneNumber})
         if (checkUser.data) return `END You already have account`;
+
+        const blockChainAccount = await this.blockchain.createAccount()
+        const publicKey = blockChainAccount.publicKey
+        const privateKey = this._encryptionRepo.encryptToken(blockChainAccount.mnemonic,process.env.ENCRYTION_KEY as string )
         
-        const createAccount = await this._userModel.createAccountToDB({phoneNumber})
+        const createAccount = await this._userModel.createAccountToDB({phoneNumber, publicKey, privateKey})
         if (!createAccount.data)  return `END Unable to create account`;
 
         return `CON Carrier info
