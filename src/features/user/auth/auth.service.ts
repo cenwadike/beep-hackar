@@ -1,12 +1,16 @@
 import IUserAccountModel from "../../../shared/services/database/user/Account/type";
+import EncryptionInterface from "../../../shared/services/encryption/type";
 
 class AuthService {
     private _userModel: IUserAccountModel
+    private _encryptionRepo: EncryptionInterface
 
-    constructor({userModel}: {
-        userModel: IUserAccountModel
+    constructor({userModel, encryptionRepo}: {
+        userModel: IUserAccountModel;
+        encryptionRepo: EncryptionInterface
     }){
         this._userModel = userModel
+        this._encryptionRepo = encryptionRepo
     }
 
     public start = async (phoneNumber: string) => {
@@ -55,7 +59,9 @@ class AuthService {
 
         if (pin.length !== 4) return `END Invalid PIN format. Please enter a 4-digit PIN.`;
 
-        const createPin = await this._userModel.updateAccount(phoneNumber, {pin})
+        const hashPin = this._encryptionRepo.encryptPassword(pin)
+
+        const createPin = await this._userModel.updateAccount(phoneNumber, {pin: hashPin})
         if (!createPin.data) return `END Unable to save pin`;
 
         return `END PIN created successfully.`;
