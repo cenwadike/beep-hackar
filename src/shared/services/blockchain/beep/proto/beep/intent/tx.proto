@@ -16,9 +16,10 @@ service Msg {
   
   // UpdateParams defines a (governance) operation for updating the module
   // parameters. The authority defaults to the x/gov module account.
-  rpc UpdateParams (MsgUpdateParams) returns (MsgUpdateParamsResponse);
-  rpc CreateIntent (MsgCreateIntent) returns (MsgCreateIntentResponse);
-  rpc AcceptIntent (MsgAcceptIntent) returns (MsgAcceptIntentResponse);
+  rpc UpdateParams     (MsgUpdateParams    ) returns (MsgUpdateParamsResponse    );
+  rpc CreateIntent     (MsgCreateIntent    ) returns (MsgCreateIntentResponse    );
+  rpc AcceptIntent     (MsgAcceptIntent    ) returns (MsgAcceptIntentResponse    );
+  rpc SendIntentPacket (MsgSendIntentPacket) returns (MsgSendIntentPacketResponse);
 }
 // MsgUpdateParams is the Msg/UpdateParams request type.
 message MsgUpdateParams {
@@ -56,4 +57,21 @@ message MsgAcceptIntent {
 }
 
 message MsgAcceptIntentResponse {}
+
+message MsgSendIntentPacket {
+  option (cosmos.msg.v1.signer) = "creator";
+  string actionType       =  5;
+  string memo             =  6;
+  string targetChain      =  7;
+  uint64 minOutput        =  8;
+  string status           =  9;
+  string executor         = 10;
+  uint64 expiryHeight     = 11;
+  string creator          =  1;
+  string port             =  2;
+  string channelID        =  3;
+  uint64 timeoutTimestamp =  4;
+}
+
+message MsgSendIntentPacketResponse {}
 

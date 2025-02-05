@@ -1,13 +1,31 @@
 syntax = "proto3";
+
 package beep.intent;
 
 option go_package = "beep/x/intent/types";
 
 message IntentPacketData {
-    oneof packet {
-        NoData noData = 1;
-    }
+  oneof packet {
+    NoData                 noData             = 1;
+    IntentPacketPacketData intentPacketPacket = 2;
+  }
 }
 
-message NoData {
+message NoData {}
+
+// IntentPacketPacketData defines a struct for the packet payload
+message IntentPacketPacketData {
+  string actionType   = 1;
+  string memo         = 2;
+  string targetChain  = 3;
+  uint64 minOutput    = 4;
+  string status       = 5;
+  string executor     = 6;
+  uint64 expiryHeight = 7;
 }
+
+// IntentPacketPacketAck defines a struct for the packet acknowledgment
+message IntentPacketPacketAck {
+  int32 intentId = 1;
+}
+
