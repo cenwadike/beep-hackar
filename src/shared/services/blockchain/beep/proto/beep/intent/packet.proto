@@ -1,0 +1,13 @@
+syntax = "proto3";
+package beep.intent;
+
+option go_package = "beep/x/intent/types";
+
+message IntentPacketData {
+    oneof packet {
+        NoData noData = 1;
+    }
+}
+
+message NoData {
+}
