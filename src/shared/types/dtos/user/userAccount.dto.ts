@@ -6,6 +6,7 @@ class UserAccountDto implements IUserAccount {
     public pin: string;
     public publicKey: string ;
     public privateKey: string;
+    public balance: number;
     public updatedAt?: Date;
     public createdAt?: Date;
     
@@ -15,6 +16,7 @@ class UserAccountDto implements IUserAccount {
       this.pin = userAccount.pin;
       this.publicKey = userAccount.publicKey;
       this.privateKey = userAccount.privateKey;
+      this.balance = userAccount.balance
       this.updatedAt = userAccount.updatedAt;
       this.createdAt = userAccount.createdAt;
 
@@ -27,6 +29,7 @@ class UserAccountDto implements IUserAccount {
         pin: this.pin,
         publicKey: this.publicKey,
         privateKey: this.privateKey,
+        balance: this.balance,
         updatedAt: this.updatedAt ? new Date(this.updatedAt): undefined,
         createdAt: this.createdAt ? new Date(this.createdAt): undefined,
       } as IUserAccount
@@ -37,6 +40,7 @@ class UserAccountDto implements IUserAccount {
           _id: this.id,
           phoneNumber: this.phoneNumber,
           publicKey: this.publicKey,
+          balance: this.balance,
           updatedAt: this.updatedAt ? new Date(this.updatedAt): undefined,
           createdAt: this.createdAt ? new Date(this.createdAt): undefined,
         } as IUserAccount

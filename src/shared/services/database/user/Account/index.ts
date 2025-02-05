@@ -20,6 +20,10 @@ const UserAccountSchema = new Schema<IUserAccount>({
     privateKey: {
         type: String,
     },
+    balance: {
+      type: Number,
+      default: 0
+    },
     updatedAt: {
       type: String
     },

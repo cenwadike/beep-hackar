@@ -35,6 +35,7 @@ class AuthService {
         1. Deposit
         2. Transfer
         3. Withdraw
+        4. verify deposit transaction
         0. Back`;
     }
 
