@@ -4,6 +4,7 @@ export interface IUserAccount {
     pin: string;
     publicKey: string;
     privateKey: string;
+    balance: number;
     updatedAt?: Date;
     createdAt?: Date;
 }
