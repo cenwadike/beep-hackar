@@ -2713,7 +2713,7 @@ func (x *fastReflection_MsgAcceptIntentResponse) ProtoMethods() *protoiface.Meth
 
 var (
 	md_MsgSendIntentPacket                  protoreflect.MessageDescriptor
-	fd_MsgSendIntentPacket_actionType       protoreflect.FieldDescriptor
+	fd_MsgSendIntentPacket_intentType       protoreflect.FieldDescriptor
 	fd_MsgSendIntentPacket_memo             protoreflect.FieldDescriptor
 	fd_MsgSendIntentPacket_targetChain      protoreflect.FieldDescriptor
 	fd_MsgSendIntentPacket_minOutput        protoreflect.FieldDescriptor
@@ -2729,7 +2729,7 @@ var (
 func init() {
 	file_beep_intent_tx_proto_init()
 	md_MsgSendIntentPacket = File_beep_intent_tx_proto.Messages().ByName("MsgSendIntentPacket")
-	fd_MsgSendIntentPacket_actionType = md_MsgSendIntentPacket.Fields().ByName("actionType")
+	fd_MsgSendIntentPacket_intentType = md_MsgSendIntentPacket.Fields().ByName("intentType")
 	fd_MsgSendIntentPacket_memo = md_MsgSendIntentPacket.Fields().ByName("memo")
 	fd_MsgSendIntentPacket_targetChain = md_MsgSendIntentPacket.Fields().ByName("targetChain")
 	fd_MsgSendIntentPacket_minOutput = md_MsgSendIntentPacket.Fields().ByName("minOutput")
@@ -2807,9 +2807,9 @@ func (x *fastReflection_MsgSendIntentPacket) Interface() protoreflect.ProtoMessa
 // While iterating, mutating operations may only be performed
 // on the current field descriptor.
 func (x *fastReflection_MsgSendIntentPacket) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
-	if x.ActionType != "" {
-		value := protoreflect.ValueOfString(x.ActionType)
-		if !f(fd_MsgSendIntentPacket_actionType, value) {
+	if x.IntentType != "" {
+		value := protoreflect.ValueOfString(x.IntentType)
+		if !f(fd_MsgSendIntentPacket_intentType, value) {
 			return
 		}
 	}
@@ -2888,8 +2888,8 @@ func (x *fastReflection_MsgSendIntentPacket) Range(f func(protoreflect.FieldDesc
 // a repeated field is populated if it is non-empty.
 func (x *fastReflection_MsgSendIntentPacket) Has(fd protoreflect.FieldDescriptor) bool {
 	switch fd.FullName() {
-	case "beep.intent.MsgSendIntentPacket.actionType":
-		return x.ActionType != ""
+	case "beep.intent.MsgSendIntentPacket.intentType":
+		return x.IntentType != ""
 	case "beep.intent.MsgSendIntentPacket.memo":
 		return x.Memo != ""
 	case "beep.intent.MsgSendIntentPacket.targetChain":
@@ -2926,8 +2926,8 @@ func (x *fastReflection_MsgSendIntentPacket) Has(fd protoreflect.FieldDescriptor
 // Clear is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_MsgSendIntentPacket) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
-	case "beep.intent.MsgSendIntentPacket.actionType":
-		x.ActionType = ""
+	case "beep.intent.MsgSendIntentPacket.intentType":
+		x.IntentType = ""
 	case "beep.intent.MsgSendIntentPacket.memo":
 		x.Memo = ""
 	case "beep.intent.MsgSendIntentPacket.targetChain":
@@ -2964,8 +2964,8 @@ func (x *fastReflection_MsgSendIntentPacket) Clear(fd protoreflect.FieldDescript
 // of the value; to obtain a mutable reference, use Mutable.
 func (x *fastReflection_MsgSendIntentPacket) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
 	switch descriptor.FullName() {
-	case "beep.intent.MsgSendIntentPacket.actionType":
-		value := x.ActionType
+	case "beep.intent.MsgSendIntentPacket.intentType":
+		value := x.IntentType
 		return protoreflect.ValueOfString(value)
 	case "beep.intent.MsgSendIntentPacket.memo":
 		value := x.Memo
@@ -3017,8 +3017,8 @@ func (x *fastReflection_MsgSendIntentPacket) Get(descriptor protoreflect.FieldDe
 // Set is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_MsgSendIntentPacket) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
 	switch fd.FullName() {
-	case "beep.intent.MsgSendIntentPacket.actionType":
-		x.ActionType = value.Interface().(string)
+	case "beep.intent.MsgSendIntentPacket.intentType":
+		x.IntentType = value.Interface().(string)
 	case "beep.intent.MsgSendIntentPacket.memo":
 		x.Memo = value.Interface().(string)
 	case "beep.intent.MsgSendIntentPacket.targetChain":
@@ -3059,8 +3059,8 @@ func (x *fastReflection_MsgSendIntentPacket) Set(fd protoreflect.FieldDescriptor
 // Mutable is a mutating operation and unsafe for concurrent use.
 func (x *fastReflection_MsgSendIntentPacket) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "beep.intent.MsgSendIntentPacket.actionType":
-		panic(fmt.Errorf("field actionType of message beep.intent.MsgSendIntentPacket is not mutable"))
+	case "beep.intent.MsgSendIntentPacket.intentType":
+		panic(fmt.Errorf("field intentType of message beep.intent.MsgSendIntentPacket is not mutable"))
 	case "beep.intent.MsgSendIntentPacket.memo":
 		panic(fmt.Errorf("field memo of message beep.intent.MsgSendIntentPacket is not mutable"))
 	case "beep.intent.MsgSendIntentPacket.targetChain":
@@ -3094,7 +3094,7 @@ func (x *fastReflection_MsgSendIntentPacket) Mutable(fd protoreflect.FieldDescri
 // For lists, maps, and messages, this returns a new, empty, mutable value.
 func (x *fastReflection_MsgSendIntentPacket) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
 	switch fd.FullName() {
-	case "beep.intent.MsgSendIntentPacket.actionType":
+	case "beep.intent.MsgSendIntentPacket.intentType":
 		return protoreflect.ValueOfString("")
 	case "beep.intent.MsgSendIntentPacket.memo":
 		return protoreflect.ValueOfString("")
@@ -3185,7 +3185,7 @@ func (x *fastReflection_MsgSendIntentPacket) ProtoMethods() *protoiface.Methods 
 		var n int
 		var l int
 		_ = l
-		l = len(x.ActionType)
+		l = len(x.IntentType)
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
@@ -3293,10 +3293,10 @@ func (x *fastReflection_MsgSendIntentPacket) ProtoMethods() *protoiface.Methods 
 			i--
 			dAtA[i] = 0x32
 		}
-		if len(x.ActionType) > 0 {
-			i -= len(x.ActionType)
-			copy(dAtA[i:], x.ActionType)
-			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.ActionType)))
+		if len(x.IntentType) > 0 {
+			i -= len(x.IntentType)
+			copy(dAtA[i:], x.IntentType)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.IntentType)))
 			i--
 			dAtA[i] = 0x2a
 		}
@@ -3377,7 +3377,7 @@ func (x *fastReflection_MsgSendIntentPacket) ProtoMethods() *protoiface.Methods 
 			switch fieldNum {
 			case 5:
 				if wireType != 2 {
-					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ActionType", wireType)
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field IntentType", wireType)
 				}
 				var stringLen uint64
 				for shift := uint(0); ; shift += 7 {
@@ -3405,7 +3405,7 @@ func (x *fastReflection_MsgSendIntentPacket) ProtoMethods() *protoiface.Methods 
 				if postIndex > l {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
 				}
-				x.ActionType = string(dAtA[iNdEx:postIndex])
+				x.IntentType = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
 			case 6:
 				if wireType != 2 {
@@ -4333,7 +4333,7 @@ type MsgSendIntentPacket struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ActionType       string `protobuf:"bytes,5,opt,name=actionType,proto3" json:"actionType,omitempty"`
+	IntentType       string `protobuf:"bytes,5,opt,name=intentType,proto3" json:"intentType,omitempty"`
 	Memo             string `protobuf:"bytes,6,opt,name=memo,proto3" json:"memo,omitempty"`
 	TargetChain      string `protobuf:"bytes,7,opt,name=targetChain,proto3" json:"targetChain,omitempty"`
 	MinOutput        uint64 `protobuf:"varint,8,opt,name=minOutput,proto3" json:"minOutput,omitempty"`
@@ -4366,9 +4366,9 @@ func (*MsgSendIntentPacket) Descriptor() ([]byte, []int) {
 	return file_beep_intent_tx_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *MsgSendIntentPacket) GetActionType() string {
+func (x *MsgSendIntentPacket) GetIntentType() string {
 	if x != nil {
-		return x.ActionType
+		return x.IntentType
 	}
 	return ""
 }
@@ -4515,9 +4515,9 @@ var file_beep_intent_tx_proto_rawDesc = []byte{
 	0x75, 0x74, 0x6f, 0x72, 0x22, 0x19, 0x0a, 0x17, 0x4d, 0x73, 0x67, 0x41, 0x63, 0x63, 0x65, 0x70,
 	0x74, 0x49, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
 	0xe7, 0x02, 0x0a, 0x13, 0x4d, 0x73, 0x67, 0x53, 0x65, 0x6e, 0x64, 0x49, 0x6e, 0x74, 0x65, 0x6e,
-	0x74, 0x50, 0x61, 0x63, 0x6b, 0x65, 0x74, 0x12, 0x1e, 0x0a, 0x0a, 0x61, 0x63, 0x74, 0x69, 0x6f,
-	0x6e, 0x54, 0x79, 0x70, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x61, 0x63, 0x74,
-	0x69, 0x6f, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x6d, 0x65, 0x6d, 0x6f, 0x18,
+	0x74, 0x50, 0x61, 0x63, 0x6b, 0x65, 0x74, 0x12, 0x1e, 0x0a, 0x0a, 0x69, 0x6e, 0x74, 0x65, 0x6e,
+	0x74, 0x54, 0x79, 0x70, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x69, 0x6e, 0x74,
+	0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x12, 0x12, 0x0a, 0x04, 0x6d, 0x65, 0x6d, 0x6f, 0x18,
 	0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6d, 0x65, 0x6d, 0x6f, 0x12, 0x20, 0x0a, 0x0b, 0x74,
 	0x61, 0x72, 0x67, 0x65, 0x74, 0x43, 0x68, 0x61, 0x69, 0x6e, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09,
 	0x52, 0x0b, 0x74, 0x61, 0x72, 0x67, 0x65, 0x74, 0x43, 0x68, 0x61, 0x69, 0x6e, 0x12, 0x1c, 0x0a,

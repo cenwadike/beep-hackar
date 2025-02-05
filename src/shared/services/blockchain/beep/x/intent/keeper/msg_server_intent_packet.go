@@ -17,7 +17,7 @@ func (k msgServer) SendIntentPacket(goCtx context.Context, msg *types.MsgSendInt
 	// Construct the packet
 	var packet types.IntentPacketPacketData
 
-	packet.ActionType = msg.ActionType
+	packet.IntentType = msg.IntentType
 	packet.Memo = msg.Memo
 	packet.TargetChain = msg.TargetChain
 	packet.MinOutput = msg.MinOutput

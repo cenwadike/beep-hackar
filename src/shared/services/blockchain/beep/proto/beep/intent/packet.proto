@@ -15,13 +15,14 @@ message NoData {}
 
 // IntentPacketPacketData defines a struct for the packet payload
 message IntentPacketPacketData {
-  string actionType   = 1;
+  string intentType   = 1;
   string memo         = 2;
   string targetChain  = 3;
   uint64 minOutput    = 4;
   string status       = 5;
   string executor     = 6;
   uint64 expiryHeight = 7;
+  string creator      = 8;
 }
 
 // IntentPacketPacketAck defines a struct for the packet acknowledgment

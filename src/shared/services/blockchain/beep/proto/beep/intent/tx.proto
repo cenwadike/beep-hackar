@@ -60,7 +60,7 @@ message MsgAcceptIntentResponse {}
 
 message MsgSendIntentPacket {
   option (cosmos.msg.v1.signer) = "creator";
-  string actionType       =  5;
+  string intentType       =  5;
   string memo             =  6;
   string targetChain      =  7;
   uint64 minOutput        =  8;
