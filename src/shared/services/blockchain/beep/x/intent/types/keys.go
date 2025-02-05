@@ -29,3 +29,8 @@ var (
 func KeyPrefix(p string) []byte {
 	return []byte(p)
 }
+
+const (
+	IntentsKey      = "Intents/value/"
+	IntentsCountKey = "Intents/count/"
+)

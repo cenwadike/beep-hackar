@@ -23,9 +23,44 @@ func TestGenesisState_Validate(t *testing.T) {
 			desc: "valid genesis state",
 			genState: &types.GenesisState{
 				PortId: types.PortID,
+				IntentsList: []types.Intents{
+					{
+						Id: 0,
+					},
+					{
+						Id: 1,
+					},
+				},
+				IntentsCount: 2,
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
+		},
+		{
+			desc: "duplicated intents",
+			genState: &types.GenesisState{
+				IntentsList: []types.Intents{
+					{
+						Id: 0,
+					},
+					{
+						Id: 0,
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "invalid intents count",
+			genState: &types.GenesisState{
+				IntentsList: []types.Intents{
+					{
+						Id: 1,
+					},
+				},
+				IntentsCount: 0,
+			},
+			valid: false,
 		},
 		// this line is used by starport scaffolding # types/genesis/testcase
 	}

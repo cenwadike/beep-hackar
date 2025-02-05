@@ -5,6 +5,7 @@ package beep.intent;
 import "amino/amino.proto";
 import "gogoproto/gogo.proto";
 import "beep/intent/params.proto";
+import "beep/intent/intents.proto";
 
 option go_package = "beep/x/intent/types";
 
@@ -12,7 +13,9 @@ option go_package = "beep/x/intent/types";
 message GenesisState {
   
   // params defines all the parameters of the module.
-  Params params  = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
-  string port_id = 2;
+           Params  params       = 1 [(gogoproto.nullable) = false, (amino.dont_omitempty) = true];
+           string  port_id      = 2;
+  repeated Intents intentsList  = 3 [(gogoproto.nullable) = false] ;
+           uint64  intentsCount = 4;
 }
 

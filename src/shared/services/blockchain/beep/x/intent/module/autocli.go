@@ -17,6 +17,17 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					Use:       "params",
 					Short:     "Shows the parameters of the module",
 				},
+				{
+					RpcMethod: "IntentsAll",
+					Use:       "list-intents",
+					Short:     "List all Intents",
+				},
+				{
+					RpcMethod:      "Intents",
+					Use:            "show-intents [id]",
+					Short:          "Shows a Intents by id",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "id"}},
+				},
 				// this line is used by ignite scaffolding # autocli/query
 			},
 		},

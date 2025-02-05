@@ -2,23 +2,75 @@
 package intent
 
 import (
-	fmt "fmt"
-	io "io"
-	reflect "reflect"
-	sync "sync"
-
 	_ "cosmossdk.io/api/amino"
+	fmt "fmt"
 	runtime "github.com/cosmos/cosmos-proto/runtime"
 	_ "github.com/cosmos/gogoproto/gogoproto"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoiface "google.golang.org/protobuf/runtime/protoiface"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	io "io"
+	reflect "reflect"
+	sync "sync"
 )
 
+var _ protoreflect.List = (*_GenesisState_3_list)(nil)
+
+type _GenesisState_3_list struct {
+	list *[]*Intents
+}
+
+func (x *_GenesisState_3_list) Len() int {
+	if x.list == nil {
+		return 0
+	}
+	return len(*x.list)
+}
+
+func (x *_GenesisState_3_list) Get(i int) protoreflect.Value {
+	return protoreflect.ValueOfMessage((*x.list)[i].ProtoReflect())
+}
+
+func (x *_GenesisState_3_list) Set(i int, value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*Intents)
+	(*x.list)[i] = concreteValue
+}
+
+func (x *_GenesisState_3_list) Append(value protoreflect.Value) {
+	valueUnwrapped := value.Message()
+	concreteValue := valueUnwrapped.Interface().(*Intents)
+	*x.list = append(*x.list, concreteValue)
+}
+
+func (x *_GenesisState_3_list) AppendMutable() protoreflect.Value {
+	v := new(Intents)
+	*x.list = append(*x.list, v)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_GenesisState_3_list) Truncate(n int) {
+	for i := n; i < len(*x.list); i++ {
+		(*x.list)[i] = nil
+	}
+	*x.list = (*x.list)[:n]
+}
+
+func (x *_GenesisState_3_list) NewElement() protoreflect.Value {
+	v := new(Intents)
+	return protoreflect.ValueOfMessage(v.ProtoReflect())
+}
+
+func (x *_GenesisState_3_list) IsValid() bool {
+	return x.list != nil
+}
+
 var (
-	md_GenesisState         protoreflect.MessageDescriptor
-	fd_GenesisState_params  protoreflect.FieldDescriptor
-	fd_GenesisState_port_id protoreflect.FieldDescriptor
+	md_GenesisState              protoreflect.MessageDescriptor
+	fd_GenesisState_params       protoreflect.FieldDescriptor
+	fd_GenesisState_port_id      protoreflect.FieldDescriptor
+	fd_GenesisState_intentsList  protoreflect.FieldDescriptor
+	fd_GenesisState_intentsCount protoreflect.FieldDescriptor
 )
 
 func init() {
@@ -26,6 +78,8 @@ func init() {
 	md_GenesisState = File_beep_intent_genesis_proto.Messages().ByName("GenesisState")
 	fd_GenesisState_params = md_GenesisState.Fields().ByName("params")
 	fd_GenesisState_port_id = md_GenesisState.Fields().ByName("port_id")
+	fd_GenesisState_intentsList = md_GenesisState.Fields().ByName("intentsList")
+	fd_GenesisState_intentsCount = md_GenesisState.Fields().ByName("intentsCount")
 }
 
 var _ protoreflect.Message = (*fastReflection_GenesisState)(nil)
@@ -105,6 +159,18 @@ func (x *fastReflection_GenesisState) Range(f func(protoreflect.FieldDescriptor,
 			return
 		}
 	}
+	if len(x.IntentsList) != 0 {
+		value := protoreflect.ValueOfList(&_GenesisState_3_list{list: &x.IntentsList})
+		if !f(fd_GenesisState_intentsList, value) {
+			return
+		}
+	}
+	if x.IntentsCount != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.IntentsCount)
+		if !f(fd_GenesisState_intentsCount, value) {
+			return
+		}
+	}
 }
 
 // Has reports whether a field is populated.
@@ -124,6 +190,10 @@ func (x *fastReflection_GenesisState) Has(fd protoreflect.FieldDescriptor) bool 
 		return x.Params != nil
 	case "beep.intent.GenesisState.port_id":
 		return x.PortId != ""
+	case "beep.intent.GenesisState.intentsList":
+		return len(x.IntentsList) != 0
+	case "beep.intent.GenesisState.intentsCount":
+		return x.IntentsCount != uint64(0)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: beep.intent.GenesisState"))
@@ -144,6 +214,10 @@ func (x *fastReflection_GenesisState) Clear(fd protoreflect.FieldDescriptor) {
 		x.Params = nil
 	case "beep.intent.GenesisState.port_id":
 		x.PortId = ""
+	case "beep.intent.GenesisState.intentsList":
+		x.IntentsList = nil
+	case "beep.intent.GenesisState.intentsCount":
+		x.IntentsCount = uint64(0)
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: beep.intent.GenesisState"))
@@ -166,6 +240,15 @@ func (x *fastReflection_GenesisState) Get(descriptor protoreflect.FieldDescripto
 	case "beep.intent.GenesisState.port_id":
 		value := x.PortId
 		return protoreflect.ValueOfString(value)
+	case "beep.intent.GenesisState.intentsList":
+		if len(x.IntentsList) == 0 {
+			return protoreflect.ValueOfList(&_GenesisState_3_list{})
+		}
+		listValue := &_GenesisState_3_list{list: &x.IntentsList}
+		return protoreflect.ValueOfList(listValue)
+	case "beep.intent.GenesisState.intentsCount":
+		value := x.IntentsCount
+		return protoreflect.ValueOfUint64(value)
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: beep.intent.GenesisState"))
@@ -190,6 +273,12 @@ func (x *fastReflection_GenesisState) Set(fd protoreflect.FieldDescriptor, value
 		x.Params = value.Message().Interface().(*Params)
 	case "beep.intent.GenesisState.port_id":
 		x.PortId = value.Interface().(string)
+	case "beep.intent.GenesisState.intentsList":
+		lv := value.List()
+		clv := lv.(*_GenesisState_3_list)
+		x.IntentsList = *clv.list
+	case "beep.intent.GenesisState.intentsCount":
+		x.IntentsCount = value.Uint()
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: beep.intent.GenesisState"))
@@ -215,8 +304,16 @@ func (x *fastReflection_GenesisState) Mutable(fd protoreflect.FieldDescriptor) p
 			x.Params = new(Params)
 		}
 		return protoreflect.ValueOfMessage(x.Params.ProtoReflect())
+	case "beep.intent.GenesisState.intentsList":
+		if x.IntentsList == nil {
+			x.IntentsList = []*Intents{}
+		}
+		value := &_GenesisState_3_list{list: &x.IntentsList}
+		return protoreflect.ValueOfList(value)
 	case "beep.intent.GenesisState.port_id":
 		panic(fmt.Errorf("field port_id of message beep.intent.GenesisState is not mutable"))
+	case "beep.intent.GenesisState.intentsCount":
+		panic(fmt.Errorf("field intentsCount of message beep.intent.GenesisState is not mutable"))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: beep.intent.GenesisState"))
@@ -235,6 +332,11 @@ func (x *fastReflection_GenesisState) NewField(fd protoreflect.FieldDescriptor) 
 		return protoreflect.ValueOfMessage(m.ProtoReflect())
 	case "beep.intent.GenesisState.port_id":
 		return protoreflect.ValueOfString("")
+	case "beep.intent.GenesisState.intentsList":
+		list := []*Intents{}
+		return protoreflect.ValueOfList(&_GenesisState_3_list{list: &list})
+	case "beep.intent.GenesisState.intentsCount":
+		return protoreflect.ValueOfUint64(uint64(0))
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: beep.intent.GenesisState"))
@@ -312,6 +414,15 @@ func (x *fastReflection_GenesisState) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
+		if len(x.IntentsList) > 0 {
+			for _, e := range x.IntentsList {
+				l = options.Size(e)
+				n += 1 + l + runtime.Sov(uint64(l))
+			}
+		}
+		if x.IntentsCount != 0 {
+			n += 1 + runtime.Sov(uint64(x.IntentsCount))
+		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
 		}
@@ -340,6 +451,27 @@ func (x *fastReflection_GenesisState) ProtoMethods() *protoiface.Methods {
 		if x.unknownFields != nil {
 			i -= len(x.unknownFields)
 			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.IntentsCount != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.IntentsCount))
+			i--
+			dAtA[i] = 0x20
+		}
+		if len(x.IntentsList) > 0 {
+			for iNdEx := len(x.IntentsList) - 1; iNdEx >= 0; iNdEx-- {
+				encoded, err := options.Marshal(x.IntentsList[iNdEx])
+				if err != nil {
+					return protoiface.MarshalOutput{
+						NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+						Buf:               input.Buf,
+					}, err
+				}
+				i -= len(encoded)
+				copy(dAtA[i:], encoded)
+				i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+				i--
+				dAtA[i] = 0x1a
+			}
 		}
 		if len(x.PortId) > 0 {
 			i -= len(x.PortId)
@@ -479,6 +611,59 @@ func (x *fastReflection_GenesisState) ProtoMethods() *protoiface.Methods {
 				}
 				x.PortId = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
+			case 3:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field IntentsList", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.IntentsList = append(x.IntentsList, &Intents{})
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], x.IntentsList[len(x.IntentsList)-1]); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				iNdEx = postIndex
+			case 4:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field IntentsCount", wireType)
+				}
+				x.IntentsCount = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.IntentsCount |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
 			default:
 				iNdEx = preIndex
 				skippy, err := runtime.Skip(dAtA[iNdEx:])
@@ -534,8 +719,10 @@ type GenesisState struct {
 	unknownFields protoimpl.UnknownFields
 
 	// params defines all the parameters of the module.
-	Params *Params `protobuf:"bytes,1,opt,name=params,proto3" json:"params,omitempty"`
-	PortId string  `protobuf:"bytes,2,opt,name=port_id,json=portId,proto3" json:"port_id,omitempty"`
+	Params       *Params    `protobuf:"bytes,1,opt,name=params,proto3" json:"params,omitempty"`
+	PortId       string     `protobuf:"bytes,2,opt,name=port_id,json=portId,proto3" json:"port_id,omitempty"`
+	IntentsList  []*Intents `protobuf:"bytes,3,rep,name=intentsList,proto3" json:"intentsList,omitempty"`
+	IntentsCount uint64     `protobuf:"varint,4,opt,name=intentsCount,proto3" json:"intentsCount,omitempty"`
 }
 
 func (x *GenesisState) Reset() {
@@ -572,6 +759,20 @@ func (x *GenesisState) GetPortId() string {
 	return ""
 }
 
+func (x *GenesisState) GetIntentsList() []*Intents {
+	if x != nil {
+		return x.IntentsList
+	}
+	return nil
+}
+
+func (x *GenesisState) GetIntentsCount() uint64 {
+	if x != nil {
+		return x.IntentsCount
+	}
+	return 0
+}
+
 var File_beep_intent_genesis_proto protoreflect.FileDescriptor
 
 var file_beep_intent_genesis_proto_rawDesc = []byte{
@@ -581,22 +782,30 @@ var file_beep_intent_genesis_proto_rawDesc = []byte{
 	0x61, 0x6d, 0x69, 0x6e, 0x6f, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x14, 0x67, 0x6f, 0x67,
 	0x6f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2f, 0x67, 0x6f, 0x67, 0x6f, 0x2e, 0x70, 0x72, 0x6f, 0x74,
 	0x6f, 0x1a, 0x18, 0x62, 0x65, 0x65, 0x70, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x2f, 0x70,
-	0x61, 0x72, 0x61, 0x6d, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x5f, 0x0a, 0x0c, 0x47,
-	0x65, 0x6e, 0x65, 0x73, 0x69, 0x73, 0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x36, 0x0a, 0x06, 0x70,
-	0x61, 0x72, 0x61, 0x6d, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x13, 0x2e, 0x62, 0x65,
-	0x65, 0x70, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x2e, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73,
-	0x42, 0x09, 0xc8, 0xde, 0x1f, 0x00, 0xa8, 0xe7, 0xb0, 0x2a, 0x01, 0x52, 0x06, 0x70, 0x61, 0x72,
-	0x61, 0x6d, 0x73, 0x12, 0x17, 0x0a, 0x07, 0x70, 0x6f, 0x72, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x70, 0x6f, 0x72, 0x74, 0x49, 0x64, 0x42, 0x82, 0x01, 0x0a,
-	0x0f, 0x63, 0x6f, 0x6d, 0x2e, 0x62, 0x65, 0x65, 0x70, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74,
-	0x42, 0x0c, 0x47, 0x65, 0x6e, 0x65, 0x73, 0x69, 0x73, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01,
-	0x5a, 0x14, 0x62, 0x65, 0x65, 0x70, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x62, 0x65, 0x65, 0x70, 0x2f,
-	0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0xa2, 0x02, 0x03, 0x42, 0x49, 0x58, 0xaa, 0x02, 0x0b, 0x42,
-	0x65, 0x65, 0x70, 0x2e, 0x49, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0xca, 0x02, 0x0b, 0x42, 0x65, 0x65,
-	0x70, 0x5c, 0x49, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0xe2, 0x02, 0x17, 0x42, 0x65, 0x65, 0x70, 0x5c,
-	0x49, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61,
-	0x74, 0x61, 0xea, 0x02, 0x0c, 0x42, 0x65, 0x65, 0x70, 0x3a, 0x3a, 0x49, 0x6e, 0x74, 0x65, 0x6e,
-	0x74, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x61, 0x72, 0x61, 0x6d, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x1a, 0x19, 0x62, 0x65, 0x65,
+	0x70, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73,
+	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xc1, 0x01, 0x0a, 0x0c, 0x47, 0x65, 0x6e, 0x65, 0x73,
+	0x69, 0x73, 0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x36, 0x0a, 0x06, 0x70, 0x61, 0x72, 0x61, 0x6d,
+	0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x13, 0x2e, 0x62, 0x65, 0x65, 0x70, 0x2e, 0x69,
+	0x6e, 0x74, 0x65, 0x6e, 0x74, 0x2e, 0x50, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x42, 0x09, 0xc8, 0xde,
+	0x1f, 0x00, 0xa8, 0xe7, 0xb0, 0x2a, 0x01, 0x52, 0x06, 0x70, 0x61, 0x72, 0x61, 0x6d, 0x73, 0x12,
+	0x17, 0x0a, 0x07, 0x70, 0x6f, 0x72, 0x74, 0x5f, 0x69, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x06, 0x70, 0x6f, 0x72, 0x74, 0x49, 0x64, 0x12, 0x3c, 0x0a, 0x0b, 0x69, 0x6e, 0x74, 0x65,
+	0x6e, 0x74, 0x73, 0x4c, 0x69, 0x73, 0x74, 0x18, 0x03, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x14, 0x2e,
+	0x62, 0x65, 0x65, 0x70, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x2e, 0x49, 0x6e, 0x74, 0x65,
+	0x6e, 0x74, 0x73, 0x42, 0x04, 0xc8, 0xde, 0x1f, 0x00, 0x52, 0x0b, 0x69, 0x6e, 0x74, 0x65, 0x6e,
+	0x74, 0x73, 0x4c, 0x69, 0x73, 0x74, 0x12, 0x22, 0x0a, 0x0c, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74,
+	0x73, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x04, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0c, 0x69, 0x6e,
+	0x74, 0x65, 0x6e, 0x74, 0x73, 0x43, 0x6f, 0x75, 0x6e, 0x74, 0x42, 0x82, 0x01, 0x0a, 0x0f, 0x63,
+	0x6f, 0x6d, 0x2e, 0x62, 0x65, 0x65, 0x70, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x42, 0x0c,
+	0x47, 0x65, 0x6e, 0x65, 0x73, 0x69, 0x73, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x14,
+	0x62, 0x65, 0x65, 0x70, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x62, 0x65, 0x65, 0x70, 0x2f, 0x69, 0x6e,
+	0x74, 0x65, 0x6e, 0x74, 0xa2, 0x02, 0x03, 0x42, 0x49, 0x58, 0xaa, 0x02, 0x0b, 0x42, 0x65, 0x65,
+	0x70, 0x2e, 0x49, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0xca, 0x02, 0x0b, 0x42, 0x65, 0x65, 0x70, 0x5c,
+	0x49, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0xe2, 0x02, 0x17, 0x42, 0x65, 0x65, 0x70, 0x5c, 0x49, 0x6e,
+	0x74, 0x65, 0x6e, 0x74, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61,
+	0xea, 0x02, 0x0c, 0x42, 0x65, 0x65, 0x70, 0x3a, 0x3a, 0x49, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x62,
+	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -615,14 +824,16 @@ var file_beep_intent_genesis_proto_msgTypes = make([]protoimpl.MessageInfo, 1)
 var file_beep_intent_genesis_proto_goTypes = []interface{}{
 	(*GenesisState)(nil), // 0: beep.intent.GenesisState
 	(*Params)(nil),       // 1: beep.intent.Params
+	(*Intents)(nil),      // 2: beep.intent.Intents
 }
 var file_beep_intent_genesis_proto_depIdxs = []int32{
 	1, // 0: beep.intent.GenesisState.params:type_name -> beep.intent.Params
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	2, // 1: beep.intent.GenesisState.intentsList:type_name -> beep.intent.Intents
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_beep_intent_genesis_proto_init() }
@@ -631,6 +842,7 @@ func file_beep_intent_genesis_proto_init() {
 		return
 	}
 	file_beep_intent_params_proto_init()
+	file_beep_intent_intents_proto_init()
 	if !protoimpl.UnsafeEnabled {
 		file_beep_intent_genesis_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*GenesisState); i {
