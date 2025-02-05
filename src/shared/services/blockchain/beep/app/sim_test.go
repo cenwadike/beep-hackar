@@ -32,11 +32,11 @@ import (
 	"github.com/spf13/viper"
 	"github.com/stretchr/testify/require"
 
-	"tokenfactory/app"
+	"beep/app"
 )
 
 const (
-	SimAppChainID = "tokenfactory-simapp"
+	SimAppChainID = "beep-simapp"
 )
 
 var FlagEnableStreamingValue bool

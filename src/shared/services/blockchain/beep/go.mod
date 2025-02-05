@@ -1,4 +1,4 @@
-module tokenfactory
+module beep
 
 go 1.22.7
 

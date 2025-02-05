@@ -7,8 +7,8 @@ import (
 	clienthelpers "cosmossdk.io/client/v2/helpers"
 	svrcmd "github.com/cosmos/cosmos-sdk/server/cmd"
 
-	"tokenfactory/app"
-	"tokenfactory/cmd/tokenfactoryd/cmd"
+	"beep/app"
+	"beep/cmd/beepd/cmd"
 )
 
 func main() {

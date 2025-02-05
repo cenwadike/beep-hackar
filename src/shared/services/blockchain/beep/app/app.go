@@ -77,12 +77,12 @@ import (
 
 	// this line is used by starport scaffolding # stargate/app/moduleImport
 
-	"tokenfactory/docs"
+	"beep/docs"
 )
 
 const (
 	AccountAddressPrefix = "beep"
-	Name                 = "tokenfactory"
+	Name                 = "beep"
 )
 
 var (
