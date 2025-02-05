@@ -27,6 +27,10 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgCreateIntent int = 100
 
+	opWeightMsgAcceptIntent = "op_weight_msg_accept_intent"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgAcceptIntent int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -62,6 +66,17 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		intentsimulation.SimulateMsgCreateIntent(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgAcceptIntent int
+	simState.AppParams.GetOrGenerate(opWeightMsgAcceptIntent, &weightMsgAcceptIntent, nil,
+		func(_ *rand.Rand) {
+			weightMsgAcceptIntent = defaultWeightMsgAcceptIntent
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgAcceptIntent,
+		intentsimulation.SimulateMsgAcceptIntent(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -75,6 +90,14 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgCreateIntent,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				intentsimulation.SimulateMsgCreateIntent(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgAcceptIntent,
+			defaultWeightMsgAcceptIntent,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				intentsimulation.SimulateMsgAcceptIntent(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),
