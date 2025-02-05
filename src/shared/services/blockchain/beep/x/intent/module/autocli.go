@@ -39,6 +39,12 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 					RpcMethod: "UpdateParams",
 					Skip:      true, // skipped because authority gated
 				},
+				{
+					RpcMethod:      "CreateIntent",
+					Use:            "create-intent [sender] [intent-type] [memo] [target-chain] [min-output]",
+					Short:          "Send a create-intent tx",
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "sender"}, {ProtoField: "intentType"}, {ProtoField: "memo"}, {ProtoField: "targetChain"}, {ProtoField: "minOutput"}},
+				},
 				// this line is used by ignite scaffolding # autocli/tx
 			},
 		},
