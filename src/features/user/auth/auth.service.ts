@@ -1,12 +1,14 @@
 import IUserAccountModel from "../../../shared/services/database/user/Account/type";
 import EncryptionInterface from "../../../shared/services/encryption/type";
-import BlockchainAccount from "../../../shared/services/blockchain/account";
+import { sendSms } from "../../../shared/services/sms/termii";
+import { modifiedPhoneNumber } from "../../../shared/constant/mobileNumberFormatter";
+// import BlockchainAccount from "../../../shared/services/blockchain/account";
 
 class AuthService {
     private _userModel: IUserAccountModel
     private _encryptionRepo: EncryptionInterface
 
-    private blockchain = new BlockchainAccount()
+    // private blockchain = new BlockchainAccount()
 
     constructor({userModel, encryptionRepo}: {
         userModel: IUserAccountModel;
@@ -33,9 +35,12 @@ class AuthService {
 
         return `CON Carrier info
         1. Deposit
-        2. Transfer
-        3. Withdraw
+        2. Transfer bTokn
+        3. Withdraw bNGN
         4. verify deposit transaction
+        5. convert bNGN to bToken
+        6. convert bToken to bNGN
+        7. balance
         0. Back`;
     }
 
@@ -43,9 +48,9 @@ class AuthService {
         const checkUser = await this._userModel.checkIfExist({phoneNumber})
         if (checkUser.data) return `END You already have account`;
 
-        const blockChainAccount = await this.blockchain.createAccount()
-        const publicKey = blockChainAccount.publicKey
-        const privateKey = this._encryptionRepo.encryptToken(blockChainAccount.mnemonic,process.env.ENCRYTION_KEY as string )
+        // const blockChainAccount = await this.blockchain.createAccount()
+        const publicKey = "generalpublickeururu"
+        const privateKey = this._encryptionRepo.encryptToken("general994848900044", process.env.ENCRYTION_KEY as string )
         
         const createAccount = await this._userModel.createAccountToDB({phoneNumber, publicKey, privateKey})
         if (!createAccount.data)  return `END Unable to create account`;
@@ -56,7 +61,17 @@ class AuthService {
     }
 
     public enterPin = async () => {
-        return `CON Enter PIN `;
+        return `CON Enter PIN`;
+    }
+
+    public verifyUser = async (phoneNumber: string, pin: string) => {
+        const checkUser = await this._userModel.checkIfExist({phoneNumber})
+        if (!checkUser.data) return `END Unable to get your account`;
+
+        const veryPin = this._encryptionRepo.comparePassword(pin, checkUser.data.pin)
+        if (!veryPin) return `END Incorrect PIN`;
+
+        return `CON Enter Amount`;
     }
 
     public createPin = async (phoneNumber: string, pin: string) => {
@@ -73,6 +88,29 @@ class AuthService {
         if (!createPin.data) return `END Unable to save pin`;
 
         return `END PIN created successfully.`;
+    }
+
+    public getBalance = async (phoneNumber: string, pin: string) => {
+        const checkUser = await this._userModel.checkIfExist({phoneNumber})
+        if (!checkUser.data) return `END Unable to get your account`;
+
+        const veryPin = this._encryptionRepo.comparePassword(pin, checkUser.data.pin)
+        if (!veryPin) return `END Incorrect PIN`;
+
+        // to do 
+        //get the real bToken balance from blockchain
+        const bTokenBalance = 20
+
+        const bNGNBalance = checkUser.data.balance
+
+        let mobileNumber = modifiedPhoneNumber(phoneNumber);
+
+        const text = `bNGN balance: ${bNGNBalance}, bToken balance: ${bTokenBalance}`
+
+        sendSms(mobileNumber, text)
+
+        return `END bNGN balance: ${bNGNBalance}
+        bToken balance: ${bTokenBalance}`;
     }
 
 
