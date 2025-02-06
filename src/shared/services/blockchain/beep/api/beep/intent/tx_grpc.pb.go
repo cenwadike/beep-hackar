@@ -19,9 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	Msg_UpdateParams_FullMethodName = "/beep.intent.Msg/UpdateParams"
-	Msg_CreateIntent_FullMethodName = "/beep.intent.Msg/CreateIntent"
-	Msg_AcceptIntent_FullMethodName = "/beep.intent.Msg/AcceptIntent"
+	Msg_UpdateParams_FullMethodName     = "/beep.intent.Msg/UpdateParams"
+	Msg_CreateIntent_FullMethodName     = "/beep.intent.Msg/CreateIntent"
+	Msg_AcceptIntent_FullMethodName     = "/beep.intent.Msg/AcceptIntent"
+	Msg_SendIntentPacket_FullMethodName = "/beep.intent.Msg/SendIntentPacket"
 )
 
 // MsgClient is the client API for Msg service.
@@ -33,6 +34,7 @@ type MsgClient interface {
 	UpdateParams(ctx context.Context, in *MsgUpdateParams, opts ...grpc.CallOption) (*MsgUpdateParamsResponse, error)
 	CreateIntent(ctx context.Context, in *MsgCreateIntent, opts ...grpc.CallOption) (*MsgCreateIntentResponse, error)
 	AcceptIntent(ctx context.Context, in *MsgAcceptIntent, opts ...grpc.CallOption) (*MsgAcceptIntentResponse, error)
+	SendIntentPacket(ctx context.Context, in *MsgSendIntentPacket, opts ...grpc.CallOption) (*MsgSendIntentPacketResponse, error)
 }
 
 type msgClient struct {
@@ -70,6 +72,15 @@ func (c *msgClient) AcceptIntent(ctx context.Context, in *MsgAcceptIntent, opts 
 	return out, nil
 }
 
+func (c *msgClient) SendIntentPacket(ctx context.Context, in *MsgSendIntentPacket, opts ...grpc.CallOption) (*MsgSendIntentPacketResponse, error) {
+	out := new(MsgSendIntentPacketResponse)
+	err := c.cc.Invoke(ctx, Msg_SendIntentPacket_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // MsgServer is the server API for Msg service.
 // All implementations must embed UnimplementedMsgServer
 // for forward compatibility
@@ -79,6 +90,7 @@ type MsgServer interface {
 	UpdateParams(context.Context, *MsgUpdateParams) (*MsgUpdateParamsResponse, error)
 	CreateIntent(context.Context, *MsgCreateIntent) (*MsgCreateIntentResponse, error)
 	AcceptIntent(context.Context, *MsgAcceptIntent) (*MsgAcceptIntentResponse, error)
+	SendIntentPacket(context.Context, *MsgSendIntentPacket) (*MsgSendIntentPacketResponse, error)
 	mustEmbedUnimplementedMsgServer()
 }
 
@@ -94,6 +106,9 @@ func (UnimplementedMsgServer) CreateIntent(context.Context, *MsgCreateIntent) (*
 }
 func (UnimplementedMsgServer) AcceptIntent(context.Context, *MsgAcceptIntent) (*MsgAcceptIntentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AcceptIntent not implemented")
+}
+func (UnimplementedMsgServer) SendIntentPacket(context.Context, *MsgSendIntentPacket) (*MsgSendIntentPacketResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendIntentPacket not implemented")
 }
 func (UnimplementedMsgServer) mustEmbedUnimplementedMsgServer() {}
 
@@ -162,6 +177,24 @@ func _Msg_AcceptIntent_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Msg_SendIntentPacket_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MsgSendIntentPacket)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(MsgServer).SendIntentPacket(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Msg_SendIntentPacket_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(MsgServer).SendIntentPacket(ctx, req.(*MsgSendIntentPacket))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Msg_ServiceDesc is the grpc.ServiceDesc for Msg service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -180,6 +213,10 @@ var Msg_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AcceptIntent",
 			Handler:    _Msg_AcceptIntent_Handler,
+		},
+		{
+			MethodName: "SendIntentPacket",
+			Handler:    _Msg_SendIntentPacket_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

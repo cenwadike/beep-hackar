@@ -13,14 +13,16 @@ import (
 )
 
 var (
-	md_IntentPacketData        protoreflect.MessageDescriptor
-	fd_IntentPacketData_noData protoreflect.FieldDescriptor
+	md_IntentPacketData                    protoreflect.MessageDescriptor
+	fd_IntentPacketData_noData             protoreflect.FieldDescriptor
+	fd_IntentPacketData_intentPacketPacket protoreflect.FieldDescriptor
 )
 
 func init() {
 	file_beep_intent_packet_proto_init()
 	md_IntentPacketData = File_beep_intent_packet_proto.Messages().ByName("IntentPacketData")
 	fd_IntentPacketData_noData = md_IntentPacketData.Fields().ByName("noData")
+	fd_IntentPacketData_intentPacketPacket = md_IntentPacketData.Fields().ByName("intentPacketPacket")
 }
 
 var _ protoreflect.Message = (*fastReflection_IntentPacketData)(nil)
@@ -96,6 +98,12 @@ func (x *fastReflection_IntentPacketData) Range(f func(protoreflect.FieldDescrip
 			if !f(fd_IntentPacketData_noData, value) {
 				return
 			}
+		case *IntentPacketData_IntentPacketPacket:
+			v := o.IntentPacketPacket
+			value := protoreflect.ValueOfMessage(v.ProtoReflect())
+			if !f(fd_IntentPacketData_intentPacketPacket, value) {
+				return
+			}
 		}
 	}
 }
@@ -121,6 +129,14 @@ func (x *fastReflection_IntentPacketData) Has(fd protoreflect.FieldDescriptor) b
 		} else {
 			return false
 		}
+	case "beep.intent.IntentPacketData.intentPacketPacket":
+		if x.Packet == nil {
+			return false
+		} else if _, ok := x.Packet.(*IntentPacketData_IntentPacketPacket); ok {
+			return true
+		} else {
+			return false
+		}
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: beep.intent.IntentPacketData"))
@@ -138,6 +154,8 @@ func (x *fastReflection_IntentPacketData) Has(fd protoreflect.FieldDescriptor) b
 func (x *fastReflection_IntentPacketData) Clear(fd protoreflect.FieldDescriptor) {
 	switch fd.FullName() {
 	case "beep.intent.IntentPacketData.noData":
+		x.Packet = nil
+	case "beep.intent.IntentPacketData.intentPacketPacket":
 		x.Packet = nil
 	default:
 		if fd.IsExtension() {
@@ -163,6 +181,14 @@ func (x *fastReflection_IntentPacketData) Get(descriptor protoreflect.FieldDescr
 		} else {
 			return protoreflect.ValueOfMessage((*NoData)(nil).ProtoReflect())
 		}
+	case "beep.intent.IntentPacketData.intentPacketPacket":
+		if x.Packet == nil {
+			return protoreflect.ValueOfMessage((*IntentPacketPacketData)(nil).ProtoReflect())
+		} else if v, ok := x.Packet.(*IntentPacketData_IntentPacketPacket); ok {
+			return protoreflect.ValueOfMessage(v.IntentPacketPacket.ProtoReflect())
+		} else {
+			return protoreflect.ValueOfMessage((*IntentPacketPacketData)(nil).ProtoReflect())
+		}
 	default:
 		if descriptor.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: beep.intent.IntentPacketData"))
@@ -186,6 +212,9 @@ func (x *fastReflection_IntentPacketData) Set(fd protoreflect.FieldDescriptor, v
 	case "beep.intent.IntentPacketData.noData":
 		cv := value.Message().Interface().(*NoData)
 		x.Packet = &IntentPacketData_NoData{NoData: cv}
+	case "beep.intent.IntentPacketData.intentPacketPacket":
+		cv := value.Message().Interface().(*IntentPacketPacketData)
+		x.Packet = &IntentPacketData_IntentPacketPacket{IntentPacketPacket: cv}
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: beep.intent.IntentPacketData"))
@@ -222,6 +251,22 @@ func (x *fastReflection_IntentPacketData) Mutable(fd protoreflect.FieldDescripto
 			x.Packet = oneofValue
 			return protoreflect.ValueOfMessage(value.ProtoReflect())
 		}
+	case "beep.intent.IntentPacketData.intentPacketPacket":
+		if x.Packet == nil {
+			value := &IntentPacketPacketData{}
+			oneofValue := &IntentPacketData_IntentPacketPacket{IntentPacketPacket: value}
+			x.Packet = oneofValue
+			return protoreflect.ValueOfMessage(value.ProtoReflect())
+		}
+		switch m := x.Packet.(type) {
+		case *IntentPacketData_IntentPacketPacket:
+			return protoreflect.ValueOfMessage(m.IntentPacketPacket.ProtoReflect())
+		default:
+			value := &IntentPacketPacketData{}
+			oneofValue := &IntentPacketData_IntentPacketPacket{IntentPacketPacket: value}
+			x.Packet = oneofValue
+			return protoreflect.ValueOfMessage(value.ProtoReflect())
+		}
 	default:
 		if fd.IsExtension() {
 			panic(fmt.Errorf("proto3 declared messages do not support extensions: beep.intent.IntentPacketData"))
@@ -237,6 +282,9 @@ func (x *fastReflection_IntentPacketData) NewField(fd protoreflect.FieldDescript
 	switch fd.FullName() {
 	case "beep.intent.IntentPacketData.noData":
 		value := &NoData{}
+		return protoreflect.ValueOfMessage(value.ProtoReflect())
+	case "beep.intent.IntentPacketData.intentPacketPacket":
+		value := &IntentPacketPacketData{}
 		return protoreflect.ValueOfMessage(value.ProtoReflect())
 	default:
 		if fd.IsExtension() {
@@ -258,6 +306,8 @@ func (x *fastReflection_IntentPacketData) WhichOneof(d protoreflect.OneofDescrip
 		switch x.Packet.(type) {
 		case *IntentPacketData_NoData:
 			return x.Descriptor().Fields().ByName("noData")
+		case *IntentPacketData_IntentPacketPacket:
+			return x.Descriptor().Fields().ByName("intentPacketPacket")
 		}
 	default:
 		panic(fmt.Errorf("%s is not a oneof field in beep.intent.IntentPacketData", d.FullName()))
@@ -322,6 +372,12 @@ func (x *fastReflection_IntentPacketData) ProtoMethods() *protoiface.Methods {
 			}
 			l = options.Size(x.NoData)
 			n += 1 + l + runtime.Sov(uint64(l))
+		case *IntentPacketData_IntentPacketPacket:
+			if x == nil {
+				break
+			}
+			l = options.Size(x.IntentPacketPacket)
+			n += 1 + l + runtime.Sov(uint64(l))
 		}
 		if x.unknownFields != nil {
 			n += len(x.unknownFields)
@@ -366,6 +422,19 @@ func (x *fastReflection_IntentPacketData) ProtoMethods() *protoiface.Methods {
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
 			i--
 			dAtA[i] = 0xa
+		case *IntentPacketData_IntentPacketPacket:
+			encoded, err := options.Marshal(x.IntentPacketPacket)
+			if err != nil {
+				return protoiface.MarshalOutput{
+					NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+					Buf:               input.Buf,
+				}, err
+			}
+			i -= len(encoded)
+			copy(dAtA[i:], encoded)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(encoded)))
+			i--
+			dAtA[i] = 0x12
 		}
 		if input.Buf != nil {
 			input.Buf = append(input.Buf, dAtA...)
@@ -450,6 +519,41 @@ func (x *fastReflection_IntentPacketData) ProtoMethods() *protoiface.Methods {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
 				}
 				x.Packet = &IntentPacketData_NoData{v}
+				iNdEx = postIndex
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field IntentPacketPacket", wireType)
+				}
+				var msglen int
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					msglen |= int(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				if msglen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + msglen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				v := &IntentPacketPacketData{}
+				if err := options.Unmarshal(dAtA[iNdEx:postIndex], v); err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				x.Packet = &IntentPacketData_IntentPacketPacket{v}
 				iNdEx = postIndex
 			default:
 				iNdEx = preIndex
@@ -842,6 +946,1246 @@ func (x *fastReflection_NoData) ProtoMethods() *protoiface.Methods {
 	}
 }
 
+var (
+	md_IntentPacketPacketData              protoreflect.MessageDescriptor
+	fd_IntentPacketPacketData_intentType   protoreflect.FieldDescriptor
+	fd_IntentPacketPacketData_memo         protoreflect.FieldDescriptor
+	fd_IntentPacketPacketData_targetChain  protoreflect.FieldDescriptor
+	fd_IntentPacketPacketData_minOutput    protoreflect.FieldDescriptor
+	fd_IntentPacketPacketData_status       protoreflect.FieldDescriptor
+	fd_IntentPacketPacketData_executor     protoreflect.FieldDescriptor
+	fd_IntentPacketPacketData_expiryHeight protoreflect.FieldDescriptor
+	fd_IntentPacketPacketData_creator      protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_beep_intent_packet_proto_init()
+	md_IntentPacketPacketData = File_beep_intent_packet_proto.Messages().ByName("IntentPacketPacketData")
+	fd_IntentPacketPacketData_intentType = md_IntentPacketPacketData.Fields().ByName("intentType")
+	fd_IntentPacketPacketData_memo = md_IntentPacketPacketData.Fields().ByName("memo")
+	fd_IntentPacketPacketData_targetChain = md_IntentPacketPacketData.Fields().ByName("targetChain")
+	fd_IntentPacketPacketData_minOutput = md_IntentPacketPacketData.Fields().ByName("minOutput")
+	fd_IntentPacketPacketData_status = md_IntentPacketPacketData.Fields().ByName("status")
+	fd_IntentPacketPacketData_executor = md_IntentPacketPacketData.Fields().ByName("executor")
+	fd_IntentPacketPacketData_expiryHeight = md_IntentPacketPacketData.Fields().ByName("expiryHeight")
+	fd_IntentPacketPacketData_creator = md_IntentPacketPacketData.Fields().ByName("creator")
+}
+
+var _ protoreflect.Message = (*fastReflection_IntentPacketPacketData)(nil)
+
+type fastReflection_IntentPacketPacketData IntentPacketPacketData
+
+func (x *IntentPacketPacketData) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_IntentPacketPacketData)(x)
+}
+
+func (x *IntentPacketPacketData) slowProtoReflect() protoreflect.Message {
+	mi := &file_beep_intent_packet_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_IntentPacketPacketData_messageType fastReflection_IntentPacketPacketData_messageType
+var _ protoreflect.MessageType = fastReflection_IntentPacketPacketData_messageType{}
+
+type fastReflection_IntentPacketPacketData_messageType struct{}
+
+func (x fastReflection_IntentPacketPacketData_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_IntentPacketPacketData)(nil)
+}
+func (x fastReflection_IntentPacketPacketData_messageType) New() protoreflect.Message {
+	return new(fastReflection_IntentPacketPacketData)
+}
+func (x fastReflection_IntentPacketPacketData_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_IntentPacketPacketData
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_IntentPacketPacketData) Descriptor() protoreflect.MessageDescriptor {
+	return md_IntentPacketPacketData
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_IntentPacketPacketData) Type() protoreflect.MessageType {
+	return _fastReflection_IntentPacketPacketData_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_IntentPacketPacketData) New() protoreflect.Message {
+	return new(fastReflection_IntentPacketPacketData)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_IntentPacketPacketData) Interface() protoreflect.ProtoMessage {
+	return (*IntentPacketPacketData)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_IntentPacketPacketData) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.IntentType != "" {
+		value := protoreflect.ValueOfString(x.IntentType)
+		if !f(fd_IntentPacketPacketData_intentType, value) {
+			return
+		}
+	}
+	if x.Memo != "" {
+		value := protoreflect.ValueOfString(x.Memo)
+		if !f(fd_IntentPacketPacketData_memo, value) {
+			return
+		}
+	}
+	if x.TargetChain != "" {
+		value := protoreflect.ValueOfString(x.TargetChain)
+		if !f(fd_IntentPacketPacketData_targetChain, value) {
+			return
+		}
+	}
+	if x.MinOutput != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.MinOutput)
+		if !f(fd_IntentPacketPacketData_minOutput, value) {
+			return
+		}
+	}
+	if x.Status != "" {
+		value := protoreflect.ValueOfString(x.Status)
+		if !f(fd_IntentPacketPacketData_status, value) {
+			return
+		}
+	}
+	if x.Executor != "" {
+		value := protoreflect.ValueOfString(x.Executor)
+		if !f(fd_IntentPacketPacketData_executor, value) {
+			return
+		}
+	}
+	if x.ExpiryHeight != uint64(0) {
+		value := protoreflect.ValueOfUint64(x.ExpiryHeight)
+		if !f(fd_IntentPacketPacketData_expiryHeight, value) {
+			return
+		}
+	}
+	if x.Creator != "" {
+		value := protoreflect.ValueOfString(x.Creator)
+		if !f(fd_IntentPacketPacketData_creator, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_IntentPacketPacketData) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "beep.intent.IntentPacketPacketData.intentType":
+		return x.IntentType != ""
+	case "beep.intent.IntentPacketPacketData.memo":
+		return x.Memo != ""
+	case "beep.intent.IntentPacketPacketData.targetChain":
+		return x.TargetChain != ""
+	case "beep.intent.IntentPacketPacketData.minOutput":
+		return x.MinOutput != uint64(0)
+	case "beep.intent.IntentPacketPacketData.status":
+		return x.Status != ""
+	case "beep.intent.IntentPacketPacketData.executor":
+		return x.Executor != ""
+	case "beep.intent.IntentPacketPacketData.expiryHeight":
+		return x.ExpiryHeight != uint64(0)
+	case "beep.intent.IntentPacketPacketData.creator":
+		return x.Creator != ""
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: beep.intent.IntentPacketPacketData"))
+		}
+		panic(fmt.Errorf("message beep.intent.IntentPacketPacketData does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_IntentPacketPacketData) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "beep.intent.IntentPacketPacketData.intentType":
+		x.IntentType = ""
+	case "beep.intent.IntentPacketPacketData.memo":
+		x.Memo = ""
+	case "beep.intent.IntentPacketPacketData.targetChain":
+		x.TargetChain = ""
+	case "beep.intent.IntentPacketPacketData.minOutput":
+		x.MinOutput = uint64(0)
+	case "beep.intent.IntentPacketPacketData.status":
+		x.Status = ""
+	case "beep.intent.IntentPacketPacketData.executor":
+		x.Executor = ""
+	case "beep.intent.IntentPacketPacketData.expiryHeight":
+		x.ExpiryHeight = uint64(0)
+	case "beep.intent.IntentPacketPacketData.creator":
+		x.Creator = ""
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: beep.intent.IntentPacketPacketData"))
+		}
+		panic(fmt.Errorf("message beep.intent.IntentPacketPacketData does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_IntentPacketPacketData) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "beep.intent.IntentPacketPacketData.intentType":
+		value := x.IntentType
+		return protoreflect.ValueOfString(value)
+	case "beep.intent.IntentPacketPacketData.memo":
+		value := x.Memo
+		return protoreflect.ValueOfString(value)
+	case "beep.intent.IntentPacketPacketData.targetChain":
+		value := x.TargetChain
+		return protoreflect.ValueOfString(value)
+	case "beep.intent.IntentPacketPacketData.minOutput":
+		value := x.MinOutput
+		return protoreflect.ValueOfUint64(value)
+	case "beep.intent.IntentPacketPacketData.status":
+		value := x.Status
+		return protoreflect.ValueOfString(value)
+	case "beep.intent.IntentPacketPacketData.executor":
+		value := x.Executor
+		return protoreflect.ValueOfString(value)
+	case "beep.intent.IntentPacketPacketData.expiryHeight":
+		value := x.ExpiryHeight
+		return protoreflect.ValueOfUint64(value)
+	case "beep.intent.IntentPacketPacketData.creator":
+		value := x.Creator
+		return protoreflect.ValueOfString(value)
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: beep.intent.IntentPacketPacketData"))
+		}
+		panic(fmt.Errorf("message beep.intent.IntentPacketPacketData does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_IntentPacketPacketData) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "beep.intent.IntentPacketPacketData.intentType":
+		x.IntentType = value.Interface().(string)
+	case "beep.intent.IntentPacketPacketData.memo":
+		x.Memo = value.Interface().(string)
+	case "beep.intent.IntentPacketPacketData.targetChain":
+		x.TargetChain = value.Interface().(string)
+	case "beep.intent.IntentPacketPacketData.minOutput":
+		x.MinOutput = value.Uint()
+	case "beep.intent.IntentPacketPacketData.status":
+		x.Status = value.Interface().(string)
+	case "beep.intent.IntentPacketPacketData.executor":
+		x.Executor = value.Interface().(string)
+	case "beep.intent.IntentPacketPacketData.expiryHeight":
+		x.ExpiryHeight = value.Uint()
+	case "beep.intent.IntentPacketPacketData.creator":
+		x.Creator = value.Interface().(string)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: beep.intent.IntentPacketPacketData"))
+		}
+		panic(fmt.Errorf("message beep.intent.IntentPacketPacketData does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_IntentPacketPacketData) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "beep.intent.IntentPacketPacketData.intentType":
+		panic(fmt.Errorf("field intentType of message beep.intent.IntentPacketPacketData is not mutable"))
+	case "beep.intent.IntentPacketPacketData.memo":
+		panic(fmt.Errorf("field memo of message beep.intent.IntentPacketPacketData is not mutable"))
+	case "beep.intent.IntentPacketPacketData.targetChain":
+		panic(fmt.Errorf("field targetChain of message beep.intent.IntentPacketPacketData is not mutable"))
+	case "beep.intent.IntentPacketPacketData.minOutput":
+		panic(fmt.Errorf("field minOutput of message beep.intent.IntentPacketPacketData is not mutable"))
+	case "beep.intent.IntentPacketPacketData.status":
+		panic(fmt.Errorf("field status of message beep.intent.IntentPacketPacketData is not mutable"))
+	case "beep.intent.IntentPacketPacketData.executor":
+		panic(fmt.Errorf("field executor of message beep.intent.IntentPacketPacketData is not mutable"))
+	case "beep.intent.IntentPacketPacketData.expiryHeight":
+		panic(fmt.Errorf("field expiryHeight of message beep.intent.IntentPacketPacketData is not mutable"))
+	case "beep.intent.IntentPacketPacketData.creator":
+		panic(fmt.Errorf("field creator of message beep.intent.IntentPacketPacketData is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: beep.intent.IntentPacketPacketData"))
+		}
+		panic(fmt.Errorf("message beep.intent.IntentPacketPacketData does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_IntentPacketPacketData) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "beep.intent.IntentPacketPacketData.intentType":
+		return protoreflect.ValueOfString("")
+	case "beep.intent.IntentPacketPacketData.memo":
+		return protoreflect.ValueOfString("")
+	case "beep.intent.IntentPacketPacketData.targetChain":
+		return protoreflect.ValueOfString("")
+	case "beep.intent.IntentPacketPacketData.minOutput":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "beep.intent.IntentPacketPacketData.status":
+		return protoreflect.ValueOfString("")
+	case "beep.intent.IntentPacketPacketData.executor":
+		return protoreflect.ValueOfString("")
+	case "beep.intent.IntentPacketPacketData.expiryHeight":
+		return protoreflect.ValueOfUint64(uint64(0))
+	case "beep.intent.IntentPacketPacketData.creator":
+		return protoreflect.ValueOfString("")
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: beep.intent.IntentPacketPacketData"))
+		}
+		panic(fmt.Errorf("message beep.intent.IntentPacketPacketData does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_IntentPacketPacketData) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in beep.intent.IntentPacketPacketData", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_IntentPacketPacketData) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_IntentPacketPacketData) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_IntentPacketPacketData) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_IntentPacketPacketData) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*IntentPacketPacketData)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		l = len(x.IntentType)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		l = len(x.Memo)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		l = len(x.TargetChain)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.MinOutput != 0 {
+			n += 1 + runtime.Sov(uint64(x.MinOutput))
+		}
+		l = len(x.Status)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		l = len(x.Executor)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.ExpiryHeight != 0 {
+			n += 1 + runtime.Sov(uint64(x.ExpiryHeight))
+		}
+		l = len(x.Creator)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*IntentPacketPacketData)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if len(x.Creator) > 0 {
+			i -= len(x.Creator)
+			copy(dAtA[i:], x.Creator)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Creator)))
+			i--
+			dAtA[i] = 0x42
+		}
+		if x.ExpiryHeight != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.ExpiryHeight))
+			i--
+			dAtA[i] = 0x38
+		}
+		if len(x.Executor) > 0 {
+			i -= len(x.Executor)
+			copy(dAtA[i:], x.Executor)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Executor)))
+			i--
+			dAtA[i] = 0x32
+		}
+		if len(x.Status) > 0 {
+			i -= len(x.Status)
+			copy(dAtA[i:], x.Status)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Status)))
+			i--
+			dAtA[i] = 0x2a
+		}
+		if x.MinOutput != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.MinOutput))
+			i--
+			dAtA[i] = 0x20
+		}
+		if len(x.TargetChain) > 0 {
+			i -= len(x.TargetChain)
+			copy(dAtA[i:], x.TargetChain)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.TargetChain)))
+			i--
+			dAtA[i] = 0x1a
+		}
+		if len(x.Memo) > 0 {
+			i -= len(x.Memo)
+			copy(dAtA[i:], x.Memo)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Memo)))
+			i--
+			dAtA[i] = 0x12
+		}
+		if len(x.IntentType) > 0 {
+			i -= len(x.IntentType)
+			copy(dAtA[i:], x.IntentType)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.IntentType)))
+			i--
+			dAtA[i] = 0xa
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*IntentPacketPacketData)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: IntentPacketPacketData: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: IntentPacketPacketData: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field IntentType", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.IntentType = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 2:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Memo", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Memo = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 3:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field TargetChain", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.TargetChain = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 4:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field MinOutput", wireType)
+				}
+				x.MinOutput = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.MinOutput |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 5:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Status = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 6:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Executor", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Executor = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 7:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ExpiryHeight", wireType)
+				}
+				x.ExpiryHeight = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.ExpiryHeight |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			case 8:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Creator", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.Creator = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
+var (
+	md_IntentPacketPacketAck          protoreflect.MessageDescriptor
+	fd_IntentPacketPacketAck_intentId protoreflect.FieldDescriptor
+)
+
+func init() {
+	file_beep_intent_packet_proto_init()
+	md_IntentPacketPacketAck = File_beep_intent_packet_proto.Messages().ByName("IntentPacketPacketAck")
+	fd_IntentPacketPacketAck_intentId = md_IntentPacketPacketAck.Fields().ByName("intentId")
+}
+
+var _ protoreflect.Message = (*fastReflection_IntentPacketPacketAck)(nil)
+
+type fastReflection_IntentPacketPacketAck IntentPacketPacketAck
+
+func (x *IntentPacketPacketAck) ProtoReflect() protoreflect.Message {
+	return (*fastReflection_IntentPacketPacketAck)(x)
+}
+
+func (x *IntentPacketPacketAck) slowProtoReflect() protoreflect.Message {
+	mi := &file_beep_intent_packet_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+var _fastReflection_IntentPacketPacketAck_messageType fastReflection_IntentPacketPacketAck_messageType
+var _ protoreflect.MessageType = fastReflection_IntentPacketPacketAck_messageType{}
+
+type fastReflection_IntentPacketPacketAck_messageType struct{}
+
+func (x fastReflection_IntentPacketPacketAck_messageType) Zero() protoreflect.Message {
+	return (*fastReflection_IntentPacketPacketAck)(nil)
+}
+func (x fastReflection_IntentPacketPacketAck_messageType) New() protoreflect.Message {
+	return new(fastReflection_IntentPacketPacketAck)
+}
+func (x fastReflection_IntentPacketPacketAck_messageType) Descriptor() protoreflect.MessageDescriptor {
+	return md_IntentPacketPacketAck
+}
+
+// Descriptor returns message descriptor, which contains only the protobuf
+// type information for the message.
+func (x *fastReflection_IntentPacketPacketAck) Descriptor() protoreflect.MessageDescriptor {
+	return md_IntentPacketPacketAck
+}
+
+// Type returns the message type, which encapsulates both Go and protobuf
+// type information. If the Go type information is not needed,
+// it is recommended that the message descriptor be used instead.
+func (x *fastReflection_IntentPacketPacketAck) Type() protoreflect.MessageType {
+	return _fastReflection_IntentPacketPacketAck_messageType
+}
+
+// New returns a newly allocated and mutable empty message.
+func (x *fastReflection_IntentPacketPacketAck) New() protoreflect.Message {
+	return new(fastReflection_IntentPacketPacketAck)
+}
+
+// Interface unwraps the message reflection interface and
+// returns the underlying ProtoMessage interface.
+func (x *fastReflection_IntentPacketPacketAck) Interface() protoreflect.ProtoMessage {
+	return (*IntentPacketPacketAck)(x)
+}
+
+// Range iterates over every populated field in an undefined order,
+// calling f for each field descriptor and value encountered.
+// Range returns immediately if f returns false.
+// While iterating, mutating operations may only be performed
+// on the current field descriptor.
+func (x *fastReflection_IntentPacketPacketAck) Range(f func(protoreflect.FieldDescriptor, protoreflect.Value) bool) {
+	if x.IntentId != int32(0) {
+		value := protoreflect.ValueOfInt32(x.IntentId)
+		if !f(fd_IntentPacketPacketAck_intentId, value) {
+			return
+		}
+	}
+}
+
+// Has reports whether a field is populated.
+//
+// Some fields have the property of nullability where it is possible to
+// distinguish between the default value of a field and whether the field
+// was explicitly populated with the default value. Singular message fields,
+// member fields of a oneof, and proto2 scalar fields are nullable. Such
+// fields are populated only if explicitly set.
+//
+// In other cases (aside from the nullable cases above),
+// a proto3 scalar field is populated if it contains a non-zero value, and
+// a repeated field is populated if it is non-empty.
+func (x *fastReflection_IntentPacketPacketAck) Has(fd protoreflect.FieldDescriptor) bool {
+	switch fd.FullName() {
+	case "beep.intent.IntentPacketPacketAck.intentId":
+		return x.IntentId != int32(0)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: beep.intent.IntentPacketPacketAck"))
+		}
+		panic(fmt.Errorf("message beep.intent.IntentPacketPacketAck does not contain field %s", fd.FullName()))
+	}
+}
+
+// Clear clears the field such that a subsequent Has call reports false.
+//
+// Clearing an extension field clears both the extension type and value
+// associated with the given field number.
+//
+// Clear is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_IntentPacketPacketAck) Clear(fd protoreflect.FieldDescriptor) {
+	switch fd.FullName() {
+	case "beep.intent.IntentPacketPacketAck.intentId":
+		x.IntentId = int32(0)
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: beep.intent.IntentPacketPacketAck"))
+		}
+		panic(fmt.Errorf("message beep.intent.IntentPacketPacketAck does not contain field %s", fd.FullName()))
+	}
+}
+
+// Get retrieves the value for a field.
+//
+// For unpopulated scalars, it returns the default value, where
+// the default value of a bytes scalar is guaranteed to be a copy.
+// For unpopulated composite types, it returns an empty, read-only view
+// of the value; to obtain a mutable reference, use Mutable.
+func (x *fastReflection_IntentPacketPacketAck) Get(descriptor protoreflect.FieldDescriptor) protoreflect.Value {
+	switch descriptor.FullName() {
+	case "beep.intent.IntentPacketPacketAck.intentId":
+		value := x.IntentId
+		return protoreflect.ValueOfInt32(value)
+	default:
+		if descriptor.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: beep.intent.IntentPacketPacketAck"))
+		}
+		panic(fmt.Errorf("message beep.intent.IntentPacketPacketAck does not contain field %s", descriptor.FullName()))
+	}
+}
+
+// Set stores the value for a field.
+//
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType.
+// When setting a composite type, it is unspecified whether the stored value
+// aliases the source's memory in any way. If the composite value is an
+// empty, read-only value, then it panics.
+//
+// Set is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_IntentPacketPacketAck) Set(fd protoreflect.FieldDescriptor, value protoreflect.Value) {
+	switch fd.FullName() {
+	case "beep.intent.IntentPacketPacketAck.intentId":
+		x.IntentId = int32(value.Int())
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: beep.intent.IntentPacketPacketAck"))
+		}
+		panic(fmt.Errorf("message beep.intent.IntentPacketPacketAck does not contain field %s", fd.FullName()))
+	}
+}
+
+// Mutable returns a mutable reference to a composite type.
+//
+// If the field is unpopulated, it may allocate a composite value.
+// For a field belonging to a oneof, it implicitly clears any other field
+// that may be currently set within the same oneof.
+// For extension fields, it implicitly stores the provided ExtensionType
+// if not already stored.
+// It panics if the field does not contain a composite type.
+//
+// Mutable is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_IntentPacketPacketAck) Mutable(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "beep.intent.IntentPacketPacketAck.intentId":
+		panic(fmt.Errorf("field intentId of message beep.intent.IntentPacketPacketAck is not mutable"))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: beep.intent.IntentPacketPacketAck"))
+		}
+		panic(fmt.Errorf("message beep.intent.IntentPacketPacketAck does not contain field %s", fd.FullName()))
+	}
+}
+
+// NewField returns a new value that is assignable to the field
+// for the given descriptor. For scalars, this returns the default value.
+// For lists, maps, and messages, this returns a new, empty, mutable value.
+func (x *fastReflection_IntentPacketPacketAck) NewField(fd protoreflect.FieldDescriptor) protoreflect.Value {
+	switch fd.FullName() {
+	case "beep.intent.IntentPacketPacketAck.intentId":
+		return protoreflect.ValueOfInt32(int32(0))
+	default:
+		if fd.IsExtension() {
+			panic(fmt.Errorf("proto3 declared messages do not support extensions: beep.intent.IntentPacketPacketAck"))
+		}
+		panic(fmt.Errorf("message beep.intent.IntentPacketPacketAck does not contain field %s", fd.FullName()))
+	}
+}
+
+// WhichOneof reports which field within the oneof is populated,
+// returning nil if none are populated.
+// It panics if the oneof descriptor does not belong to this message.
+func (x *fastReflection_IntentPacketPacketAck) WhichOneof(d protoreflect.OneofDescriptor) protoreflect.FieldDescriptor {
+	switch d.FullName() {
+	default:
+		panic(fmt.Errorf("%s is not a oneof field in beep.intent.IntentPacketPacketAck", d.FullName()))
+	}
+	panic("unreachable")
+}
+
+// GetUnknown retrieves the entire list of unknown fields.
+// The caller may only mutate the contents of the RawFields
+// if the mutated bytes are stored back into the message with SetUnknown.
+func (x *fastReflection_IntentPacketPacketAck) GetUnknown() protoreflect.RawFields {
+	return x.unknownFields
+}
+
+// SetUnknown stores an entire list of unknown fields.
+// The raw fields must be syntactically valid according to the wire format.
+// An implementation may panic if this is not the case.
+// Once stored, the caller must not mutate the content of the RawFields.
+// An empty RawFields may be passed to clear the fields.
+//
+// SetUnknown is a mutating operation and unsafe for concurrent use.
+func (x *fastReflection_IntentPacketPacketAck) SetUnknown(fields protoreflect.RawFields) {
+	x.unknownFields = fields
+}
+
+// IsValid reports whether the message is valid.
+//
+// An invalid message is an empty, read-only value.
+//
+// An invalid message often corresponds to a nil pointer of the concrete
+// message type, but the details are implementation dependent.
+// Validity is not part of the protobuf data model, and may not
+// be preserved in marshaling or other operations.
+func (x *fastReflection_IntentPacketPacketAck) IsValid() bool {
+	return x != nil
+}
+
+// ProtoMethods returns optional fastReflectionFeature-path implementations of various operations.
+// This method may return nil.
+//
+// The returned methods type is identical to
+// "google.golang.org/protobuf/runtime/protoiface".Methods.
+// Consult the protoiface package documentation for details.
+func (x *fastReflection_IntentPacketPacketAck) ProtoMethods() *protoiface.Methods {
+	size := func(input protoiface.SizeInput) protoiface.SizeOutput {
+		x := input.Message.Interface().(*IntentPacketPacketAck)
+		if x == nil {
+			return protoiface.SizeOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Size:              0,
+			}
+		}
+		options := runtime.SizeInputToOptions(input)
+		_ = options
+		var n int
+		var l int
+		_ = l
+		if x.IntentId != 0 {
+			n += 1 + runtime.Sov(uint64(x.IntentId))
+		}
+		if x.unknownFields != nil {
+			n += len(x.unknownFields)
+		}
+		return protoiface.SizeOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Size:              n,
+		}
+	}
+
+	marshal := func(input protoiface.MarshalInput) (protoiface.MarshalOutput, error) {
+		x := input.Message.Interface().(*IntentPacketPacketAck)
+		if x == nil {
+			return protoiface.MarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Buf:               input.Buf,
+			}, nil
+		}
+		options := runtime.MarshalInputToOptions(input)
+		_ = options
+		size := options.Size(x)
+		dAtA := make([]byte, size)
+		i := len(dAtA)
+		_ = i
+		var l int
+		_ = l
+		if x.unknownFields != nil {
+			i -= len(x.unknownFields)
+			copy(dAtA[i:], x.unknownFields)
+		}
+		if x.IntentId != 0 {
+			i = runtime.EncodeVarint(dAtA, i, uint64(x.IntentId))
+			i--
+			dAtA[i] = 0x8
+		}
+		if input.Buf != nil {
+			input.Buf = append(input.Buf, dAtA...)
+		} else {
+			input.Buf = dAtA
+		}
+		return protoiface.MarshalOutput{
+			NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+			Buf:               input.Buf,
+		}, nil
+	}
+	unmarshal := func(input protoiface.UnmarshalInput) (protoiface.UnmarshalOutput, error) {
+		x := input.Message.Interface().(*IntentPacketPacketAck)
+		if x == nil {
+			return protoiface.UnmarshalOutput{
+				NoUnkeyedLiterals: input.NoUnkeyedLiterals,
+				Flags:             input.Flags,
+			}, nil
+		}
+		options := runtime.UnmarshalInputToOptions(input)
+		_ = options
+		dAtA := input.Buf
+		l := len(dAtA)
+		iNdEx := 0
+		for iNdEx < l {
+			preIndex := iNdEx
+			var wire uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+				}
+				if iNdEx >= l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				wire |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			fieldNum := int32(wire >> 3)
+			wireType := int(wire & 0x7)
+			if wireType == 4 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: IntentPacketPacketAck: wiretype end group for non-group")
+			}
+			if fieldNum <= 0 {
+				return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: IntentPacketPacketAck: illegal tag %d (wire type %d)", fieldNum, wire)
+			}
+			switch fieldNum {
+			case 1:
+				if wireType != 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field IntentId", wireType)
+				}
+				x.IntentId = 0
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					x.IntentId |= int32(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+			default:
+				iNdEx = preIndex
+				skippy, err := runtime.Skip(dAtA[iNdEx:])
+				if err != nil {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, err
+				}
+				if (skippy < 0) || (iNdEx+skippy) < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if (iNdEx + skippy) > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				if !options.DiscardUnknown {
+					x.unknownFields = append(x.unknownFields, dAtA[iNdEx:iNdEx+skippy]...)
+				}
+				iNdEx += skippy
+			}
+		}
+
+		if iNdEx > l {
+			return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+		}
+		return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, nil
+	}
+	return &protoiface.Methods{
+		NoUnkeyedLiterals: struct{}{},
+		Flags:             protoiface.SupportMarshalDeterministic | protoiface.SupportUnmarshalDiscardUnknown,
+		Size:              size,
+		Marshal:           marshal,
+		Unmarshal:         unmarshal,
+		Merge:             nil,
+		CheckInitialized:  nil,
+	}
+}
+
 // Code generated by protoc-gen-go. DO NOT EDIT.
 // versions:
 // 	protoc-gen-go v1.27.0
@@ -863,6 +2207,7 @@ type IntentPacketData struct {
 	// Types that are assignable to Packet:
 	//
 	//	*IntentPacketData_NoData
+	//	*IntentPacketData_IntentPacketPacket
 	Packet isIntentPacketData_Packet `protobuf_oneof:"packet"`
 }
 
@@ -900,6 +2245,13 @@ func (x *IntentPacketData) GetNoData() *NoData {
 	return nil
 }
 
+func (x *IntentPacketData) GetIntentPacketPacket() *IntentPacketPacketData {
+	if x, ok := x.GetPacket().(*IntentPacketData_IntentPacketPacket); ok {
+		return x.IntentPacketPacket
+	}
+	return nil
+}
+
 type isIntentPacketData_Packet interface {
 	isIntentPacketData_Packet()
 }
@@ -908,7 +2260,13 @@ type IntentPacketData_NoData struct {
 	NoData *NoData `protobuf:"bytes,1,opt,name=noData,proto3,oneof"`
 }
 
+type IntentPacketData_IntentPacketPacket struct {
+	IntentPacketPacket *IntentPacketPacketData `protobuf:"bytes,2,opt,name=intentPacketPacket,proto3,oneof"`
+}
+
 func (*IntentPacketData_NoData) isIntentPacketData_Packet() {}
+
+func (*IntentPacketData_IntentPacketPacket) isIntentPacketData_Packet() {}
 
 type NoData struct {
 	state         protoimpl.MessageState
@@ -936,26 +2294,179 @@ func (*NoData) Descriptor() ([]byte, []int) {
 	return file_beep_intent_packet_proto_rawDescGZIP(), []int{1}
 }
 
+// IntentPacketPacketData defines a struct for the packet payload
+type IntentPacketPacketData struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	IntentType   string `protobuf:"bytes,1,opt,name=intentType,proto3" json:"intentType,omitempty"`
+	Memo         string `protobuf:"bytes,2,opt,name=memo,proto3" json:"memo,omitempty"`
+	TargetChain  string `protobuf:"bytes,3,opt,name=targetChain,proto3" json:"targetChain,omitempty"`
+	MinOutput    uint64 `protobuf:"varint,4,opt,name=minOutput,proto3" json:"minOutput,omitempty"`
+	Status       string `protobuf:"bytes,5,opt,name=status,proto3" json:"status,omitempty"`
+	Executor     string `protobuf:"bytes,6,opt,name=executor,proto3" json:"executor,omitempty"`
+	ExpiryHeight uint64 `protobuf:"varint,7,opt,name=expiryHeight,proto3" json:"expiryHeight,omitempty"`
+	Creator      string `protobuf:"bytes,8,opt,name=creator,proto3" json:"creator,omitempty"`
+}
+
+func (x *IntentPacketPacketData) Reset() {
+	*x = IntentPacketPacketData{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_beep_intent_packet_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *IntentPacketPacketData) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*IntentPacketPacketData) ProtoMessage() {}
+
+// Deprecated: Use IntentPacketPacketData.ProtoReflect.Descriptor instead.
+func (*IntentPacketPacketData) Descriptor() ([]byte, []int) {
+	return file_beep_intent_packet_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *IntentPacketPacketData) GetIntentType() string {
+	if x != nil {
+		return x.IntentType
+	}
+	return ""
+}
+
+func (x *IntentPacketPacketData) GetMemo() string {
+	if x != nil {
+		return x.Memo
+	}
+	return ""
+}
+
+func (x *IntentPacketPacketData) GetTargetChain() string {
+	if x != nil {
+		return x.TargetChain
+	}
+	return ""
+}
+
+func (x *IntentPacketPacketData) GetMinOutput() uint64 {
+	if x != nil {
+		return x.MinOutput
+	}
+	return 0
+}
+
+func (x *IntentPacketPacketData) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *IntentPacketPacketData) GetExecutor() string {
+	if x != nil {
+		return x.Executor
+	}
+	return ""
+}
+
+func (x *IntentPacketPacketData) GetExpiryHeight() uint64 {
+	if x != nil {
+		return x.ExpiryHeight
+	}
+	return 0
+}
+
+func (x *IntentPacketPacketData) GetCreator() string {
+	if x != nil {
+		return x.Creator
+	}
+	return ""
+}
+
+// IntentPacketPacketAck defines a struct for the packet acknowledgment
+type IntentPacketPacketAck struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	IntentId int32 `protobuf:"varint,1,opt,name=intentId,proto3" json:"intentId,omitempty"`
+}
+
+func (x *IntentPacketPacketAck) Reset() {
+	*x = IntentPacketPacketAck{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_beep_intent_packet_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *IntentPacketPacketAck) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*IntentPacketPacketAck) ProtoMessage() {}
+
+// Deprecated: Use IntentPacketPacketAck.ProtoReflect.Descriptor instead.
+func (*IntentPacketPacketAck) Descriptor() ([]byte, []int) {
+	return file_beep_intent_packet_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *IntentPacketPacketAck) GetIntentId() int32 {
+	if x != nil {
+		return x.IntentId
+	}
+	return 0
+}
+
 var File_beep_intent_packet_proto protoreflect.FileDescriptor
 
 var file_beep_intent_packet_proto_rawDesc = []byte{
 	0x0a, 0x18, 0x62, 0x65, 0x65, 0x70, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x2f, 0x70, 0x61,
 	0x63, 0x6b, 0x65, 0x74, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0b, 0x62, 0x65, 0x65, 0x70,
-	0x2e, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x22, 0x4b, 0x0a, 0x10, 0x49, 0x6e, 0x74, 0x65, 0x6e,
-	0x74, 0x50, 0x61, 0x63, 0x6b, 0x65, 0x74, 0x44, 0x61, 0x74, 0x61, 0x12, 0x2d, 0x0a, 0x06, 0x6e,
-	0x6f, 0x44, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x13, 0x2e, 0x62, 0x65,
-	0x65, 0x70, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x2e, 0x4e, 0x6f, 0x44, 0x61, 0x74, 0x61,
-	0x48, 0x00, 0x52, 0x06, 0x6e, 0x6f, 0x44, 0x61, 0x74, 0x61, 0x42, 0x08, 0x0a, 0x06, 0x70, 0x61,
-	0x63, 0x6b, 0x65, 0x74, 0x22, 0x08, 0x0a, 0x06, 0x4e, 0x6f, 0x44, 0x61, 0x74, 0x61, 0x42, 0x81,
-	0x01, 0x0a, 0x0f, 0x63, 0x6f, 0x6d, 0x2e, 0x62, 0x65, 0x65, 0x70, 0x2e, 0x69, 0x6e, 0x74, 0x65,
-	0x6e, 0x74, 0x42, 0x0b, 0x50, 0x61, 0x63, 0x6b, 0x65, 0x74, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50,
-	0x01, 0x5a, 0x14, 0x62, 0x65, 0x65, 0x70, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x62, 0x65, 0x65, 0x70,
-	0x2f, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0xa2, 0x02, 0x03, 0x42, 0x49, 0x58, 0xaa, 0x02, 0x0b,
-	0x42, 0x65, 0x65, 0x70, 0x2e, 0x49, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0xca, 0x02, 0x0b, 0x42, 0x65,
-	0x65, 0x70, 0x5c, 0x49, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0xe2, 0x02, 0x17, 0x42, 0x65, 0x65, 0x70,
-	0x5c, 0x49, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64,
-	0x61, 0x74, 0x61, 0xea, 0x02, 0x0c, 0x42, 0x65, 0x65, 0x70, 0x3a, 0x3a, 0x49, 0x6e, 0x74, 0x65,
-	0x6e, 0x74, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x2e, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x22, 0xa2, 0x01, 0x0a, 0x10, 0x49, 0x6e, 0x74, 0x65,
+	0x6e, 0x74, 0x50, 0x61, 0x63, 0x6b, 0x65, 0x74, 0x44, 0x61, 0x74, 0x61, 0x12, 0x2d, 0x0a, 0x06,
+	0x6e, 0x6f, 0x44, 0x61, 0x74, 0x61, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x13, 0x2e, 0x62,
+	0x65, 0x65, 0x70, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x2e, 0x4e, 0x6f, 0x44, 0x61, 0x74,
+	0x61, 0x48, 0x00, 0x52, 0x06, 0x6e, 0x6f, 0x44, 0x61, 0x74, 0x61, 0x12, 0x55, 0x0a, 0x12, 0x69,
+	0x6e, 0x74, 0x65, 0x6e, 0x74, 0x50, 0x61, 0x63, 0x6b, 0x65, 0x74, 0x50, 0x61, 0x63, 0x6b, 0x65,
+	0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x62, 0x65, 0x65, 0x70, 0x2e, 0x69,
+	0x6e, 0x74, 0x65, 0x6e, 0x74, 0x2e, 0x49, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x50, 0x61, 0x63, 0x6b,
+	0x65, 0x74, 0x50, 0x61, 0x63, 0x6b, 0x65, 0x74, 0x44, 0x61, 0x74, 0x61, 0x48, 0x00, 0x52, 0x12,
+	0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x50, 0x61, 0x63, 0x6b, 0x65, 0x74, 0x50, 0x61, 0x63, 0x6b,
+	0x65, 0x74, 0x42, 0x08, 0x0a, 0x06, 0x70, 0x61, 0x63, 0x6b, 0x65, 0x74, 0x22, 0x08, 0x0a, 0x06,
+	0x4e, 0x6f, 0x44, 0x61, 0x74, 0x61, 0x22, 0xfe, 0x01, 0x0a, 0x16, 0x49, 0x6e, 0x74, 0x65, 0x6e,
+	0x74, 0x50, 0x61, 0x63, 0x6b, 0x65, 0x74, 0x50, 0x61, 0x63, 0x6b, 0x65, 0x74, 0x44, 0x61, 0x74,
+	0x61, 0x12, 0x1e, 0x0a, 0x0a, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70, 0x65, 0x18,
+	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x54, 0x79, 0x70,
+	0x65, 0x12, 0x12, 0x0a, 0x04, 0x6d, 0x65, 0x6d, 0x6f, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x04, 0x6d, 0x65, 0x6d, 0x6f, 0x12, 0x20, 0x0a, 0x0b, 0x74, 0x61, 0x72, 0x67, 0x65, 0x74, 0x43,
+	0x68, 0x61, 0x69, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x74, 0x61, 0x72, 0x67,
+	0x65, 0x74, 0x43, 0x68, 0x61, 0x69, 0x6e, 0x12, 0x1c, 0x0a, 0x09, 0x6d, 0x69, 0x6e, 0x4f, 0x75,
+	0x74, 0x70, 0x75, 0x74, 0x18, 0x04, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x6d, 0x69, 0x6e, 0x4f,
+	0x75, 0x74, 0x70, 0x75, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18,
+	0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x1a, 0x0a,
+	0x08, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74, 0x6f, 0x72, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52,
+	0x08, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74, 0x6f, 0x72, 0x12, 0x22, 0x0a, 0x0c, 0x65, 0x78, 0x70,
+	0x69, 0x72, 0x79, 0x48, 0x65, 0x69, 0x67, 0x68, 0x74, 0x18, 0x07, 0x20, 0x01, 0x28, 0x04, 0x52,
+	0x0c, 0x65, 0x78, 0x70, 0x69, 0x72, 0x79, 0x48, 0x65, 0x69, 0x67, 0x68, 0x74, 0x12, 0x18, 0x0a,
+	0x07, 0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x08, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07,
+	0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x22, 0x33, 0x0a, 0x15, 0x49, 0x6e, 0x74, 0x65, 0x6e,
+	0x74, 0x50, 0x61, 0x63, 0x6b, 0x65, 0x74, 0x50, 0x61, 0x63, 0x6b, 0x65, 0x74, 0x41, 0x63, 0x6b,
+	0x12, 0x1a, 0x0a, 0x08, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01,
+	0x28, 0x05, 0x52, 0x08, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x49, 0x64, 0x42, 0x81, 0x01, 0x0a,
+	0x0f, 0x63, 0x6f, 0x6d, 0x2e, 0x62, 0x65, 0x65, 0x70, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74,
+	0x42, 0x0b, 0x50, 0x61, 0x63, 0x6b, 0x65, 0x74, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a,
+	0x14, 0x62, 0x65, 0x65, 0x70, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x62, 0x65, 0x65, 0x70, 0x2f, 0x69,
+	0x6e, 0x74, 0x65, 0x6e, 0x74, 0xa2, 0x02, 0x03, 0x42, 0x49, 0x58, 0xaa, 0x02, 0x0b, 0x42, 0x65,
+	0x65, 0x70, 0x2e, 0x49, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0xca, 0x02, 0x0b, 0x42, 0x65, 0x65, 0x70,
+	0x5c, 0x49, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0xe2, 0x02, 0x17, 0x42, 0x65, 0x65, 0x70, 0x5c, 0x49,
+	0x6e, 0x74, 0x65, 0x6e, 0x74, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74,
+	0x61, 0xea, 0x02, 0x0c, 0x42, 0x65, 0x65, 0x70, 0x3a, 0x3a, 0x49, 0x6e, 0x74, 0x65, 0x6e, 0x74,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -970,18 +2481,21 @@ func file_beep_intent_packet_proto_rawDescGZIP() []byte {
 	return file_beep_intent_packet_proto_rawDescData
 }
 
-var file_beep_intent_packet_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_beep_intent_packet_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_beep_intent_packet_proto_goTypes = []interface{}{
-	(*IntentPacketData)(nil), // 0: beep.intent.IntentPacketData
-	(*NoData)(nil),           // 1: beep.intent.NoData
+	(*IntentPacketData)(nil),       // 0: beep.intent.IntentPacketData
+	(*NoData)(nil),                 // 1: beep.intent.NoData
+	(*IntentPacketPacketData)(nil), // 2: beep.intent.IntentPacketPacketData
+	(*IntentPacketPacketAck)(nil),  // 3: beep.intent.IntentPacketPacketAck
 }
 var file_beep_intent_packet_proto_depIdxs = []int32{
 	1, // 0: beep.intent.IntentPacketData.noData:type_name -> beep.intent.NoData
-	1, // [1:1] is the sub-list for method output_type
-	1, // [1:1] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	2, // 1: beep.intent.IntentPacketData.intentPacketPacket:type_name -> beep.intent.IntentPacketPacketData
+	2, // [2:2] is the sub-list for method output_type
+	2, // [2:2] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_beep_intent_packet_proto_init() }
@@ -1014,9 +2528,34 @@ func file_beep_intent_packet_proto_init() {
 				return nil
 			}
 		}
+		file_beep_intent_packet_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*IntentPacketPacketData); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_beep_intent_packet_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*IntentPacketPacketAck); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	file_beep_intent_packet_proto_msgTypes[0].OneofWrappers = []interface{}{
 		(*IntentPacketData_NoData)(nil),
+		(*IntentPacketData_IntentPacketPacket)(nil),
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1024,7 +2563,7 @@ func file_beep_intent_packet_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_beep_intent_packet_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

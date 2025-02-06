@@ -35,6 +35,8 @@ type (
 
 		accountKeeper types.AccountKeeper
 		bankKeeper    types.BankKeeper
+
+		transferKeeper types.TransferKeeper
 	}
 )
 

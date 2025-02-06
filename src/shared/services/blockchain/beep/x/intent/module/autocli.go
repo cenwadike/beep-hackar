@@ -41,9 +41,9 @@ func (am AppModule) AutoCLIOptions() *autocliv1.ModuleOptions {
 				},
 				{
 					RpcMethod:      "CreateIntent",
-					Use:            "create-intent [sender] [intent-type] [memo] [target-chain] [min-output]",
+					Use:            "create-intent [inputToken] [outputToken] [intent-type] [memo] [target-chain] [min-output]",
 					Short:          "Send a create-intent tx",
-					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "intentType"}, {ProtoField: "memo"}, {ProtoField: "targetChain"}, {ProtoField: "minOutput"}},
+					PositionalArgs: []*autocliv1.PositionalArgDescriptor{{ProtoField: "inputToken"}, {ProtoField: "outputToken"}, {ProtoField: "intentType"}, {ProtoField: "memo"}, {ProtoField: "targetChain"}, {ProtoField: "minOutput"}},
 				},
 				{
 					RpcMethod:      "AcceptIntent",

@@ -16,6 +16,8 @@ var (
 	md_Intents              protoreflect.MessageDescriptor
 	fd_Intents_id           protoreflect.FieldDescriptor
 	fd_Intents_creator      protoreflect.FieldDescriptor
+	fd_Intents_inputToken   protoreflect.FieldDescriptor
+	fd_Intents_outputToken  protoreflect.FieldDescriptor
 	fd_Intents_actionType   protoreflect.FieldDescriptor
 	fd_Intents_memo         protoreflect.FieldDescriptor
 	fd_Intents_targetChain  protoreflect.FieldDescriptor
@@ -30,6 +32,8 @@ func init() {
 	md_Intents = File_beep_intent_intents_proto.Messages().ByName("Intents")
 	fd_Intents_id = md_Intents.Fields().ByName("id")
 	fd_Intents_creator = md_Intents.Fields().ByName("creator")
+	fd_Intents_inputToken = md_Intents.Fields().ByName("inputToken")
+	fd_Intents_outputToken = md_Intents.Fields().ByName("outputToken")
 	fd_Intents_actionType = md_Intents.Fields().ByName("actionType")
 	fd_Intents_memo = md_Intents.Fields().ByName("memo")
 	fd_Intents_targetChain = md_Intents.Fields().ByName("targetChain")
@@ -116,6 +120,18 @@ func (x *fastReflection_Intents) Range(f func(protoreflect.FieldDescriptor, prot
 			return
 		}
 	}
+	if x.InputToken != "" {
+		value := protoreflect.ValueOfString(x.InputToken)
+		if !f(fd_Intents_inputToken, value) {
+			return
+		}
+	}
+	if x.OutputToken != "" {
+		value := protoreflect.ValueOfString(x.OutputToken)
+		if !f(fd_Intents_outputToken, value) {
+			return
+		}
+	}
 	if x.ActionType != "" {
 		value := protoreflect.ValueOfString(x.ActionType)
 		if !f(fd_Intents_actionType, value) {
@@ -177,6 +193,10 @@ func (x *fastReflection_Intents) Has(fd protoreflect.FieldDescriptor) bool {
 		return x.Id != uint64(0)
 	case "beep.intent.Intents.creator":
 		return x.Creator != ""
+	case "beep.intent.Intents.inputToken":
+		return x.InputToken != ""
+	case "beep.intent.Intents.outputToken":
+		return x.OutputToken != ""
 	case "beep.intent.Intents.actionType":
 		return x.ActionType != ""
 	case "beep.intent.Intents.memo":
@@ -211,6 +231,10 @@ func (x *fastReflection_Intents) Clear(fd protoreflect.FieldDescriptor) {
 		x.Id = uint64(0)
 	case "beep.intent.Intents.creator":
 		x.Creator = ""
+	case "beep.intent.Intents.inputToken":
+		x.InputToken = ""
+	case "beep.intent.Intents.outputToken":
+		x.OutputToken = ""
 	case "beep.intent.Intents.actionType":
 		x.ActionType = ""
 	case "beep.intent.Intents.memo":
@@ -246,6 +270,12 @@ func (x *fastReflection_Intents) Get(descriptor protoreflect.FieldDescriptor) pr
 		return protoreflect.ValueOfUint64(value)
 	case "beep.intent.Intents.creator":
 		value := x.Creator
+		return protoreflect.ValueOfString(value)
+	case "beep.intent.Intents.inputToken":
+		value := x.InputToken
+		return protoreflect.ValueOfString(value)
+	case "beep.intent.Intents.outputToken":
+		value := x.OutputToken
 		return protoreflect.ValueOfString(value)
 	case "beep.intent.Intents.actionType":
 		value := x.ActionType
@@ -292,6 +322,10 @@ func (x *fastReflection_Intents) Set(fd protoreflect.FieldDescriptor, value prot
 		x.Id = value.Uint()
 	case "beep.intent.Intents.creator":
 		x.Creator = value.Interface().(string)
+	case "beep.intent.Intents.inputToken":
+		x.InputToken = value.Interface().(string)
+	case "beep.intent.Intents.outputToken":
+		x.OutputToken = value.Interface().(string)
 	case "beep.intent.Intents.actionType":
 		x.ActionType = value.Interface().(string)
 	case "beep.intent.Intents.memo":
@@ -330,6 +364,10 @@ func (x *fastReflection_Intents) Mutable(fd protoreflect.FieldDescriptor) protor
 		panic(fmt.Errorf("field id of message beep.intent.Intents is not mutable"))
 	case "beep.intent.Intents.creator":
 		panic(fmt.Errorf("field creator of message beep.intent.Intents is not mutable"))
+	case "beep.intent.Intents.inputToken":
+		panic(fmt.Errorf("field inputToken of message beep.intent.Intents is not mutable"))
+	case "beep.intent.Intents.outputToken":
+		panic(fmt.Errorf("field outputToken of message beep.intent.Intents is not mutable"))
 	case "beep.intent.Intents.actionType":
 		panic(fmt.Errorf("field actionType of message beep.intent.Intents is not mutable"))
 	case "beep.intent.Intents.memo":
@@ -360,6 +398,10 @@ func (x *fastReflection_Intents) NewField(fd protoreflect.FieldDescriptor) proto
 	case "beep.intent.Intents.id":
 		return protoreflect.ValueOfUint64(uint64(0))
 	case "beep.intent.Intents.creator":
+		return protoreflect.ValueOfString("")
+	case "beep.intent.Intents.inputToken":
+		return protoreflect.ValueOfString("")
+	case "beep.intent.Intents.outputToken":
 		return protoreflect.ValueOfString("")
 	case "beep.intent.Intents.actionType":
 		return protoreflect.ValueOfString("")
@@ -451,6 +493,14 @@ func (x *fastReflection_Intents) ProtoMethods() *protoiface.Methods {
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
 		}
+		l = len(x.InputToken)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
+		l = len(x.OutputToken)
+		if l > 0 {
+			n += 1 + l + runtime.Sov(uint64(l))
+		}
 		l = len(x.ActionType)
 		if l > 0 {
 			n += 1 + l + runtime.Sov(uint64(l))
@@ -511,43 +561,57 @@ func (x *fastReflection_Intents) ProtoMethods() *protoiface.Methods {
 			copy(dAtA[i:], x.Executor)
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Executor)))
 			i--
-			dAtA[i] = 0x4a
+			dAtA[i] = 0x5a
 		}
 		if len(x.Status) > 0 {
 			i -= len(x.Status)
 			copy(dAtA[i:], x.Status)
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Status)))
 			i--
-			dAtA[i] = 0x42
+			dAtA[i] = 0x52
 		}
 		if x.ExpiryHeight != 0 {
 			i = runtime.EncodeVarint(dAtA, i, uint64(x.ExpiryHeight))
 			i--
-			dAtA[i] = 0x38
+			dAtA[i] = 0x48
 		}
 		if x.MinOutput != 0 {
 			i = runtime.EncodeVarint(dAtA, i, uint64(x.MinOutput))
 			i--
-			dAtA[i] = 0x30
+			dAtA[i] = 0x40
 		}
 		if len(x.TargetChain) > 0 {
 			i -= len(x.TargetChain)
 			copy(dAtA[i:], x.TargetChain)
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.TargetChain)))
 			i--
-			dAtA[i] = 0x2a
+			dAtA[i] = 0x3a
 		}
 		if len(x.Memo) > 0 {
 			i -= len(x.Memo)
 			copy(dAtA[i:], x.Memo)
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.Memo)))
 			i--
-			dAtA[i] = 0x22
+			dAtA[i] = 0x32
 		}
 		if len(x.ActionType) > 0 {
 			i -= len(x.ActionType)
 			copy(dAtA[i:], x.ActionType)
 			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.ActionType)))
+			i--
+			dAtA[i] = 0x2a
+		}
+		if len(x.OutputToken) > 0 {
+			i -= len(x.OutputToken)
+			copy(dAtA[i:], x.OutputToken)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.OutputToken)))
+			i--
+			dAtA[i] = 0x22
+		}
+		if len(x.InputToken) > 0 {
+			i -= len(x.InputToken)
+			copy(dAtA[i:], x.InputToken)
+			i = runtime.EncodeVarint(dAtA, i, uint64(len(x.InputToken)))
 			i--
 			dAtA[i] = 0x1a
 		}
@@ -665,6 +729,70 @@ func (x *fastReflection_Intents) ProtoMethods() *protoiface.Methods {
 				iNdEx = postIndex
 			case 3:
 				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field InputToken", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.InputToken = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 4:
+				if wireType != 2 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field OutputToken", wireType)
+				}
+				var stringLen uint64
+				for shift := uint(0); ; shift += 7 {
+					if shift >= 64 {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrIntOverflow
+					}
+					if iNdEx >= l {
+						return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+					}
+					b := dAtA[iNdEx]
+					iNdEx++
+					stringLen |= uint64(b&0x7F) << shift
+					if b < 0x80 {
+						break
+					}
+				}
+				intStringLen := int(stringLen)
+				if intStringLen < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				postIndex := iNdEx + intStringLen
+				if postIndex < 0 {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, runtime.ErrInvalidLength
+				}
+				if postIndex > l {
+					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, io.ErrUnexpectedEOF
+				}
+				x.OutputToken = string(dAtA[iNdEx:postIndex])
+				iNdEx = postIndex
+			case 5:
+				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ActionType", wireType)
 				}
 				var stringLen uint64
@@ -695,7 +823,7 @@ func (x *fastReflection_Intents) ProtoMethods() *protoiface.Methods {
 				}
 				x.ActionType = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 4:
+			case 6:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Memo", wireType)
 				}
@@ -727,7 +855,7 @@ func (x *fastReflection_Intents) ProtoMethods() *protoiface.Methods {
 				}
 				x.Memo = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 5:
+			case 7:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field TargetChain", wireType)
 				}
@@ -759,7 +887,7 @@ func (x *fastReflection_Intents) ProtoMethods() *protoiface.Methods {
 				}
 				x.TargetChain = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 6:
+			case 8:
 				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field MinOutput", wireType)
 				}
@@ -778,7 +906,7 @@ func (x *fastReflection_Intents) ProtoMethods() *protoiface.Methods {
 						break
 					}
 				}
-			case 7:
+			case 9:
 				if wireType != 0 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field ExpiryHeight", wireType)
 				}
@@ -797,7 +925,7 @@ func (x *fastReflection_Intents) ProtoMethods() *protoiface.Methods {
 						break
 					}
 				}
-			case 8:
+			case 10:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Status", wireType)
 				}
@@ -829,7 +957,7 @@ func (x *fastReflection_Intents) ProtoMethods() *protoiface.Methods {
 				}
 				x.Status = string(dAtA[iNdEx:postIndex])
 				iNdEx = postIndex
-			case 9:
+			case 11:
 				if wireType != 2 {
 					return protoiface.UnmarshalOutput{NoUnkeyedLiterals: input.NoUnkeyedLiterals, Flags: input.Flags}, fmt.Errorf("proto: wrong wireType = %d for field Executor", wireType)
 				}
@@ -916,13 +1044,15 @@ type Intents struct {
 
 	Id           uint64 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Creator      string `protobuf:"bytes,2,opt,name=creator,proto3" json:"creator,omitempty"`
-	ActionType   string `protobuf:"bytes,3,opt,name=actionType,proto3" json:"actionType,omitempty"`
-	Memo         string `protobuf:"bytes,4,opt,name=memo,proto3" json:"memo,omitempty"`
-	TargetChain  string `protobuf:"bytes,5,opt,name=targetChain,proto3" json:"targetChain,omitempty"`
-	MinOutput    uint64 `protobuf:"varint,6,opt,name=minOutput,proto3" json:"minOutput,omitempty"`
-	ExpiryHeight uint64 `protobuf:"varint,7,opt,name=expiryHeight,proto3" json:"expiryHeight,omitempty"`
-	Status       string `protobuf:"bytes,8,opt,name=status,proto3" json:"status,omitempty"`
-	Executor     string `protobuf:"bytes,9,opt,name=executor,proto3" json:"executor,omitempty"`
+	InputToken   string `protobuf:"bytes,3,opt,name=inputToken,proto3" json:"inputToken,omitempty"`
+	OutputToken  string `protobuf:"bytes,4,opt,name=outputToken,proto3" json:"outputToken,omitempty"`
+	ActionType   string `protobuf:"bytes,5,opt,name=actionType,proto3" json:"actionType,omitempty"`
+	Memo         string `protobuf:"bytes,6,opt,name=memo,proto3" json:"memo,omitempty"`
+	TargetChain  string `protobuf:"bytes,7,opt,name=targetChain,proto3" json:"targetChain,omitempty"`
+	MinOutput    uint64 `protobuf:"varint,8,opt,name=minOutput,proto3" json:"minOutput,omitempty"`
+	ExpiryHeight uint64 `protobuf:"varint,9,opt,name=expiryHeight,proto3" json:"expiryHeight,omitempty"`
+	Status       string `protobuf:"bytes,10,opt,name=status,proto3" json:"status,omitempty"`
+	Executor     string `protobuf:"bytes,11,opt,name=executor,proto3" json:"executor,omitempty"`
 }
 
 func (x *Intents) Reset() {
@@ -955,6 +1085,20 @@ func (x *Intents) GetId() uint64 {
 func (x *Intents) GetCreator() string {
 	if x != nil {
 		return x.Creator
+	}
+	return ""
+}
+
+func (x *Intents) GetInputToken() string {
+	if x != nil {
+		return x.InputToken
+	}
+	return ""
+}
+
+func (x *Intents) GetOutputToken() string {
+	if x != nil {
+		return x.OutputToken
 	}
 	return ""
 }
@@ -1013,32 +1157,36 @@ var File_beep_intent_intents_proto protoreflect.FileDescriptor
 var file_beep_intent_intents_proto_rawDesc = []byte{
 	0x0a, 0x19, 0x62, 0x65, 0x65, 0x70, 0x2f, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x2f, 0x69, 0x6e,
 	0x74, 0x65, 0x6e, 0x74, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0b, 0x62, 0x65, 0x65,
-	0x70, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x22, 0xff, 0x01, 0x0a, 0x07, 0x49, 0x6e, 0x74,
+	0x70, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x22, 0xc1, 0x02, 0x0a, 0x07, 0x49, 0x6e, 0x74,
 	0x65, 0x6e, 0x74, 0x73, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x04,
 	0x52, 0x02, 0x69, 0x64, 0x12, 0x18, 0x0a, 0x07, 0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x18,
 	0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x63, 0x72, 0x65, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x1e,
-	0x0a, 0x0a, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x18, 0x03, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x0a, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x12, 0x12,
-	0x0a, 0x04, 0x6d, 0x65, 0x6d, 0x6f, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6d, 0x65,
-	0x6d, 0x6f, 0x12, 0x20, 0x0a, 0x0b, 0x74, 0x61, 0x72, 0x67, 0x65, 0x74, 0x43, 0x68, 0x61, 0x69,
-	0x6e, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x74, 0x61, 0x72, 0x67, 0x65, 0x74, 0x43,
-	0x68, 0x61, 0x69, 0x6e, 0x12, 0x1c, 0x0a, 0x09, 0x6d, 0x69, 0x6e, 0x4f, 0x75, 0x74, 0x70, 0x75,
-	0x74, 0x18, 0x06, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x6d, 0x69, 0x6e, 0x4f, 0x75, 0x74, 0x70,
-	0x75, 0x74, 0x12, 0x22, 0x0a, 0x0c, 0x65, 0x78, 0x70, 0x69, 0x72, 0x79, 0x48, 0x65, 0x69, 0x67,
-	0x68, 0x74, 0x18, 0x07, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0c, 0x65, 0x78, 0x70, 0x69, 0x72, 0x79,
-	0x48, 0x65, 0x69, 0x67, 0x68, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73,
-	0x18, 0x08, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x1a,
-	0x0a, 0x08, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74, 0x6f, 0x72, 0x18, 0x09, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x08, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74, 0x6f, 0x72, 0x42, 0x82, 0x01, 0x0a, 0x0f, 0x63,
-	0x6f, 0x6d, 0x2e, 0x62, 0x65, 0x65, 0x70, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x42, 0x0c,
-	0x49, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01, 0x5a, 0x14,
-	0x62, 0x65, 0x65, 0x70, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x62, 0x65, 0x65, 0x70, 0x2f, 0x69, 0x6e,
-	0x74, 0x65, 0x6e, 0x74, 0xa2, 0x02, 0x03, 0x42, 0x49, 0x58, 0xaa, 0x02, 0x0b, 0x42, 0x65, 0x65,
-	0x70, 0x2e, 0x49, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0xca, 0x02, 0x0b, 0x42, 0x65, 0x65, 0x70, 0x5c,
-	0x49, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0xe2, 0x02, 0x17, 0x42, 0x65, 0x65, 0x70, 0x5c, 0x49, 0x6e,
-	0x74, 0x65, 0x6e, 0x74, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61, 0x74, 0x61,
-	0xea, 0x02, 0x0c, 0x42, 0x65, 0x65, 0x70, 0x3a, 0x3a, 0x49, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x0a, 0x0a, 0x69, 0x6e, 0x70, 0x75, 0x74, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x03, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x0a, 0x69, 0x6e, 0x70, 0x75, 0x74, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x12, 0x20,
+	0x0a, 0x0b, 0x6f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x54, 0x6f, 0x6b, 0x65, 0x6e, 0x18, 0x04, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x0b, 0x6f, 0x75, 0x74, 0x70, 0x75, 0x74, 0x54, 0x6f, 0x6b, 0x65, 0x6e,
+	0x12, 0x1e, 0x0a, 0x0a, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x54, 0x79, 0x70, 0x65, 0x18, 0x05,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x61, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x54, 0x79, 0x70, 0x65,
+	0x12, 0x12, 0x0a, 0x04, 0x6d, 0x65, 0x6d, 0x6f, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04,
+	0x6d, 0x65, 0x6d, 0x6f, 0x12, 0x20, 0x0a, 0x0b, 0x74, 0x61, 0x72, 0x67, 0x65, 0x74, 0x43, 0x68,
+	0x61, 0x69, 0x6e, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x74, 0x61, 0x72, 0x67, 0x65,
+	0x74, 0x43, 0x68, 0x61, 0x69, 0x6e, 0x12, 0x1c, 0x0a, 0x09, 0x6d, 0x69, 0x6e, 0x4f, 0x75, 0x74,
+	0x70, 0x75, 0x74, 0x18, 0x08, 0x20, 0x01, 0x28, 0x04, 0x52, 0x09, 0x6d, 0x69, 0x6e, 0x4f, 0x75,
+	0x74, 0x70, 0x75, 0x74, 0x12, 0x22, 0x0a, 0x0c, 0x65, 0x78, 0x70, 0x69, 0x72, 0x79, 0x48, 0x65,
+	0x69, 0x67, 0x68, 0x74, 0x18, 0x09, 0x20, 0x01, 0x28, 0x04, 0x52, 0x0c, 0x65, 0x78, 0x70, 0x69,
+	0x72, 0x79, 0x48, 0x65, 0x69, 0x67, 0x68, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x73, 0x74, 0x61, 0x74,
+	0x75, 0x73, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x73, 0x74, 0x61, 0x74, 0x75, 0x73,
+	0x12, 0x1a, 0x0a, 0x08, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74, 0x6f, 0x72, 0x18, 0x0b, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x08, 0x65, 0x78, 0x65, 0x63, 0x75, 0x74, 0x6f, 0x72, 0x42, 0x82, 0x01, 0x0a,
+	0x0f, 0x63, 0x6f, 0x6d, 0x2e, 0x62, 0x65, 0x65, 0x70, 0x2e, 0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74,
+	0x42, 0x0c, 0x49, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x73, 0x50, 0x72, 0x6f, 0x74, 0x6f, 0x50, 0x01,
+	0x5a, 0x14, 0x62, 0x65, 0x65, 0x70, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x62, 0x65, 0x65, 0x70, 0x2f,
+	0x69, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0xa2, 0x02, 0x03, 0x42, 0x49, 0x58, 0xaa, 0x02, 0x0b, 0x42,
+	0x65, 0x65, 0x70, 0x2e, 0x49, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0xca, 0x02, 0x0b, 0x42, 0x65, 0x65,
+	0x70, 0x5c, 0x49, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0xe2, 0x02, 0x17, 0x42, 0x65, 0x65, 0x70, 0x5c,
+	0x49, 0x6e, 0x74, 0x65, 0x6e, 0x74, 0x5c, 0x47, 0x50, 0x42, 0x4d, 0x65, 0x74, 0x61, 0x64, 0x61,
+	0x74, 0x61, 0xea, 0x02, 0x0c, 0x42, 0x65, 0x65, 0x70, 0x3a, 0x3a, 0x49, 0x6e, 0x74, 0x65, 0x6e,
+	0x74, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
