@@ -7,7 +7,7 @@ import { TransactionStatus, TransactionTypeEnum } from "../../../shared/types/in
 import { modifiedPhoneNumber } from "../../../shared/constant/mobileNumberFormatter";
 
 
-class TransferService {
+class WithdrawalService {
     private _userModel: IUserAccountModel
     private _transactionModel: ITransactionModel
     private _encryptionRepo: EncryptionInterface
@@ -37,20 +37,20 @@ class TransferService {
         return `CON Enter Amount`;
     }
 
-    public enterAddress = async () => {
-        return `CON Enter wallet Address `;
+    public enterAccountNumber = async () => {
+        return `CON Enter Account Number`;
     }
 
-    public transfer = async (phoneNumber: string, amount: string, address: string) => {
+    public withdraw = async (phoneNumber: string, amount: string, accountNumber: string) => {
         const checkUser = await this._userModel.checkIfExist({phoneNumber})
         if (!checkUser.data) return `END Unable to get your account`;
 
-        // to do
-        // check blockchain balnce
+        if (checkUser.data.balance < parseFloat(amount)) return `END Insufficient bNGN balance`;
+
+        const  {id} = checkUser.data
 
         // to do
-        // do login to transfer bToken to other wallet
-
+        // check withdrawal login
  
 
         return `END Transaction in progress`;
@@ -66,4 +66,4 @@ class TransferService {
     }
 }
 
-export default TransferService
+export default WithdrawalService

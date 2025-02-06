@@ -6,8 +6,7 @@ import { sendSms } from "../../../shared/services/sms/termii";
 import { TransactionStatus, TransactionTypeEnum } from "../../../shared/types/interfaces/responses/user/transaction.response";
 import { modifiedPhoneNumber } from "../../../shared/constant/mobileNumberFormatter";
 
-
-class TransferService {
+class ConvertService {
     private _userModel: IUserAccountModel
     private _transactionModel: ITransactionModel
     private _encryptionRepo: EncryptionInterface
@@ -37,21 +36,49 @@ class TransferService {
         return `CON Enter Amount`;
     }
 
-    public enterAddress = async () => {
-        return `CON Enter wallet Address `;
+    public convertBNGNToBToken = async (phoneNumber: string, amount: string) => {
+        const checkUser = await this._userModel.checkIfExist({phoneNumber})
+        if (!checkUser.data) return `END Unable to get your account`;
+
+        if (checkUser.data.balance < parseFloat(amount)) return `END Insufficient bNGN balance`;
+
+        const  {id} = checkUser.data
+
+        // to do
+        // do login to convert bNaira to bToken
+
+        const newBalance = checkUser.data.balance - parseFloat(amount)
+
+        const reference = this.generateUniqueCode()
+        const newTransaction = await this._transactionModel.createTransactionToDB({userId: id, amount: parseFloat(amount), reference: reference, type: TransactionTypeEnum.DEBIT, status: TransactionStatus.COMPLETED})
+        if (!newTransaction.data)  return `END Unable to create transaction`;
+
+        const updateBalance = await this._userModel.updateAccount(phoneNumber, {balance: newBalance})
+        if (!updateBalance.data) return `END Unable to carry out Transaction`;
+
+        return `END Transaction in progress`;
+      
     }
 
-    public transfer = async (phoneNumber: string, amount: string, address: string) => {
+    public convertBTokenToBNGN = async (phoneNumber: string, amount: string) => {
         const checkUser = await this._userModel.checkIfExist({phoneNumber})
         if (!checkUser.data) return `END Unable to get your account`;
 
         // to do
         // check blockchain balnce
+        const  {id} = checkUser.data
 
         // to do
-        // do login to transfer bToken to other wallet
+        // do login to convert bNaira to bToken
 
- 
+        const newBalance = checkUser.data.balance + parseFloat(amount)
+
+        const reference = this.generateUniqueCode()
+        const newTransaction = await this._transactionModel.createTransactionToDB({userId: id, amount: parseFloat(amount), reference: reference, type: TransactionTypeEnum.CREDIT, status: TransactionStatus.COMPLETED})
+        if (!newTransaction.data)  return `END Unable to create transaction`;
+
+        const updateBalance = await this._userModel.updateAccount(phoneNumber, {balance: newBalance})
+        if (!updateBalance.data) return `END Unable to carry ou Transaction`;
 
         return `END Transaction in progress`;
     }
@@ -66,4 +93,4 @@ class TransferService {
     }
 }
 
-export default TransferService
+export default ConvertService
