@@ -6,12 +6,14 @@ option go_package = "beep/x/intent/types";
 message Intents {
   uint64 id = 1;
   string creator = 2; 
-  string actionType = 3; 
-  string memo = 4; 
-  string targetChain = 5; 
-  uint64 minOutput = 6; 
-  uint64 expiryHeight = 7; 
-  string status = 8; 
-  string executor = 9; 
+  string inputToken = 3;
+  string outputToken = 4;
+  string actionType = 5; 
+  string memo = 6; 
+  string targetChain = 7; 
+  uint64 minOutput = 8; 
+  uint64 expiryHeight = 9; 
+  string status = 10; 
+  string executor = 11; 
   
 }

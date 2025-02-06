@@ -42,10 +42,12 @@ message MsgUpdateParamsResponse {}
 message MsgCreateIntent {
   option (cosmos.msg.v1.signer) = "creator";
   string creator     = 1;
-  string intentType  = 2;
-  string memo        = 3;
-  string targetChain = 4;
-  int32  minOutput   = 5;
+  string inputToken  = 2;
+  string outputToken = 3;
+  string intentType  = 4;
+  string memo        = 5;
+  string targetChain = 6;
+  int32  minOutput   = 7;
 }
 
 message MsgCreateIntentResponse {}
