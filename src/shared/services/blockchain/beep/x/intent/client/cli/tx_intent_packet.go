@@ -21,9 +21,9 @@ func CmdSendIntentPacket() *cobra.Command {
 	flagPacketTimeoutTimestamp := "packet-timeout-timestamp"
 
 	cmd := &cobra.Command{
-		Use:   "send-intent-packet [src-port] [src-channel] [action-type] [memo] [target-chain] [min-output] [status] [executor] [expiry-height]",
+		Use:   "send-intent-packet [src-port] [src-channel] [amount] [action-type] [memo] [target-chain] [min-output]",
 		Short: "Send a intentPacket over IBC",
-		Args:  cobra.ExactArgs(9),
+		Args:  cobra.ExactArgs(7),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			clientCtx, err := client.GetClientTxContext(cmd)
 			if err != nil {
@@ -34,16 +34,14 @@ func CmdSendIntentPacket() *cobra.Command {
 			srcPort := args[0]
 			srcChannel := args[1]
 
-			argActionType := args[2]
-			argMemo := args[3]
-			argTargetChain := args[4]
-			argMinOutput, err := cast.ToUint64E(args[5])
+			argAmount, err := cast.ToUint64E(args[2])
 			if err != nil {
 				return err
 			}
-			argStatus := args[6]
-			argExecutor := args[7]
-			argExpiryHeight, err := cast.ToUint64E(args[8])
+			argActionType := args[3]
+			argMemo := args[4]
+			argTargetChain := args[5]
+			argMinOutput, err := cast.ToUint64E(args[6])
 			if err != nil {
 				return err
 			}
@@ -61,7 +59,7 @@ func CmdSendIntentPacket() *cobra.Command {
 				timeoutTimestamp = consensusState.GetTimestamp() + timeoutTimestamp
 			}
 
-			msg := types.NewMsgSendIntentPacket(creator, srcPort, srcChannel, timeoutTimestamp, argActionType, argMemo, argTargetChain, argMinOutput, argStatus, argExecutor, argExpiryHeight)
+			msg := types.NewMsgSendIntentPacket(creator, srcPort, srcChannel, argAmount, timeoutTimestamp, argActionType, argMemo, argTargetChain, argMinOutput)
 			if err := msg.ValidateBasic(); err != nil {
 				return err
 			}

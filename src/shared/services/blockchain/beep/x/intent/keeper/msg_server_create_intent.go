@@ -42,12 +42,8 @@ func (k msgServer) CreateIntent(goCtx context.Context, msg *types.MsgCreateInten
 		return nil, err
 	}
 
-	// Parse address
-	// TODO: Multi-chain account parsing
-	receiverAddr, err := sdk.AccAddressFromBech32(msg.Creator)
-	if err != nil {
-		return nil, err
-	}
+	// reciever is module
+	receiverAddr := k.accountKeeper.GetModuleAddress(types.ModuleName)
 
 	// Add intents to storage
 	k.AppendIntents(ctx, intent)
@@ -56,12 +52,11 @@ func (k msgServer) CreateIntent(goCtx context.Context, msg *types.MsgCreateInten
 	// Handle input token (escrow if not IBC)
 	if isIBCAsset(intent.InputToken) {
 		ibcDenom := getIBCDenom(intent.OutputToken)
-		if err := k.verifyAndSendIBCToken(ctx, senderAddr, receiverAddr, ibcDenom, int64(intent.MinOutput), msg.Memo); err != nil {
+		if err := k.verifyAndSendIBCToken(ctx, senderAddr, receiverAddr, ibcDenom, int64(intent.Amount), msg.Memo); err != nil {
 			return nil, err
 		}
 	} else {
-		moduleAddr := k.accountKeeper.GetModuleAddress(types.ModuleName)
-		if err := k.bankKeeper.SendCoins(ctx, senderAddr, moduleAddr, sdk.NewCoins(sdk.NewCoin(intent.InputToken, math.NewInt(int64(intent.MinOutput))))); err != nil {
+		if err := k.bankKeeper.SendCoins(ctx, senderAddr, receiverAddr, sdk.NewCoins(sdk.NewCoin(intent.InputToken, math.NewInt(int64(intent.Amount))))); err != nil {
 			return nil, err
 		}
 	}
@@ -83,7 +78,7 @@ func getIBCDenom(token string) string {
 
 func (k Keeper) verifyAndSendIBCToken(ctx sdk.Context, sender sdk.AccAddress, receiver sdk.AccAddress, denom string, amount int64, memo string) error {
 	// Verify IBC channel exists and is open
-	channel, found := k.ibcKeeperFn().ChannelKeeper.GetChannel(ctx, "transfer", "channel-0")
+	channel, found := k.ibcKeeperFn().ChannelKeeper.GetChannel(ctx, "create-intent", "channel-0")
 	if !found || channel.State != channeltypes.OPEN {
 		return errorsmod.Wrap(sdkerrors.ErrUnknownRequest, "IBC channel not found or not open")
 	}

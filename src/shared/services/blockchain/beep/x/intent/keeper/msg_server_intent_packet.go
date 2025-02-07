@@ -2,6 +2,7 @@ package keeper
 
 import (
 	"context"
+	"time"
 
 	"beep/x/intent/types"
 
@@ -12,8 +13,6 @@ import (
 func (k msgServer) SendIntentPacket(goCtx context.Context, msg *types.MsgSendIntentPacket) (*types.MsgSendIntentPacketResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// TODO: logic before transmitting the packet
-
 	// Construct the packet
 	var packet types.IntentPacketPacketData
 
@@ -21,9 +20,17 @@ func (k msgServer) SendIntentPacket(goCtx context.Context, msg *types.MsgSendInt
 	packet.Memo = msg.Memo
 	packet.TargetChain = msg.TargetChain
 	packet.MinOutput = msg.MinOutput
-	packet.Status = msg.Status
-	packet.Executor = msg.Executor
-	packet.ExpiryHeight = msg.ExpiryHeight
+	packet.Creator = msg.Creator
+	packet.InputToken = msg.InputToken
+	packet.OutputToken = msg.OutputToken
+	packet.Amount = msg.Amount
+
+	// Construct IBC transfer message with a timeout of one minute
+	currentBlockTime := ctx.BlockTime()
+	timeoutTimestamp := currentBlockTime.Add(1 * time.Minute).UnixNano()
+
+	currentBlockHeight := ctx.BlockHeight()
+	timeoutTimesHeight := currentBlockHeight + 10 // ~1 minute
 
 	// Transmit the packet
 	_, err := k.TransmitIntentPacketPacket(
@@ -31,8 +38,8 @@ func (k msgServer) SendIntentPacket(goCtx context.Context, msg *types.MsgSendInt
 		packet,
 		msg.Port,
 		msg.ChannelID,
-		clienttypes.ZeroHeight(),
-		msg.TimeoutTimestamp,
+		clienttypes.NewHeight(0, uint64(timeoutTimesHeight)), // Timeout height
+		uint64(timeoutTimestamp),
 	)
 	if err != nil {
 		return nil, err

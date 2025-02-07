@@ -19,10 +19,10 @@ message IntentPacketPacketData {
   string memo         = 2;
   string targetChain  = 3;
   uint64 minOutput    = 4;
-  string status       = 5;
-  string executor     = 6;
-  uint64 expiryHeight = 7;
-  string creator      = 8;
+  string creator      = 5;
+  uint64 amount       = 6;
+  string inputToken   = 7;
+  string outputToken  = 8;
 }
 
 // IntentPacketPacketAck defines a struct for the packet acknowledgment
