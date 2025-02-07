@@ -18,46 +18,41 @@ func TestMsgSendIntentPacket_ValidateBasic(t *testing.T) {
 		{
 			name: "invalid address",
 			msg: MsgSendIntentPacket{
-				Creator:          "invalid_address",
-				Port:             "port",
-				ChannelID:        "channel-0",
-				TimeoutTimestamp: 100,
+				Creator:   "invalid_address",
+				Port:      "port",
+				ChannelID: "channel-0",
 			},
 			err: sdkerrors.ErrInvalidAddress,
 		}, {
 			name: "invalid port",
 			msg: MsgSendIntentPacket{
-				Creator:          sample.AccAddress(),
-				Port:             "",
-				ChannelID:        "channel-0",
-				TimeoutTimestamp: 100,
+				Creator:   sample.AccAddress(),
+				Port:      "",
+				ChannelID: "channel-0",
 			},
 			err: sdkerrors.ErrInvalidRequest,
 		}, {
 			name: "invalid channel",
 			msg: MsgSendIntentPacket{
-				Creator:          sample.AccAddress(),
-				Port:             "port",
-				ChannelID:        "",
-				TimeoutTimestamp: 100,
+				Creator:   sample.AccAddress(),
+				Port:      "port",
+				ChannelID: "",
 			},
 			err: sdkerrors.ErrInvalidRequest,
 		}, {
 			name: "invalid timeout",
 			msg: MsgSendIntentPacket{
-				Creator:          sample.AccAddress(),
-				Port:             "port",
-				ChannelID:        "channel-0",
-				TimeoutTimestamp: 0,
+				Creator:   sample.AccAddress(),
+				Port:      "port",
+				ChannelID: "channel-0",
 			},
 			err: sdkerrors.ErrInvalidRequest,
 		}, {
 			name: "valid message",
 			msg: MsgSendIntentPacket{
-				Creator:          sample.AccAddress(),
-				Port:             "port",
-				ChannelID:        "channel-0",
-				TimeoutTimestamp: 100,
+				Creator:   sample.AccAddress(),
+				Port:      "port",
+				ChannelID: "channel-0",
 			},
 		},
 	}

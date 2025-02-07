@@ -12,27 +12,22 @@ func NewMsgSendIntentPacket(
 	creator string,
 	port string,
 	channelID string,
+	amount uint64,
 	timeoutTimestamp uint64,
 	intentType string,
 	memo string,
 	targetChain string,
 	minOutput uint64,
-	status string,
-	executor string,
-	expiryHeight uint64,
 ) *MsgSendIntentPacket {
 	return &MsgSendIntentPacket{
-		Creator:          creator,
-		Port:             port,
-		ChannelID:        channelID,
-		TimeoutTimestamp: timeoutTimestamp,
-		IntentType:       intentType,
-		Memo:             memo,
-		TargetChain:      targetChain,
-		MinOutput:        minOutput,
-		Status:           status,
-		Executor:         executor,
-		ExpiryHeight:     expiryHeight,
+		Creator:     creator,
+		Port:        port,
+		ChannelID:   channelID,
+		IntentType:  intentType,
+		Memo:        memo,
+		TargetChain: targetChain,
+		MinOutput:   minOutput,
+		Amount:      amount,
 	}
 }
 
@@ -46,9 +41,6 @@ func (msg *MsgSendIntentPacket) ValidateBasic() error {
 	}
 	if msg.ChannelID == "" {
 		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "invalid packet channel")
-	}
-	if msg.TimeoutTimestamp == 0 {
-		return errorsmod.Wrap(sdkerrors.ErrInvalidRequest, "invalid packet timeout")
 	}
 	return nil
 }

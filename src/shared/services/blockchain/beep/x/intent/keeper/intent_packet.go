@@ -2,12 +2,16 @@ package keeper
 
 import (
 	"errors"
+	"fmt"
+	"time"
 
 	"beep/x/intent/types"
 
 	errorsmod "cosmossdk.io/errors"
+	"cosmossdk.io/math"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	ibctransfertypes "github.com/cosmos/ibc-go/v8/modules/apps/transfer/types"
 	clienttypes "github.com/cosmos/ibc-go/v8/modules/core/02-client/types"
 	channeltypes "github.com/cosmos/ibc-go/v8/modules/core/04-channel/types"
 	host "github.com/cosmos/ibc-go/v8/modules/core/24-host"
@@ -42,9 +46,74 @@ func (k Keeper) OnRecvIntentPacketPacket(ctx sdk.Context, packet channeltypes.Pa
 		return packetAck, err
 	}
 
-	// TODO: packet reception logic
+	// Get source channel and port
+	_, found := k.ibcKeeperFn().ChannelKeeper.GetChannel(ctx, packet.DestinationPort, packet.DestinationChannel)
+	if !found {
+		errMsg := fmt.Sprintf("port ID (%s) channel ID (%s)", packet.DestinationPort, packet.DestinationChannel)
+		return packetAck, errorsmod.Wrap(channeltypes.ErrChannelNotFound, errMsg)
+	}
+
+	senderAddr, err := sdk.AccAddressFromBech32(data.Creator)
+	if err != nil {
+		return packetAck, err
+	}
+
+	// reciever is module
+	receiverAddr := k.accountKeeper.GetModuleAddress(types.ModuleName)
+
+	// get expiration time
+	currentBlockTime := ctx.BlockTime()
+	expiryHeight := currentBlockTime.Add(1 * time.Minute).Unix()
+
+	// Create a new intent
+	intent := types.Intents{
+		Id:           k.GetIntentsCount(ctx),
+		Creator:      data.Creator,
+		ActionType:   data.IntentType,
+		InputToken:   data.InputToken,
+		OutputToken:  data.OutputToken,
+		TargetChain:  data.TargetChain,
+		MinOutput:    uint64(data.MinOutput),
+		Status:       "OPEN",
+		ExpiryHeight: uint64(expiryHeight), // Example expiry height
+	}
+
+	// Process the attached IBC token
+	if err := k.ProcessIBCToken(ctx, senderAddr, receiverAddr, data.InputToken, int64(data.Amount), data.Memo, packet); err != nil {
+		return packetAck, err
+	}
+
+	k.AppendIntents(ctx, intent)
 
 	return packetAck, nil
+}
+
+// ProcessIBCToken processes the attached IBC token in the packet
+func (k Keeper) ProcessIBCToken(ctx sdk.Context, sender, receiver sdk.AccAddress, inputToken string, amount int64, memo string, packet channeltypes.Packet) error {
+	// Construct IBC transfer message with a timeout of one minute
+	currentBlockTime := ctx.BlockTime()
+	timeoutTimestamp := currentBlockTime.Add(1 * time.Minute).UnixNano()
+
+	currentBlockHeight := ctx.BlockHeight()
+	timeoutTimesHeight := currentBlockHeight + 10 // ~1 minute
+
+	// Construct IBC transfer message
+	transferMsg := ibctransfertypes.NewMsgTransfer(
+		"transfer",  // Source port
+		"channel-0", // Source channel
+		sdk.NewCoin(inputToken, math.NewInt(amount)), // Amount
+		sender.String(),
+		receiver.String(),
+		clienttypes.NewHeight(0, uint64(timeoutTimesHeight)), // Timeout height
+		uint64(timeoutTimestamp),                             // Timeout timestamp
+		memo,
+	)
+
+	if _, err := k.transferKeeper.Transfer(ctx, transferMsg); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // OnAcknowledgementIntentPacketPacket responds to the success or failure of a packet

@@ -15,5 +15,5 @@ message Intents {
   uint64 expiryHeight = 9; 
   string status = 10; 
   string executor = 11; 
-  
+  uint64 amount = 12;
 }

@@ -62,17 +62,16 @@ message MsgAcceptIntentResponse {}
 
 message MsgSendIntentPacket {
   option (cosmos.msg.v1.signer) = "creator";
-  string intentType       =  5;
-  string memo             =  6;
-  string targetChain      =  7;
-  uint64 minOutput        =  8;
-  string status           =  9;
-  string executor         = 10;
-  uint64 expiryHeight     = 11;
+  string intentType       =  4;
+  string memo             =  5;
+  string targetChain      =  6;
+  uint64 minOutput        =  7;
+  string inputToken       = 8;
+  string outputToken      = 9;
+  uint64 amount           = 10;
   string creator          =  1;
   string port             =  2;
   string channelID        =  3;
-  uint64 timeoutTimestamp =  4;
 }
 
 message MsgSendIntentPacketResponse {}
