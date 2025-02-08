@@ -48,6 +48,7 @@ message MsgCreateIntent {
   string memo        = 5;
   string targetChain = 6;
   int32  minOutput   = 7;
+  int32 amount       = 8;
 }
 
 message MsgCreateIntentResponse {}
