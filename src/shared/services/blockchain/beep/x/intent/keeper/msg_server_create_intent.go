@@ -78,7 +78,7 @@ func getIBCDenom(token string) string {
 
 func (k Keeper) verifyAndSendIBCToken(ctx sdk.Context, sender sdk.AccAddress, receiver sdk.AccAddress, denom string, amount int64, memo string) error {
 	// Verify IBC channel exists and is open
-	channel, found := k.ibcKeeperFn().ChannelKeeper.GetChannel(ctx, "create-intent", "channel-0")
+	channel, found := k.ibcKeeperFn().ChannelKeeper.GetChannel(ctx, "intent", "channel-1")
 	if !found || channel.State != channeltypes.OPEN {
 		return errorsmod.Wrap(sdkerrors.ErrUnknownRequest, "IBC channel not found or not open")
 	}
