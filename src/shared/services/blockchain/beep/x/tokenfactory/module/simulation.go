@@ -35,6 +35,18 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgDeleteDenom int = 100
 
+	opWeightMsgMintTokens = "op_weight_msg_mint_tokens"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgMintTokens int = 100
+
+	opWeightMsgTransferTokens = "op_weight_msg_transfer_tokens"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgTransferTokens int = 100
+
+	opWeightMsgBurnTokens = "op_weight_msg_burn_tokens"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgBurnTokens int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -90,6 +102,39 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 		tokenfactorysimulation.SimulateMsgUpdateDenom(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
+	var weightMsgMintTokens int
+	simState.AppParams.GetOrGenerate(opWeightMsgMintTokens, &weightMsgMintTokens, nil,
+		func(_ *rand.Rand) {
+			weightMsgMintTokens = defaultWeightMsgMintTokens
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgMintTokens,
+		tokenfactorysimulation.SimulateMsgMintTokens(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgTransferTokens int
+	simState.AppParams.GetOrGenerate(opWeightMsgTransferTokens, &weightMsgTransferTokens, nil,
+		func(_ *rand.Rand) {
+			weightMsgTransferTokens = defaultWeightMsgTransferTokens
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgTransferTokens,
+		tokenfactorysimulation.SimulateMsgTransferTokens(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgBurnTokens int
+	simState.AppParams.GetOrGenerate(opWeightMsgBurnTokens, &weightMsgBurnTokens, nil,
+		func(_ *rand.Rand) {
+			weightMsgBurnTokens = defaultWeightMsgBurnTokens
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgBurnTokens,
+		tokenfactorysimulation.SimulateMsgBurnTokens(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
 	// this line is used by starport scaffolding # simapp/module/operation
 
 	return operations
@@ -111,6 +156,30 @@ func (am AppModule) ProposalMsgs(simState module.SimulationState) []simtypes.Wei
 			defaultWeightMsgUpdateDenom,
 			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
 				tokenfactorysimulation.SimulateMsgUpdateDenom(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgMintTokens,
+			defaultWeightMsgMintTokens,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				tokenfactorysimulation.SimulateMsgMintTokens(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgTransferTokens,
+			defaultWeightMsgTransferTokens,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				tokenfactorysimulation.SimulateMsgTransferTokens(am.accountKeeper, am.bankKeeper, am.keeper)
+				return nil
+			},
+		),
+		simulation.NewWeightedProposalMsg(
+			opWeightMsgBurnTokens,
+			defaultWeightMsgBurnTokens,
+			func(r *rand.Rand, ctx sdk.Context, accs []simtypes.Account) sdk.Msg {
+				tokenfactorysimulation.SimulateMsgBurnTokens(am.accountKeeper, am.bankKeeper, am.keeper)
 				return nil
 			},
 		),
