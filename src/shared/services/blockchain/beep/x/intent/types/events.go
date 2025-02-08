@@ -2,10 +2,16 @@ package types
 
 // Event types
 const (
-	EventTypeCreateIntent       = "create_intent"
-	EventTypeEscrowIBCTransfer  = "ibc_transfer"
-	EventTypeEscrowNativeTokens = "escrow_tokens"
-	EventTypeIBCTransferFailure = "ibc_transfer_failure"
+	EventTypeCreateIntent        = "create_intent"
+	EventTypeEscrowIBCTransfer   = "escrow_ibc_transfer"
+	EventTypeEscrowNativeTokens  = "escrow_native_tokens"
+	EventTypeIBCTransferFailure  = "ibc_transfer_failure"
+	EventTypeAcceptIntent        = "accept_intent"
+	EventTypeAcceptIntentFailure = "accept_intent_failure"
+	EventTypeExecutorEscrow      = "executor_escrow"
+	EventTypeCreatorPayout       = "creator_payout"
+	EventTypeExecutorPayout      = "executor_payout"
+	EventTypeIntentExecuted      = "intent_executed"
 )
 
 // Attribute keys
@@ -24,4 +30,6 @@ const (
 	AttributeKeyDenom        = "denom"
 	AttributeKeyIBCDenom     = "ibc_denom"
 	AttributeKeyError        = "error"
+	AttributeKeyExecutor     = "executor"
+	AttributeKeyStage        = "stage"
 )
