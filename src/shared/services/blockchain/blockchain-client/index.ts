@@ -162,3 +162,4 @@ startEventListener().catch(console.error)
 export * from './types';
 export * from './query';
 export * from './tx';
+export * from './event';
