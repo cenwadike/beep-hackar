@@ -35,12 +35,12 @@ class AuthService {
 
         return `CON Carrier info
         1. Deposit
-        2. Transfer bTokn
-        3. Withdraw bNGN
-        4. verify deposit transaction
-        5. convert bNGN to bToken
-        6. convert bToken to bNGN
-        7. balance
+        2. Transfer Crypto
+        3. Withdraw Naira
+        4. Verify Deposit 
+        5. Convert Naira to Crypto
+        6. Convert Crypto to Naira
+        7. Get Balance
         0. Back`;
     }
 

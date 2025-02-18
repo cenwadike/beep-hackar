@@ -2,7 +2,8 @@ import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { 
     SigningStargateClient, 
     GasPrice,
-    QueryClient 
+    QueryClient,
+    StargateClient
 } from "@cosmjs/stargate";
 import { Tendermint34Client } from "@cosmjs/tendermint-rpc";
 import { BeepQueryClient } from "./query";
@@ -24,6 +25,10 @@ export class TokenFactoryClient {
         this.tmClient = await Tendermint34Client.connect(this.rpcEndpoint);
         const baseQueryClient = new QueryClient(this.tmClient);
         this.queryClient = new BeepQueryClient(baseQueryClient);
+        return {
+            tmClient: this.tmClient,
+            queryClient: this.queryClient 
+        }
     }
 
     async connectWithWallet() {
@@ -43,6 +48,58 @@ export class TokenFactoryClient {
         this.txClient = new BeepTxClient(signingClient);
 
         console.log(`Address: ${address.address}, Balance: ${balance.amount}`)
+
+        return {
+            wallet: wallet,
+            signingClient: signingClient
+        }
+    }
+
+    async connecWallet(mnemonic: string ) {
+        const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
+            prefix: "beep", // Replace with your chain's address prefix
+        });
+    
+        const [account] = await wallet.getAccounts();
+        console.log("Sender Address:", account.address);
+    
+        const client = await SigningStargateClient.connectWithSigner(this.rpcEndpoint, wallet, {
+            gasPrice: GasPrice.fromString("0.025stake"), // Adjust based on your chain
+            // registry
+        });
+    
+        return { client, sender: account.address };
+    }
+
+   
+
+    async createAccount() {
+        const prefix = "beep";
+        const wallet = await DirectSecp256k1HdWallet.generate(12, {prefix});
+        const address = await wallet.getAccounts()
+
+        return {
+            publicKey: address[0].address,
+            mnemonic: wallet.mnemonic
+        }
+    }
+
+    async getNativeTokenBal(address: string) {
+        try {
+            // Connect to the blockchain
+            const client = await StargateClient.connect(this.rpcEndpoint,);
+    
+            // Query the balance of the address
+            const balance = await client.getBalance(address, "bATOM");
+    
+            console.log(`Balance: ${balance.amount} ${balance.denom}`);
+            return {
+                balance: balance.amount,
+                denom: balance.denom
+            }
+        } catch (error) {
+            console.error("Error fetching balance:", error);
+        }
     }
 
     get query() {

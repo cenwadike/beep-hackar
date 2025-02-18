@@ -49,7 +49,7 @@ class TransferService {
         // check blockchain balnce
 
         // to do
-        // do login to transfer bToken to other wallet
+        // do logic to transfer bToken to other wallet
 
  
 

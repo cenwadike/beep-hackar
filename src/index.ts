@@ -3,6 +3,22 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose, { ConnectOptions, MongooseOptions } from "mongoose";
 import { ussdRoute } from "./ussd.route";
+import { TokenFactoryClient } from "./shared/services/blockchain/blockchain-client/index";
+import { BeepTxClient } from "./shared/services/blockchain/blockchain-client/tx";
+
+(async () => {
+  const tokenFactoryClient = new TokenFactoryClient('http://0.0.0.0:26657')
+  const connectany = await tokenFactoryClient.createAccount()
+  const balance = await tokenFactoryClient.getNativeTokenBal("beep1v928q8czt84flwdzw8nfm2lwyse32n8kguj575")
+
+  const connectWallet = await tokenFactoryClient.connecWallet("city crawl text view all hybrid fee output crush horror foil receive")
+
+  const beepTxClient =  new BeepTxClient(connectWallet.client)
+
+  console.log('account', connectany)
+  console.log('balance', balance)
+})()
+
 
 dotenv.config();
 

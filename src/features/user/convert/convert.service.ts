@@ -45,7 +45,7 @@ class ConvertService {
         const  {id} = checkUser.data
 
         // to do
-        // do login to convert bNaira to bToken
+        // do logic to convert bNaira to bToken
 
         const newBalance = checkUser.data.balance - parseFloat(amount)
 
