@@ -8,16 +8,24 @@ import dotenv from "dotenv"
 dotenv.config()
 
 const rpcEndpoint = "https://rpc-palvus.pion-1.ntrn.tech";
+console.log(1)
 const mnemonic = process.env.MNEMONIC;
 // const wasmFilePath = "./artifacts/first_token_cw20contract.wasm";
-const wasmFilePath = "../../target/wasm32-unknown-unknown/release/first_token_cw20contract.wasm";
+const wasmFilePath = "target/wasm32-unknown-unknown/release/first_token_cw20contract.wasm";
+
+console.log(2)
 
 async function main() {
+    console.log(3)
   const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
     prefix: "neutron",
   });
 
+  console.log(4)
+
   const [firstAccount] = await wallet.getAccounts();
+
+  console.log(5)
 
   const client = await SigningCosmWasmClient.connectWithSigner(
     rpcEndpoint,
@@ -27,9 +35,14 @@ async function main() {
     }
   );
 
+  console.log(6)
+
   const wasmCode = readFileSync(wasmFilePath);
+  console.log(7)
   const uploadReceipt = await client.upload(firstAccount.address, wasmCode, "auto");
+  console.log(8)
   console.log("Upload successful, code ID:", uploadReceipt.codeId);
+  console.log(9)
 
   const initMsg = {
     name: "Test ATOM",
@@ -46,6 +59,8 @@ async function main() {
       }
     ]
   };
+
+  console.log(10)
 
   const instantiateReceipt = await client.instantiate(firstAccount.address, uploadReceipt.codeId, initMsg, "CW Token", "auto");
   console.log("Contract instantiated at:", instantiateReceipt.contractAddress);
