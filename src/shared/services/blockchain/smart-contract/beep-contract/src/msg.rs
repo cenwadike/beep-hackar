@@ -18,10 +18,11 @@ pub enum IbcExecuteMsg {
 #[cw_serde]
 pub enum ExecuteMsg {
     CreateIntent {
-        input_tokens: Vec<BeepCoin>,
         intent_type: IntentType,
+        input_tokens: Vec<BeepCoin>,
         target_chain_id: String,
         timeout: Option<u64>,
+        tip: BeepCoin,
     },
     FillIntent {
         intent_id: String,
@@ -49,6 +50,19 @@ pub enum ExecuteMsg {
     UpdateDefaultTimeoutHeight {
         default_timeout_height: u64,
     },
+    AddIbcConnection {
+        chain_id: String,
+        port: String,
+        channel_id: String,
+    },
+    UpdateIbcConnection {
+        chain_id: String,
+        port: Option<String>,
+        channel_id: Option<String>,
+    },
+    RemoveIbcConnection {
+        chain_id: String,
+    },
 }
 
 #[cw_serde]
@@ -65,6 +79,8 @@ pub enum QueryMsg {
         start_after: Option<String>,
         limit: Option<u32>,
     },
+    #[returns(UserNonceResponse)]
+    GetUserNonce { address: Addr },
 }
 
 // We define a custom struct for each query response
@@ -90,4 +106,9 @@ pub struct IntentResponse {
 #[cw_serde]
 pub struct IntentsResponse {
     pub intents: Vec<Intent>,
+}
+
+#[cw_serde]
+pub struct UserNonceResponse {
+    pub nonce: u128,
 }
