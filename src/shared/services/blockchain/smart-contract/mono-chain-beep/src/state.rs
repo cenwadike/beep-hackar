@@ -1,7 +1,7 @@
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 
-use cosmwasm_std::{Addr, Binary, Uint128};
+use cosmwasm_std::{Addr, Uint128};
 use cw_storage_plus::{Item, Map};
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, JsonSchema)]
@@ -13,20 +13,12 @@ pub struct Config {
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, JsonSchema)]
-pub struct Connection {
-    pub chain_id: String,
-    pub port: String,
-    pub channel_id: String,
-}
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, JsonSchema)]
 pub struct Intent {
     pub id: String,
     pub creator: Addr,
     pub input_tokens: Vec<BeepCoin>,
     pub intent_type: IntentType,
-    pub origin_chain_id: String,
-    pub target_chain_id: String,
     pub executor: Option<Addr>,
     pub status: IntentStatus,
     pub created_at: u64,
@@ -44,29 +36,13 @@ pub struct BeepCoin {
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, JsonSchema)]
 pub enum IntentStatus {
     Active,
-    Pending,
     Completed,
-    Failed,
     Expired,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, JsonSchema)]
 pub enum IntentType {
-    Swap {
-        output_tokens: Vec<ExpectedToken>,
-    },
-    LiquidStake {
-        validator: String,
-        output_denom: String,
-    },
-    Lend {
-        protocol: String,
-        interest_rate_mode: u8,
-    },
-    Generic {
-        action_type: String,
-        params: Binary,
-    },
+    Swap { output_tokens: Vec<ExpectedToken> },
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, JsonSchema)]
@@ -77,14 +53,7 @@ pub struct ExpectedToken {
     pub target_address: Option<Addr>,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Eq, JsonSchema)]
-pub struct FillIntent {
-    pub intent_id: String,
-    pub executor: Addr,
-}
-
 pub const CONFIG: Item<Config> = Item::new("config");
-pub const IBC_CONNECTIONS: Map<&str, Connection> = Map::new("connections"); // chain_id -> Connection
 pub const INTENTS: Map<&str, Intent> = Map::new("intents"); // intent_id -> Intent
 pub const ESCROW: Map<(&Addr, &str), Vec<BeepCoin>> = Map::new("escrow"); // (address, intent_id) -> Bag of fund
 pub const USER_NONCE: Map<&Addr, u128> = Map::new("user_nonce");

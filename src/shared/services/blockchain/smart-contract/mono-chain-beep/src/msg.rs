@@ -11,22 +11,15 @@ pub struct InstantiateMsg {
 }
 
 #[cw_serde]
-pub enum IbcExecuteMsg {
-    FillIntent { intent_id: String, executor: Addr },
-}
-
-#[cw_serde]
 pub enum ExecuteMsg {
     CreateIntent {
         intent_type: IntentType,
         input_tokens: Vec<BeepCoin>,
-        target_chain_id: String,
         timeout: Option<u64>,
         tip: BeepCoin,
     },
     FillIntent {
         intent_id: String,
-        source_chain_id: String,
         intent_type: IntentType,
     },
     WithdrawIntentFund {
@@ -50,19 +43,6 @@ pub enum ExecuteMsg {
     UpdateDefaultTimeoutHeight {
         default_timeout_height: u64,
     },
-    AddIbcConnection {
-        chain_id: String,
-        port: String,
-        channel_id: String,
-    },
-    UpdateIbcConnection {
-        chain_id: String,
-        port: Option<String>,
-        channel_id: Option<String>,
-    },
-    RemoveIbcConnection {
-        chain_id: String,
-    },
 }
 
 #[cw_serde]
@@ -70,8 +50,6 @@ pub enum ExecuteMsg {
 pub enum QueryMsg {
     #[returns(ConfigResponse)]
     GetConfig {},
-    #[returns(ConnectionResponse)]
-    GetConnection { chain_id: String },
     #[returns(IntentResponse)]
     GetIntent { id: String },
     #[returns(IntentsResponse)]
@@ -89,13 +67,6 @@ pub struct ConfigResponse {
     pub admin: Addr,
     pub supported_tokens: Vec<String>,
     pub default_timeout_height: u64,
-}
-
-#[cw_serde]
-pub struct ConnectionResponse {
-    pub chain_id: String,
-    pub port: String,
-    pub channel_id: String,
 }
 
 #[cw_serde]
