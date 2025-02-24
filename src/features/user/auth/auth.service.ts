@@ -2,13 +2,19 @@ import IUserAccountModel from "../../../shared/services/database/user/Account/ty
 import EncryptionInterface from "../../../shared/services/encryption/type";
 import { sendSms } from "../../../shared/services/sms/termii";
 import { modifiedPhoneNumber } from "../../../shared/constant/mobileNumberFormatter";
+import dotenv from "dotenv";
 // import BlockchainAccount from "../../../shared/services/blockchain/account";
+import { TokenFactoryClient } from "../../../shared/services/blockchain/blockchain-client-two/index";
+import { BeepTxClient } from "../../../shared/services/blockchain/blockchain-client-two/tx";
+
+dotenv.config();
 
 class AuthService {
     private _userModel: IUserAccountModel
     private _encryptionRepo: EncryptionInterface
 
-    // private blockchain = new BlockchainAccount()
+    private tokenFactoryClient = new TokenFactoryClient(process.env.RPC as string, process.env.TOKEN_CONTRACT_ADDRESS as string)
+    private beepTxClient = new BeepTxClient()
 
     constructor({userModel, encryptionRepo}: {
         userModel: IUserAccountModel;
@@ -48,9 +54,9 @@ class AuthService {
         const checkUser = await this._userModel.checkIfExist({phoneNumber})
         if (checkUser.data) return `END You already have account`;
 
-        // const blockChainAccount = await this.blockchain.createAccount()
-        const publicKey = "generalpublickeururu"
-        const privateKey = this._encryptionRepo.encryptToken("general994848900044", process.env.ENCRYTION_KEY as string )
+        const blockChainAccount = await this.tokenFactoryClient.createAccount()
+        const publicKey = blockChainAccount.publicKey
+        const privateKey = this._encryptionRepo.encryptToken(blockChainAccount.mnemonic, process.env.ENCRYTION_KEY as string )
         
         const createAccount = await this._userModel.createAccountToDB({phoneNumber, publicKey, privateKey})
         if (!createAccount.data)  return `END Unable to create account`;
@@ -97,20 +103,28 @@ class AuthService {
         const veryPin = this._encryptionRepo.comparePassword(pin, checkUser.data.pin)
         if (!veryPin) return `END Incorrect PIN`;
 
-        // to do 
         //get the real bToken balance from blockchain
-        const bTokenBalance = 20
+        const nativeTokenBalance = await this.tokenFactoryClient.getNativeTokenBal(checkUser.data.publicKey)
+
+        const mnemonic =  this._encryptionRepo.decryptToken(checkUser.data.privateKey, process.env.ENCRYTION_KEY as string )
+
+        const connectWallet = await this.tokenFactoryClient.connectWallet(mnemonic)
+
+        const balanceMsg = await this.beepTxClient.balance(checkUser.data.publicKey)
+
+        const beepTokenBalance = await this.tokenFactoryClient.query(connectWallet.client, balanceMsg)
+        if (!beepTokenBalance.status) return `END Unable to get balance`;
 
         const bNGNBalance = checkUser.data.balance
 
         let mobileNumber = modifiedPhoneNumber(phoneNumber);
 
-        const text = `bNGN balance: ${bNGNBalance}, bToken balance: ${bTokenBalance}`
+        const text = `NGN Balance: ${beepTokenBalance.result.balance}, ATOM Balance: ${beepTokenBalance.result.balance}`
 
         sendSms(mobileNumber, text)
 
-        return `END bNGN balance: ${bNGNBalance}
-        bToken balance: ${bTokenBalance}`;
+        return `END NGN Balance: ${beepTokenBalance.result.balance}
+        ATOM Balance: ${beepTokenBalance.result.balance}`;
     }
 
 

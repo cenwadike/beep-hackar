@@ -50,14 +50,18 @@ async function main() {
     decimals: 6,
     initial_balances: [
       {
-        "address": "neutron107nhk9pqhp446fr0fc83z0v82rg9guy8runkuz",
+        "address": "neutron1dr9ahejux0qtgkp2576y4znta7yvu64t0k3hm3",
         "amount": "10000000"
       },
       {
         "address": "neutron1tn5uf2q6n5ks8a40vkf2j2tkz0c9asd0udq6t4",
         "amount": "10000000"
       }
-    ]
+    ],
+    mint: {
+      minter: firstAccount.address, // This account will be allowed to mint new tokens.
+      cap: "1000000000",             // Maximum tokens that can be minted.
+    },
   };
 
   console.log(10)

@@ -5,6 +5,11 @@ import { PaystackService } from "../../../shared/services/paystack/paystack.serv
 import { sendSms } from "../../../shared/services/sms/termii";
 import { TransactionStatus, TransactionTypeEnum } from "../../../shared/types/interfaces/responses/user/transaction.response";
 import { modifiedPhoneNumber } from "../../../shared/constant/mobileNumberFormatter";
+import dotenv from "dotenv";
+import { TokenFactoryClient } from "../../../shared/services/blockchain/blockchain-client-two/index";
+import { BeepTxClient } from "../../../shared/services/blockchain/blockchain-client-two/tx";
+
+dotenv.config();
 
 
 class TransferService {
@@ -12,6 +17,8 @@ class TransferService {
     private _transactionModel: ITransactionModel
     private _encryptionRepo: EncryptionInterface
     private paystackService = new PaystackService()
+    private tokenFactoryClient = new TokenFactoryClient(process.env.RPC as string, process.env.TOKEN_CONTRACT_ADDRESS as string)
+    private beepTxClient = new BeepTxClient()
 
     constructor({userModel, transactionModel, encryptionRepo}: {
         userModel: IUserAccountModel;
@@ -45,13 +52,20 @@ class TransferService {
         const checkUser = await this._userModel.checkIfExist({phoneNumber})
         if (!checkUser.data) return `END Unable to get your account`;
 
-        // to do
-        // check blockchain balnce
+        const mnemonic =  this._encryptionRepo.decryptToken(checkUser.data.privateKey, process.env.ENCRYTION_KEY as string )
 
-        // to do
-        // do logic to transfer bToken to other wallet
+        const connectWallet = await this.tokenFactoryClient.connectWallet(mnemonic)
 
- 
+        const balanceMsg = await this.beepTxClient.balance(checkUser.data.publicKey)
+        const transferMsg = await this.beepTxClient.transfer(address, (parseFloat(amount) * 1000000).toString())
+
+        const getBeepTokenBalance = await this.tokenFactoryClient.query(connectWallet.client, balanceMsg)
+        if (!getBeepTokenBalance.status) return `END Unable to carry out Transaction`;
+
+        if ((getBeepTokenBalance.result.balance / 1000000) < parseFloat(amount)) return `END Insufficient balance`;
+
+        const transferToken = await this.tokenFactoryClient.tx(connectWallet.client, connectWallet.sender, transferMsg)
+        if (!transferToken.status) return `END Unable to create transaction`;
 
         return `END Transaction in progress`;
     }

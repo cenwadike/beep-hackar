@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import UserAccountModel from "./shared/services/database/user/Account/index";
 import TransactionModel from "./shared/services/database/user/transaction/index";
+import WithdrawalRequestModel from "./shared/services/database/user/withdrawalRequest/index";
 import EncryptionRepo from "./shared/services/encryption/index";
 import AuthService from "./features/user/auth/auth.service";
 import DepositService from "./features/user/deposit/deposite.service";
@@ -13,12 +14,13 @@ const encryptionRepo = new EncryptionRepo()
 
 const userModel = new UserAccountModel()
 const transactionModel = new TransactionModel()
+const withdrawalRequestModel = new WithdrawalRequestModel()
 
 const authService = new AuthService({userModel, encryptionRepo})
 const depositService = new DepositService({userModel, transactionModel, encryptionRepo})
 const convertService = new ConvertService({userModel, transactionModel, encryptionRepo})
 const transferService = new TransferService({userModel, transactionModel, encryptionRepo})
-const withdrawalService = new WithdrawalService({userModel, transactionModel, encryptionRepo})
+const withdrawalService = new WithdrawalService({userModel, transactionModel, withdrawalRequestModel, encryptionRepo})
 
 export const ussdRoute  = async(req: Request, res: Response) => {
     const {
@@ -123,7 +125,12 @@ export const ussdRoute  = async(req: Request, res: Response) => {
         }else if (parts.length === 4) {
             let amount = text.split('*')[2];
             let account = text.split('*')[3];
-            response = await withdrawalService.withdraw(phoneNumber, amount, account)
+            response = await withdrawalService.enterBankName()
+        }else if (parts.length === 5) {
+            let amount = text.split('*')[2];
+            let account = text.split('*')[3];
+            let bank = text.split('*')[4];
+            response = await withdrawalService.withdraw(phoneNumber, amount, account, bank)
         }
     }
 
