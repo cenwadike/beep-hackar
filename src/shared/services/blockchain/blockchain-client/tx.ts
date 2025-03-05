@@ -1,8 +1,9 @@
-import { SigningStargateClient } from "@cosmjs/stargate";
+import { SigningStargateClient, GasPrice } from "@cosmjs/stargate";
 import { MsgAcceptIntent, MsgBurnTokens, MsgCreateDenom, MsgCreateIntent, MsgMintTokens, MsgTransferTokens, MsgUpdateDenom } from "./types";
 
 export class BeepTxClient {
     private signingClient: SigningStargateClient;
+    gasPrice = GasPrice.fromString("0.025bATOM"); 
 
     constructor(signingClient: SigningStargateClient) {
         this.signingClient = signingClient;

@@ -5,12 +5,19 @@ import { PaystackService } from "../../../shared/services/paystack/paystack.serv
 import { sendSms } from "../../../shared/services/sms/termii";
 import { TransactionStatus, TransactionTypeEnum } from "../../../shared/types/interfaces/responses/user/transaction.response";
 import { modifiedPhoneNumber } from "../../../shared/constant/mobileNumberFormatter";
+import dotenv from "dotenv";
+import { TokenFactoryClient } from "../../../shared/services/blockchain/blockchain-client-two/index";
+import { BeepTxClient } from "../../../shared/services/blockchain/blockchain-client-two/tx";
+
+dotenv.config();
 
 class DepositService {
     private _userModel: IUserAccountModel
     private _transactionModel: ITransactionModel
     private _encryptionRepo: EncryptionInterface
     private paystackService = new PaystackService()
+    private tokenFactoryClient = new TokenFactoryClient(process.env.RPC as string, process.env.TOKEN_CONTRACT_ADDRESS as string)
+    private beepTxClient = new BeepTxClient()
 
     constructor({userModel, transactionModel, encryptionRepo}: {
         userModel: IUserAccountModel;
@@ -56,9 +63,11 @@ class DepositService {
 
         const text = `Hello dear, please use this link ${initDeposit.data?.url} complete your transaction and also use this code ${initDeposit.data?.reference} to verify your transaction`
 
+        console.log('text', text)
+
         sendSms(mobileNumber, text)
 
-        return `END  Dear Customer, you will receive an SMS with link for payment and reference code for verificcation shortly`;
+        return `END  Dear Customer, you will receive an SMS with link for payment and reference code for verification shortly`;
     }
 
     public verifyDeposit = async (phoneNumber: string, reference: string) => {
@@ -78,10 +87,19 @@ class DepositService {
             const updateTransactionStatus = await this._transactionModel.updateTransation(checkTransaction.data.id!, {status: TransactionStatus.COMPLETED})
             if (!updateTransactionStatus.data)  return `END Unable to update transaction`;
 
-            const newBalance = checkUser.data.balance + checkTransaction.data.amount
+            // const newBalance = checkUser.data.balance + checkTransaction.data.amount
 
-            const updateBalance = await this._userModel.updateAccount(phoneNumber, {balance: newBalance})
-            if (!updateBalance.data) return `END Unable to verify Transaction`;
+            // const updateBalance = await this._userModel.updateAccount(phoneNumber, {balance: newBalance})
+            // if (!updateBalance.data) return `END Unable to verify Transaction`;
+
+            const adminMnemonic =  process.env.ADMIN_MNEMONIC as string 
+
+            const adminConnectWallet = await this.tokenFactoryClient.connectWallet(adminMnemonic)
+    
+            const mintMsg = await this.beepTxClient.mint(checkUser.data.publicKey, (updateTransactionStatus.data.amount * 1000000).toString())
+    
+            const mintToken = await this.tokenFactoryClient.tx(adminConnectWallet.client, adminConnectWallet.sender,  mintMsg)
+            if (!mintToken.status) return `END Unable to carry out Transaction`;
 
             return `END Transaction verified successfully`;
         }else{

@@ -1,25 +1,37 @@
 import IUserAccountModel from "../../../shared/services/database/user/Account/type";
 import ITransactionModel from "../../../shared/services/database/user/transaction/type";
+import IWithdrawalRequestModel from "../../../shared/services/database/user/withdrawalRequest/type";
 import EncryptionInterface from "../../../shared/services/encryption/type";
 import { PaystackService } from "../../../shared/services/paystack/paystack.service";
 import { sendSms } from "../../../shared/services/sms/termii";
 import { TransactionStatus, TransactionTypeEnum } from "../../../shared/types/interfaces/responses/user/transaction.response";
 import { modifiedPhoneNumber } from "../../../shared/constant/mobileNumberFormatter";
+import dotenv from "dotenv";
+import { TokenFactoryClient } from "../../../shared/services/blockchain/blockchain-client-two/index";
+import { BeepTxClient } from "../../../shared/services/blockchain/blockchain-client-two/tx";
+import { WithdrawalRequestStatus } from "../../../shared/types/interfaces/responses/user/withdrawRequest.response";
+
+dotenv.config();
 
 
 class WithdrawalService {
     private _userModel: IUserAccountModel
     private _transactionModel: ITransactionModel
+    private _withdrawalRequestModel: IWithdrawalRequestModel
     private _encryptionRepo: EncryptionInterface
     private paystackService = new PaystackService()
+    private tokenFactoryClient = new TokenFactoryClient(process.env.RPC as string, process.env.TOKEN_CONTRACT_ADDRESS as string)
+    private beepTxClient = new BeepTxClient()
 
-    constructor({userModel, transactionModel, encryptionRepo}: {
+    constructor({userModel, transactionModel, withdrawalRequestModel, encryptionRepo}: {
         userModel: IUserAccountModel;
         transactionModel: ITransactionModel;
+        withdrawalRequestModel: IWithdrawalRequestModel;
         encryptionRepo: EncryptionInterface
     }){
         this._userModel = userModel
         this._transactionModel = transactionModel
+        this._withdrawalRequestModel = withdrawalRequestModel
         this._encryptionRepo = encryptionRepo
     }
 
@@ -41,7 +53,11 @@ class WithdrawalService {
         return `CON Enter Account Number`;
     }
 
-    public withdraw = async (phoneNumber: string, amount: string, accountNumber: string) => {
+    public enterBankName = async () => {
+        return `CON Enter Bank Name`;
+    }
+
+    public withdraw = async (phoneNumber: string, amount: string, accountNumber: string, bank: string) => {
         const checkUser = await this._userModel.checkIfExist({phoneNumber})
         if (!checkUser.data) return `END Unable to get your account`;
 
@@ -49,8 +65,29 @@ class WithdrawalService {
 
         const  {id} = checkUser.data
 
-        // to do
-        // check withdrawal login
+        const mnemonic =  this._encryptionRepo.decryptToken(checkUser.data.privateKey, process.env.ENCRYTION_KEY as string )
+
+        const connectWallet = await this.tokenFactoryClient.connectWallet(mnemonic)
+
+        const balanceMsg = await this.beepTxClient.balance(checkUser.data.publicKey)
+        const burnMsg = await this.beepTxClient.burn((parseFloat(amount) * 1000000).toString())
+
+        const getBeepTokenBalance = await this.tokenFactoryClient.query(connectWallet.client, balanceMsg)
+        if (!getBeepTokenBalance.status) return `END Unable to carry out Transaction`;
+
+        if ((getBeepTokenBalance.result.balance / 1000000) < parseFloat(amount)) return `END Insufficient balance`;
+
+        const burnBeepToken = await this.tokenFactoryClient.tx(connectWallet.client, connectWallet.sender, burnMsg)
+        if (!burnBeepToken.status) return `END Unable to perform transaction`;
+
+
+        const reference = this.generateUniqueCode()
+
+        const newTransaction = await this._transactionModel.createTransactionToDB({userId: id, amount: parseFloat(amount), reference: reference, type: TransactionTypeEnum.DEBIT, status: TransactionStatus.PENDING})
+        if (!newTransaction.data)  return `END Unable to create transaction`;
+
+        const newWithdrawalRequest = await this._withdrawalRequestModel.createWithrawalRequestToDB({userId: id, amount: parseFloat(amount), bank: bank, accountNumber: accountNumber, reference: reference, status: WithdrawalRequestStatus.PENDING})
+        if (!newWithdrawalRequest.data)  return `END Unable to create transaction`;
  
 
         return `END Transaction in progress`;

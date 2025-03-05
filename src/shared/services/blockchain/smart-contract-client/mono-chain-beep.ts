@@ -176,24 +176,39 @@ export class BeepContractClient {
     amount: string,
     funds?: Coin[]
   ) {
-    const client = await this.ensureSigningConnection();
-    const senderAddress = await this.getAddress();
+    try {
+      const client = await this.ensureSigningConnection();
+      const senderAddress = await this.getAddress();
 
-    const msg = {
-        increase_allowance: {
-            spender: spender,
-            amount: amount
-        }
-    };
+      const msg = {
+          increase_allowance: {
+              spender: spender,
+              amount: amount
+          }
+      };
 
-    return await client.execute(
-        senderAddress,
-        cw20TokenContract,
-        msg,
-        "auto",
-        undefined,
-        funds
-    );
+      const result = await client.execute(
+          senderAddress,
+          cw20TokenContract,
+          msg,
+          "auto",
+          undefined,
+          funds
+      );
+
+      return {
+        status: true,
+        result
+      }
+      
+    } catch (error) {
+      console.log('error', error)
+      return {
+        status: false,
+        error
+      }
+    }
+  
   }
 
   // Example of an updated execute method
@@ -204,31 +219,48 @@ export class BeepContractClient {
     timeout?: number,
     funds?: Coin[]
   ) {
-    const client = await this.ensureSigningConnection();
-    const senderAddress = await this.getAddress();
-    
-    const msg = {
-      create_intent: {
-        intent_type: {
-          Swap: {
-            output_tokens: outputTokens
-          }
-        },
-        input_tokens: inputTokens,
-        timeout,
-        tip
-      }
-    };
+    try {
 
-    return await client.execute(
-      senderAddress,
-      this.contractAddress,
-      msg,
-      "auto",
-      undefined,
-      funds
-    );
+      const client = await this.ensureSigningConnection();
+      const senderAddress = await this.getAddress();
+      
+      const msg = {
+        create_intent: {
+          intent_type: {
+            Swap: {
+              output_tokens: outputTokens
+            }
+          },
+          input_tokens: inputTokens,
+          timeout,
+          tip
+        }
+      };
+
+      const result = await client.execute(
+        senderAddress,
+        this.contractAddress,
+        msg,
+        "auto",
+        undefined,
+        funds
+      );
+
+      return {
+        status: true,
+        result
+      }
+      
+    } catch (error) {
+      console.log('error', error)
+      return {
+        status: false,
+        error
+      }
+      
+    }
   }
+
   async fillIntent(
     intentId: string,
     outputTokens: ExpectedToken[],
