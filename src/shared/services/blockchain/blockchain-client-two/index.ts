@@ -12,6 +12,10 @@ export class TokenFactoryClient {
         this.contractAddress = contractAddress;
     }
 
+    async changeContractAddress(contractAddress: string) {
+        this.contractAddress = contractAddress;
+    }
+
     async createAccount() {
         const prefix = "neutron";
         const wallet = await DirectSecp256k1HdWallet.generate(12, {prefix});
@@ -53,11 +57,28 @@ export class TokenFactoryClient {
     
             console.log(`Balance: ${balance.amount} ${balance.denom}`);
             return {
+                status: true,
                 balance: balance.amount,
                 denom: balance.denom
             }
         } catch (error) {
-            console.error("Error fetching balance:", error);
+            return {status: false, message: "Unable to perform transaction"}
+        }
+    }
+
+    async sendNativeToken(client: SigningCosmWasmClient, sender: AccountData, receivepient: string, msg: any) {
+        try {
+            const result = await client.sendTokens(
+                sender.address, 
+                receivepient,
+                msg,
+                "auto",
+                "Native token transfer"
+            )
+            return {status: true, message: "transaction in process", result}
+        } catch (error) {
+            console.log('error', error)
+            return {status: false, message: "Unable to perform transaction"}
         }
     }
 

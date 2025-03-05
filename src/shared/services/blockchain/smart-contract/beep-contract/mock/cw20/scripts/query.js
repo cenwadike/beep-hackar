@@ -8,10 +8,12 @@ import dotenv from "dotenv"
 dotenv.config()
 
 
-const CONTRACT_ADDRESS = "neutron1jwq68g39nh88acv8258ngmfccswtmx4agsjklhm94d2vszjqjpdqfnyd92";
+// const CONTRACT_ADDRESS = "neutron1jwq68g39nh88acv8258ngmfccswtmx4agsjklhm94d2vszjqjpdqfnyd92";
+const CONTRACT_ADDRESS = "neutron1he6zd5kk03cs5ywxk5tth9qfewxwnh7k9hjwekr7gs9gl9argadsqdc9rp";
+// const CONTRACT_ADDRESS = "neutron1sr60e2velepytzsdyuutcmccl9n2p2lu3pjcggllxyc9rzyu562sqegazj";
 const CHAIN_ID = "pion-1";
 const RPC_ENDPOINT = "https://rpc-palvus.pion-1.ntrn.tech";
-const RECIPIENT_ADDRESS = "neutron1tn5uf2q6n5ks8a40vkf2j2tkz0c9asd0udq6t4"
+const RECIPIENT_ADDRESS = "neutron1k83rc4rd4rlawy629haagqqgzkufx24vy8mgh2"
 console.log(1)
 
 const mnemonic = 'vapor wheel chair nature energy people chat remove impose impact figure polar'
@@ -95,12 +97,12 @@ const queryMsg = {
   );
   console.log("Native token transfer result:", nativeTransferResult);
 
-  const minMsg = {
-    mint: {
-        recipient: RECIPIENT_ADDRESS,
-        amount: AMOUNT,
-    },
-};
+//   const minMsg = {
+//     mint: {
+//         recipient: RECIPIENT_ADDRESS,
+//         amount: AMOUNT,
+//     },
+// };
 
-const mint = await clienttwo.execute(sender.address, CONTRACT_ADDRESS, minMsg, "auto");
-console.log("mint result:", mint);
+// const mint = await clienttwo.execute(sender.address, CONTRACT_ADDRESS, minMsg, "auto");
+// console.log("mint result:", mint);

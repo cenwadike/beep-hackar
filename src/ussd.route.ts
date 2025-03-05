@@ -18,7 +18,7 @@ const withdrawalRequestModel = new WithdrawalRequestModel()
 
 const authService = new AuthService({userModel, encryptionRepo})
 const depositService = new DepositService({userModel, transactionModel, encryptionRepo})
-const convertService = new ConvertService({userModel, transactionModel, encryptionRepo})
+export const convertService = new ConvertService({userModel, transactionModel, encryptionRepo})
 const transferService = new TransferService({userModel, transactionModel, encryptionRepo})
 const withdrawalService = new WithdrawalService({userModel, transactionModel, withdrawalRequestModel, encryptionRepo})
 
@@ -82,8 +82,14 @@ export const ussdRoute  = async(req: Request, res: Response) => {
             let pin = text.split('*')[1];
             response = await convertService.verifyUser(phoneNumber, pin)
         } else if (parts.length === 3) {
-            let amount = text.split('*')[2];
-            response = await convertService.convertBNGNToBToken(phoneNumber, amount)
+            response = await convertService.enterAmountIn()
+        }else if (parts.length === 4) {
+            response = await convertService.enterAmountOut()
+        }else if (parts.length === 5) {
+            let token = text.split('*')[2];
+            let amountIn = text.split('*')[3];
+            let amountOut = text.split('*')[4];
+            response = await convertService.convertBNGNToBToken(phoneNumber, amountIn, amountOut)
         }
     }else if(text == '6'){
         response = await convertService.start()
@@ -94,8 +100,14 @@ export const ussdRoute  = async(req: Request, res: Response) => {
             let pin = text.split('*')[1];
             response = await convertService.verifyUser(phoneNumber, pin)
         } else if (parts.length === 3) {
-            let amount = text.split('*')[2];
-            response = await convertService.convertBTokenToBNGN(phoneNumber, amount)
+            response = await convertService.enterAmountIn()
+        }else if (parts.length === 4) {
+            response = await convertService.enterAmountOut()
+        }else if (parts.length === 5) {
+            let token = text.split('*')[2];
+            let amountIn = text.split('*')[3];
+            let amountout = text.split('*')[4];
+            response = await convertService.convertBTokenToBNGN(phoneNumber, amountIn, amountout)
         }
     }else if(text == '2'){
         response = await transferService.start()

@@ -40,7 +40,7 @@ class AuthService {
         }
 
         return `CON Carrier info
-        1. Deposit
+        1. Deposit Naira
         2. Transfer Crypto
         3. Withdraw Naira
         4. Verify Deposit 
@@ -57,6 +57,10 @@ class AuthService {
         const blockChainAccount = await this.tokenFactoryClient.createAccount()
         const publicKey = blockChainAccount.publicKey
         const privateKey = this._encryptionRepo.encryptToken(blockChainAccount.mnemonic, process.env.ENCRYTION_KEY as string )
+
+        console.log('phone', phoneNumber)
+        console.log('publicKey', publicKey)
+        console.log('privateKey', privateKey)
         
         const createAccount = await this._userModel.createAccountToDB({phoneNumber, publicKey, privateKey})
         if (!createAccount.data)  return `END Unable to create account`;

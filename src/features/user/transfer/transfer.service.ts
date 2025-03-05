@@ -56,6 +56,16 @@ class TransferService {
 
         const connectWallet = await this.tokenFactoryClient.connectWallet(mnemonic)
 
+        const nativeTokenBal = await this.tokenFactoryClient.getNativeTokenBal(checkUser.data.publicKey)
+        if (!nativeTokenBal.status) return `END Unable to carry out Transaction`;
+
+        if (parseFloat(nativeTokenBal.balance as string) < 3750) {
+            const coinMsg = await this.beepTxClient.coin('untrn', '5000')
+            const adminConnectWallet = await this.tokenFactoryClient.connectWallet(process.env.ADMIN_MNEMONIC as string)
+            const transferNativeToken = await this.tokenFactoryClient.sendNativeToken(adminConnectWallet.client ,adminConnectWallet.sender, checkUser.data.publicKey, coinMsg )
+            if (!transferNativeToken.status) return `END Unable to carry out Transaction`;
+        }
+
         const balanceMsg = await this.beepTxClient.balance(checkUser.data.publicKey)
         const transferMsg = await this.beepTxClient.transfer(address, (parseFloat(amount) * 1000000).toString())
 

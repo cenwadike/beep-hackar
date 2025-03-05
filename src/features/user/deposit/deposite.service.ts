@@ -67,7 +67,7 @@ class DepositService {
 
         sendSms(mobileNumber, text)
 
-        return `END  Dear Customer, you will receive an SMS with link for payment and reference code for verificcation shortly`;
+        return `END  Dear Customer, you will receive an SMS with link for payment and reference code for verification shortly`;
     }
 
     public verifyDeposit = async (phoneNumber: string, reference: string) => {

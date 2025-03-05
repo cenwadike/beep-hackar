@@ -34,7 +34,7 @@ const UserAccountSchema = new Schema<IUserAccount>({
   
   UserAccountSchema.plugin(mongoosePaginate);
   
-  export const UserAccount = model<IUserAccount, PaginateModel<IUserAccount>>("UserAccount", UserAccountSchema)
+  export const UserAccount = model<IUserAccount, PaginateModel<IUserAccount>>("UserAccoun", UserAccountSchema)
 
   class  UserAccountModel implements  IUserAccountModel {
     UserAccount: typeof UserAccount;
@@ -45,7 +45,10 @@ const UserAccountSchema = new Schema<IUserAccount>({
 
     createAccountToDB = async (details: Partial<IUserAccount>) => {
         try {
-            const data = await this.UserAccount.create(details);
+            console.log(1)
+            const data = await this.UserAccount.create(details)
+            console.log(2)
+            console.log('data', data)
             if (data) {
               return {status: true, data: new UserAccountDto(data)};
             } else {

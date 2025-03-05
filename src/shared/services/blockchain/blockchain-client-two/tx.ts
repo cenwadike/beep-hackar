@@ -56,4 +56,16 @@ export class BeepTxClient {
         }
     }
 
+    async coin(
+        denom: string,
+        amount: string
+    ) {
+        return [
+            {
+              denom: denom,
+              amount: amount,
+            },
+        ]
+    }
+
 }
