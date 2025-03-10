@@ -84,7 +84,9 @@ export class BeepContractClient {
 
   async connect(mnemonic: string) {
     // Set up signing client for execute messages
-    this.wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
+    const mnem = "empower spin strong sheriff grace dash sport film staff balcony corn august";
+
+    this.wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnem, {
       prefix: "neutron"
     });
 

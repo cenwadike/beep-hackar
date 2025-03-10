@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import mongoose, { ConnectOptions, MongooseOptions } from "mongoose";
 import { ussdRoute, convertService } from "./ussd.route";
 import { example } from "./shared/services/blockchain/smart-contract-client/index";
-
+import { fillIntent } from "./shared/services/blockchain/intent-executor";
 
 dotenv.config();
 
@@ -51,8 +51,12 @@ const MONGODB_URI = process.env.MONGODB_URI as string;
     }
 })();
 
-app.post('/ussd', ussdRoute) 
 
+(async () => {
+  await fillIntent();
+})();
+
+app.post('/ussd', ussdRoute) 
 
 // Start Server
 app.listen(PORT, () => {

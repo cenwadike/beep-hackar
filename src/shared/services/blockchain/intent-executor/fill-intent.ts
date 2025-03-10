@@ -1,6 +1,6 @@
-import { BeepContractClient } from "../smart-contract-client";
+// import { BeepContractClient } from "../smart-contract-client/mono-chain-beep";
 import IntentListener, { Config, IntentCreatedEvent } from "./event-listener";
-
+import { BeepContractClient } from "../smart-contract-client/mono-chain-beep";
 
 const config: Config = {
     rpcHttpEndpoint: "https://rpc-palvus.pion-1.ntrn.tech",
@@ -12,6 +12,8 @@ const client = new BeepContractClient(
     "neutron13r9m3cn8zu6rnmkepajnm04zrry4g24exy9tunslseet0s9wrkkstcmkhr",
     "https://rpc-palvus.pion-1.ntrn.tech"
 )
+console.log("MNEM: ", process.env.MNEMONIC);
+client.connect(process.env.MNEMONIC!);
 
 // Callback function to handle new intent events
 const handleNewIntent = async(event: IntentCreatedEvent) => {
@@ -39,14 +41,14 @@ const handleNewIntent = async(event: IntentCreatedEvent) => {
 
     // fill intent
     console.log("Filling intent");
-    await client.fillIntent(intent_id, intent.intent_type.Swap.output_tokens);
+    const res = await client.fillIntent(intent_id, intent.intent_type.Swap.output_tokens);
 
-    console.log("Filled intent successfully");
+    console.log("Filled intent successfully. Tx Hash: ", res.transactionHash);
     console.log("------------------------");
 };
 
 // Start the listener
-async function main() {
+export async function fillIntent() {
     try {
         await listener.startListening(handleNewIntent);
     } catch (error) {
@@ -54,9 +56,9 @@ async function main() {
     }
 }
 
-(async () => {
-    main();
-})();
+// (async () => {
+//     fillIntent();
+// })();
 
 // Handle process termination
 process.on("SIGINT", async () => {

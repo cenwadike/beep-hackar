@@ -1,5 +1,6 @@
 import { StargateClient } from "@cosmjs/stargate";
 import { HttpClient, Tendermint37Client } from "@cosmjs/tendermint-rpc";
+// import { BeepContractClient } from "../smart-contract-client";
 
 // Configuration interface
 export interface Config {
@@ -85,7 +86,7 @@ class IntentListener {
             while (this.isRunning) {
                 try {
                     const currentHeight = await this.stargateClient.getHeight();
-                    const startHeight = Math.max(this.lastHeight + 1, currentHeight - 5);
+                    const startHeight = Math.max(this.lastHeight + 1, currentHeight);
                     if (currentHeight >= startHeight) {
                         for (let height = startHeight; height <= currentHeight; height++) {
                             try {
@@ -139,7 +140,14 @@ class IntentListener {
 
 export default IntentListener;
 
-// // Usage example
+// Usage example
+// const client = new BeepContractClient(
+//     "neutron13r9m3cn8zu6rnmkepajnm04zrry4g24exy9tunslseet0s9wrkkstcmkhr",
+//     "https://rpc-palvus.pion-1.ntrn.tech"
+// )
+// console.log("MNEM: ", process.env.MNEMONIC);
+// client.connect(process.env.MNEMONIC!);
+
 // const config: Config = {
 //     rpcHttpEndpoint: "https://rpc-palvus.pion-1.ntrn.tech",
 //     contractAddress: "neutron13r9m3cn8zu6rnmkepajnm04zrry4g24exy9tunslseet0s9wrkkstcmkhr"
@@ -148,14 +156,37 @@ export default IntentListener;
 // const listener = new IntentListener(config);
 
 // // Callback function to handle new intent events
-// const handleNewIntent = (event: IntentCreatedEvent) => {
+// const handleNewIntent = async(event: IntentCreatedEvent) => {
 //     console.log("New Intent Created:");
 //     console.log(`Intent ID: ${event.intentId}`);
 //     console.log(`Status: ${event.status}`);
 //     console.log(`Creator: ${event.sender}`);
 //     console.log(`Block Height: ${event.blockHeight}`);
+
+    // console.log("Validating Intent...");
+    // const intent_id = event.intentId;
+    // const intent_res = await client.getIntent(intent_id);
+    // const intent = intent_res.intent;
+
+    // if (intent.status != "Active") {
+    //     console.log("Skipping Intent. Reason: Intent not active");
+    // }
+
+    // // increasing allowances
+    // console.log("Increasing expected token allowance");
+    // for (let i = 0; i < intent.intent_type.Swap.output_tokens.length; i++ ) {
+    //     let token = intent.intent_type.Swap.output_tokens[i];
+    //     await client.increaseAllowance(token.token, config.contractAddress, token.amount);
+    // }
+
+    // // fill intent
+    // console.log("Filling intent");
+    // const res = await client.fillIntent(intent_id, intent.intent_type.Swap.output_tokens);
+
+    // console.log("Filled intent successfully. Tx Hash: ", res.transactionHash);
 //     console.log("------------------------");
 // };
+
 
 // // Start the listener
 // async function main() {
@@ -167,7 +198,7 @@ export default IntentListener;
 // }
 
 // (async () => {
-//     main();
+//     await main();
 // })();
 
 // // Handle process termination
