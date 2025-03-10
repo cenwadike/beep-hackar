@@ -1,15 +1,14 @@
 import { StargateClient } from "@cosmjs/stargate";
 import { HttpClient, Tendermint37Client } from "@cosmjs/tendermint-rpc";
-import { logs } from "@cosmjs/stargate";
 
 // Configuration interface
-interface Config {
+export interface Config {
     rpcHttpEndpoint: string;
     contractAddress: string;
 }
 
 // Interface for the intent creation event
-interface IntentCreatedEvent {
+export interface IntentCreatedEvent {
     intentId: string;
     status: string;
     sender: string;
@@ -127,7 +126,7 @@ class IntentListener {
     }
 
     // Cleanup resources
-    private async cleanup(): Promise<void> {
+    async cleanup(): Promise<void> {
         if (this.tmClient) {
             console.log("Disconnecting...");
             this.tmClient.disconnect();
@@ -138,40 +137,42 @@ class IntentListener {
     }
 }
 
-// Usage example
-const config: Config = {
-    rpcHttpEndpoint: "https://rpc-palvus.pion-1.ntrn.tech",
-    contractAddress: "neutron13r9m3cn8zu6rnmkepajnm04zrry4g24exy9tunslseet0s9wrkkstcmkhr"
-};
+export default IntentListener;
 
-const listener = new IntentListener(config);
+// // Usage example
+// const config: Config = {
+//     rpcHttpEndpoint: "https://rpc-palvus.pion-1.ntrn.tech",
+//     contractAddress: "neutron13r9m3cn8zu6rnmkepajnm04zrry4g24exy9tunslseet0s9wrkkstcmkhr"
+// };
 
-// Callback function to handle new intent events
-const handleNewIntent = (event: IntentCreatedEvent) => {
-    console.log("New Intent Created:");
-    console.log(`Intent ID: ${event.intentId}`);
-    console.log(`Status: ${event.status}`);
-    console.log(`Creator: ${event.sender}`);
-    console.log(`Block Height: ${event.blockHeight}`);
-    console.log("------------------------");
-};
+// const listener = new IntentListener(config);
 
-// Start the listener
-async function main() {
-    try {
-        await listener.startListening(handleNewIntent);
-    } catch (error) {
-        console.error("Startup failed:", error instanceof Error ? error.message : String(error));
-    }
-}
+// // Callback function to handle new intent events
+// const handleNewIntent = (event: IntentCreatedEvent) => {
+//     console.log("New Intent Created:");
+//     console.log(`Intent ID: ${event.intentId}`);
+//     console.log(`Status: ${event.status}`);
+//     console.log(`Creator: ${event.sender}`);
+//     console.log(`Block Height: ${event.blockHeight}`);
+//     console.log("------------------------");
+// };
 
-(async () => {
-    main();
-})();
+// // Start the listener
+// async function main() {
+//     try {
+//         await listener.startListening(handleNewIntent);
+//     } catch (error) {
+//         console.error("Startup failed:", error instanceof Error ? error.message : String(error));
+//     }
+// }
 
-// Handle process termination
-process.on("SIGINT", async () => {
-    await listener["cleanup"]();
-    console.log("Shutdown complete.");
-    process.exit(0);
-});
+// (async () => {
+//     main();
+// })();
+
+// // Handle process termination
+// process.on("SIGINT", async () => {
+//     await listener.cleanup();
+//     console.log("Shutdown complete.");
+//     process.exit(0);
+// });
