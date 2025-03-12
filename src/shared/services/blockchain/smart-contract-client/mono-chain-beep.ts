@@ -503,4 +503,3 @@ export const example = async () => {
   }
 };
 
-example().catch(console.error);

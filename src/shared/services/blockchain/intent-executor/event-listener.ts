@@ -46,17 +46,22 @@ class IntentListener {
         }
     }
 
-    // Parse event attributes from transaction logs
     private parseIntentEvent(txResult: any, height: number): IntentCreatedEvent | null {
         try {
             const events = txResult.events || [];
+            // console.log(`Raw events at height ${height}:`, JSON.stringify(events, null, 2));
             for (const event of events) {
+                // console.log(`Event type: ${event.type}, Attributes:`, event.attributes);
                 if (event.type === "wasm") {
                     const attributes: { [key: string]: string } = {};
                     for (const attr of event.attributes) {
+                        // Use key and value directly, no base64 decoding
                         attributes[attr.key] = attr.value;
                     }
+                    // console.log(`WASM attributes at height ${height}:`, attributes);
+                    // Check for create_intent
                     if (attributes.action === "create_intent") {
+                        console.log(`Found intent event at height ${height}:`, attributes.action);
                         return {
                             intentId: attributes.intent_id || "",
                             status: attributes.status || "",
@@ -66,6 +71,7 @@ class IntentListener {
                     }
                 }
             }
+            console.log(`No create_intent event found at height ${height}`);
             return null;
         } catch (error) {
             console.error(`Error parsing event at height ${height}:`, error instanceof Error ? error.message : String(error));
@@ -73,45 +79,51 @@ class IntentListener {
         }
     }
 
-    // Poll for new transactions
     async startListening(callback: (event: IntentCreatedEvent) => void): Promise<void> {
         try {
             await this.initialize();
-
+    
             if (!this.stargateClient || !this.tmClient) {
                 throw new Error("Client not initialized");
             }
-
+    
             console.log("Polling started...");
             while (this.isRunning) {
                 try {
+                    console.log("Fetching current height...");
                     const currentHeight = await this.stargateClient.getHeight();
-                    const startHeight = Math.max(this.lastHeight + 1, currentHeight);
+                    console.log(`Current height: ${currentHeight}, Last height: ${this.lastHeight}`);
+                    const startHeight = Math.max(this.lastHeight + 1, currentHeight - 10);
+                    // console.log(`Start height calculated: ${startHeight}`);
                     if (currentHeight >= startHeight) {
+                        // console.log(`Processing blocks from ${startHeight} to ${currentHeight}`);
                         for (let height = startHeight; height <= currentHeight; height++) {
-                            try {
-                                const query = `tx.height=${height}`;
-                                const txs = await this.stargateClient.searchTx(query);
-                                for (const tx of txs) {
-                                    const intentEvent = this.parseIntentEvent(tx, height);
-                                    if (intentEvent) {
-                                        console.log(`Intent detected at height ${height}`);
-                                        callback(intentEvent);
-                                    }
+                            // console.log(`Querying transactions at height ${height}`);
+                            const query = `tx.height=${height}`;
+                            const txs = await this.stargateClient.searchTx(query);
+                            // console.log(`Found ${txs.length} transactions at height ${height}`);
+                            for (const tx of txs) {
+                                const intentEvent = this.parseIntentEvent(tx, height);
+                                if (intentEvent) {
+                                    console.log(`Intent detected at height ${height}`);
+                                    callback(intentEvent);
                                 }
-                            } catch (txError) {
-                                console.error(`Error searching transactions at height ${height}:`, txError instanceof Error ? txError.message : String(txError));
                             }
                         }
                         this.lastHeight = currentHeight;
+                        console.log(`Updated lastHeight to ${this.lastHeight}`);
+                    } else {
+                        console.log("No new blocks to process");
                     }
-                    await new Promise(resolve => setTimeout(resolve, 3000)); // Poll every 3 seconds
+                    console.log("Waiting 3 seconds...");
+                    await new Promise(resolve => setTimeout(resolve, 6000));
                 } catch (error) {
                     console.error("Polling error:", error instanceof Error ? error.message : String(error));
                     this.isRunning = false;
                     this.reconnect(callback);
                 }
             }
+            console.log("Polling loop exited");
         } catch (error) {
             console.error("Listener error:", error instanceof Error ? error.message : String(error));
             this.reconnect(callback);

@@ -8,7 +8,7 @@ import dotenv from "dotenv"
 dotenv.config()
 
 const rpcEndpoint = "https://rpc-palvus.pion-1.ntrn.tech";
-const mnemonic = process.env.MNEMONIC;
+const mnemonic = "empower spin strong sheriff grace dash sport film staff balcony corn august" // process.env.MNEMONIC;
 const wasmFilePath = "../artifacts/first_token_cw20contract.wasm";
 
 async function main() {
@@ -39,7 +39,11 @@ async function main() {
         "address": "neutron107nhk9pqhp446fr0fc83z0v82rg9guy8runkuz",
         "amount": "1000000000000"
       }
-    ]
+    ],
+    mint: {
+      minter: "neutron107nhk9pqhp446fr0fc83z0v82rg9guy8runkuz",
+      cap: "1000000000000000000"
+    }
   };
 
   const initMsgNgn = {
@@ -51,7 +55,11 @@ async function main() {
         "address": "neutron107nhk9pqhp446fr0fc83z0v82rg9guy8runkuz",
         "amount": "1000000000000"
       }
-    ]
+    ],
+    mint: {
+      minter: "neutron107nhk9pqhp446fr0fc83z0v82rg9guy8runkuz",
+      cap: "1000000000000000000"
+    }
   };
 
   const instantiateReceiptAtom = await client.instantiate(firstAccount.address, uploadReceipt.codeId, initMsgAtom, "Test ATOM Token", "auto");
@@ -60,9 +68,9 @@ async function main() {
   const instantiateReceiptNgn = await client.instantiate(firstAccount.address, uploadReceipt.codeId, initMsgNgn, "Test NGN Token", "auto");
   console.log("Test NGN contract instantiated at:", instantiateReceiptNgn.contractAddress);
 
-  // Upload successful, code ID: 10895
-  // Test ATOM contract instantiated at: neutron1sr60e2velepytzsdyuutcmccl9n2p2lu3pjcggllxyc9rzyu562sqegazj
-  // Test NGN contract instantiated at: neutron1he6zd5kk03cs5ywxk5tth9qfewxwnh7k9hjwekr7gs9gl9argadsqdc9rp
+  // Upload successful, code ID: 11119
+  // Test ATOM contract instantiated at: neutron17huqemgnu8r4092z74vu5jtzgm3lxg4gzqupu48648t8fz4wyzxsy7rjkf
+  // Test NGN contract instantiated at: neutron1ujaf3dgpgn7e5tg6xy2hfnx6a6aupzjgxgj8fust08jttv03059s2jv2uw
 }
 
 main().catch(console.error);

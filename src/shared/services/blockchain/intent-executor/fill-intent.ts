@@ -50,7 +50,7 @@ const handleNewIntent = async(event: IntentCreatedEvent) => {
 // Start the listener
 export async function fillIntent() {
     try {
-        await listener.startListening(handleNewIntent);
+        listener.startListening(handleNewIntent);
     } catch (error) {
         console.error("Startup failed:", error instanceof Error ? error.message : String(error));
     }
