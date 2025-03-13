@@ -78,6 +78,6 @@ export const example = async () => {
   }
 };
 
-example().catch(console.error);
+// example().catch(console.error);
 
 export * from './mono-chain-beep'
