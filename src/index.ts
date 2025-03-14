@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import mongoose, { ConnectOptions, MongooseOptions } from "mongoose";
 import { ussdRoute, convertService } from "./ussd.route";
-import { example } from "./shared/services/blockchain/smart-contract-client/index";
+// import { example } from "./shared/services/blockchain/smart-contract-client/index";
 import { fillIntent } from "./shared/services/blockchain/intent-executor";
 
 dotenv.config();

@@ -99,7 +99,7 @@ class DepositService {
             const mintMsg = await this.beepTxClient.mint(checkUser.data.publicKey, (updateTransactionStatus.data.amount * 1000000).toString())
     
             const mintToken = await this.tokenFactoryClient.tx(adminConnectWallet.client, adminConnectWallet.sender,  mintMsg)
-            if (!mintToken.status) return `END Unable to carry out Transaction`;
+            if (!mintToken.status) return `END Unable to carry out Transaction 00000`;
 
             return `END Transaction verified successfully`;
         }else{

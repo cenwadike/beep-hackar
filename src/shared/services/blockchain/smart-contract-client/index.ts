@@ -3,7 +3,7 @@ import { BeepContractClient } from "./mono-chain-beep";
 
 dotenv.config()
 
-export const example = async () => {
+ const example = async () => {
   // Upload successful, code ID: 10906
   // Contract instantiated at: neutron13r9m3cn8zu6rnmkepajnm04zrry4g24exy9tunslseet0s9wrkkstcmkhr
   try {
@@ -78,6 +78,6 @@ export const example = async () => {
   }
 };
 
-example().catch(console.error);
+// example().catch(console.error);
 
 export * from './mono-chain-beep'
