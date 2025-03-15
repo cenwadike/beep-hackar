@@ -61,7 +61,7 @@ class WithdrawalService {
         const checkUser = await this._userModel.checkIfExist({phoneNumber})
         if (!checkUser.data) return `END Unable to get your account`;
 
-        if (checkUser.data.balance < parseFloat(amount)) return `END Insufficient bNGN balance`;
+        // if (checkUser.data.balance < parseFloat(amount)) return `END Insufficient bNGN balance`;
 
         const  {id} = checkUser.data
 
@@ -74,6 +74,10 @@ class WithdrawalService {
 
         const getBeepTokenBalance = await this.tokenFactoryClient.query(connectWallet.client, balanceMsg)
         if (!getBeepTokenBalance.status) return `END Unable to carry out Transaction`;
+
+        console.log('one', getBeepTokenBalance.result.balance / 1000000)
+
+        console.log('two', parseFloat(amount))
 
         if ((getBeepTokenBalance.result.balance / 1000000) < parseFloat(amount)) return `END Insufficient balance`;
 
