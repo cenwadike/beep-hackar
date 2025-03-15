@@ -16,7 +16,7 @@ class DepositService {
     private _transactionModel: ITransactionModel
     private _encryptionRepo: EncryptionInterface
     private paystackService = new PaystackService()
-    private tokenFactoryClient = new TokenFactoryClient(process.env.RPC as string, process.env.TOKEN_CONTRACT_ADDRESS as string)
+    private tokenFactoryClient = new TokenFactoryClient(process.env.RPC as string, process.env.TOKEN_ATOM_CONTRACT_ADDRESS as string)
     private beepTxClient = new BeepTxClient()
 
     constructor({userModel, transactionModel, encryptionRepo}: {
@@ -99,7 +99,7 @@ class DepositService {
             const mintMsg = await this.beepTxClient.mint(checkUser.data.publicKey, (updateTransactionStatus.data.amount * 1000000).toString())
     
             const mintToken = await this.tokenFactoryClient.tx(adminConnectWallet.client, adminConnectWallet.sender,  mintMsg)
-            if (!mintToken.status) return `END Unable to carry out Transaction`;
+            if (!mintToken.status) return `END Unable to carry out Transaction 00000`;
 
             return `END Transaction verified successfully`;
         }else{

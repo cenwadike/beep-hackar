@@ -82,11 +82,11 @@ export class BeepContractClient {
     this.rpcEndpoint = rpcEndpoint;
   }
 
-  async connect(mnemonic: string) {
+  async connect(mnemonic = "empower spin strong sheriff grace dash sport film staff balcony corn august") {
     // Set up signing client for execute messages
-    const mnem = "empower spin strong sheriff grace dash sport film staff balcony corn august";
+    // const mnem = "empower spin strong sheriff grace dash sport film staff balcony corn august";
 
-    this.wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnem, {
+    this.wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
       prefix: "neutron"
     });
 
@@ -503,3 +503,4 @@ export const example = async () => {
   }
 };
 
+// example().catch(console.error);

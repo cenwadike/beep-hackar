@@ -53,6 +53,8 @@ const MONGODB_URI = process.env.MONGODB_URI as string;
     }
 })();
 
+app.post('/ussd', ussdRoute) 
+
 const sleep = (ms: number | undefined) => {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -65,7 +67,6 @@ const sleep = (ms: number | undefined) => {
   await example().catch(console.error);
 })();
 
-app.post('/ussd', ussdRoute) 
 
 // Start Server
 app.listen(PORT, () => {

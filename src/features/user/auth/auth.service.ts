@@ -14,6 +14,7 @@ class AuthService {
     private _encryptionRepo: EncryptionInterface
 
     private tokenFactoryClient = new TokenFactoryClient(process.env.RPC as string, process.env.TOKEN_CONTRACT_ADDRESS as string)
+    private atomTokenFactoryClient = new TokenFactoryClient(process.env.RPC as string, process.env.TOKEN_ATOM_CONTRACT_ADDRESS as string)
     private beepTxClient = new BeepTxClient()
 
     constructor({userModel, encryptionRepo}: {
@@ -114,21 +115,24 @@ class AuthService {
 
         const connectWallet = await this.tokenFactoryClient.connectWallet(mnemonic)
 
+        const atomConnectWallet = await this.atomTokenFactoryClient.connectWallet(mnemonic)
+
         const balanceMsg = await this.beepTxClient.balance(checkUser.data.publicKey)
 
         const beepTokenBalance = await this.tokenFactoryClient.query(connectWallet.client, balanceMsg)
         if (!beepTokenBalance.status) return `END Unable to get balance`;
 
-        const bNGNBalance = checkUser.data.balance
+        const atomTokenBalance = await this.atomTokenFactoryClient.query(atomConnectWallet.client, balanceMsg)
+        if (!atomTokenBalance.status) return `END Unable to get balance`;
 
         let mobileNumber = modifiedPhoneNumber(phoneNumber);
 
-        const text = `NGN Balance: ${beepTokenBalance.result.balance}, ATOM Balance: ${beepTokenBalance.result.balance}`
+        const text = `NGN Balance: ${beepTokenBalance.result.balance}, ATOM Balance: ${atomTokenBalance.result.balance}`
 
         sendSms(mobileNumber, text)
 
         return `END NGN Balance: ${beepTokenBalance.result.balance}
-        ATOM Balance: ${beepTokenBalance.result.balance}`;
+        ATOM Balance: ${atomTokenBalance.result.balance}`;
     }
 
 
