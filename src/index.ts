@@ -5,6 +5,8 @@ import mongoose, { ConnectOptions, MongooseOptions } from "mongoose";
 import { ussdRoute, convertService } from "./ussd.route";
 // import { example } from "./shared/services/blockchain/smart-contract-client/index";
 import { fillIntent } from "./shared/services/blockchain/intent-executor";
+import { example } from "./shared/services/blockchain/smart-contract-client/mono-chain-beep";
+import { setInterval } from "timers/promises";
 
 dotenv.config();
 
@@ -51,12 +53,20 @@ const MONGODB_URI = process.env.MONGODB_URI as string;
     }
 })();
 
+app.post('/ussd', ussdRoute) 
+
+const sleep = (ms: number | undefined) => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 (async () => {
   await fillIntent();
+
+  sleep(3000);
+  
+  await example().catch(console.error);
 })();
 
-app.post('/ussd', ussdRoute) 
 
 // Start Server
 app.listen(PORT, () => {
